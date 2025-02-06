@@ -54,19 +54,19 @@ fun NewsApp() {
         NewsArticle(
             title = "Jetpack Compose is Awesome!",
             summary = "Google's new UI toolkit makes Android development easier and faster.",
-            imageUrl = "https://developer.android.com/images/jetpack/compose-banner.png",
+            imageUrl = "https://cdn6.aptoide.com/imgs/1/3/8/1380470209c8058cd0fedc4092d5c8fa_icon.png",
             url = "https://developer.android.com/jetpack/compose"
         ),
         NewsArticle(
             title = "Kotlin 1.7 Released!",
             summary = "The latest Kotlin update brings new features and improvements.",
-            imageUrl = "https://kotlinlang.org/assets/images/open-graph/kotlin_1.7.png",
+            imageUrl = "https://cdn6.aptoide.com/imgs/1/3/8/1380470209c8058cd0fedc4092d5c8fa_icon.png",
             url = "https://kotlinlang.org"
         ),
         NewsArticle(
             title = "Android 14 New Features!",
             summary = "Google has unveiled exciting new features in Android 14.",
-            imageUrl = "https://developer.android.com/images/android14/hero.png",
+            imageUrl = "https://cdn6.aptoide.com/imgs/1/3/8/1380470209c8058cd0fedc4092d5c8fa_icon.png",
             url = "https://developer.android.com/about/versions/14/"
         )
     )
@@ -82,7 +82,7 @@ fun NewsApp() {
                 .padding(8.dp)
         ) {
             items(newsArticles.size) { index ->
-                NewsCard(newsArticles[index])
+                NewsCard(newsArticles[0])
             }
         }
     }
