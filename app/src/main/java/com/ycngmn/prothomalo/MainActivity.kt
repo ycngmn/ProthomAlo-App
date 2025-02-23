@@ -18,13 +18,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -123,17 +128,17 @@ fun HomePage() {
     val articleVMs = mutableMapOf<String, ArticlesViewModel>()
     var selectedKey by remember { mutableStateOf("latest") }
 
+    val pagerState = rememberPagerState(initialPage = 0, pageCount = { ProthomAlo().articleSections.size })
 
     Scaffold (
         topBar = {
             Surface(shadowElevation = 3.dp) {
-                TopBar { section ->
-                    selectedKey = section
-                }
+                TopBar(pagerState)
             }
         },
         bottomBar = { BottomBar() }
     )
+
 
     {
         Column(
@@ -148,9 +153,10 @@ fun HomePage() {
                     articleVMs[selectedKey] = ArticlesViewModel(selectedKey)
             }
 
-            SimpleNewsCard(articleVMs[selectedKey] ?: ArticlesViewModel(selectedKey))
-
-
+            HorizontalPager(state = pagerState) { page ->
+                selectedKey = ProthomAlo().articleSections.keys.toList()[page]
+                SimpleNewsCard(articleVMs[selectedKey] ?: ArticlesViewModel(selectedKey))
+            }
 
 
         }
@@ -261,7 +267,9 @@ fun SimpleNewsCard(
 
 
 @Composable
-fun TopBar(onSectionChange: (String) -> Unit) {
+fun TopBar(pageState: PagerState) {
+
+    val coroutineScope = rememberCoroutineScope()
 
     Column (
         modifier = Modifier
@@ -291,21 +299,32 @@ fun TopBar(onSectionChange: (String) -> Unit) {
 
             }
 
-           val articleSections = ProthomAlo().articleSections.entries.toList()
+           val articleSections = ProthomAlo().articleSections.keys.toList()
 
-           LazyRow (horizontalArrangement = Arrangement.spacedBy(1.dp)) {
-               items(articleSections) { (key, value) ->
-                        Text(
-                            modifier = Modifier
-                                .padding(start = 8.dp, bottom = 8.dp, top = 20.dp, end = 8.dp)
-                                .clickable {
-                                    onSectionChange(key)
-                                },
-                            text = value,
-                            fontFamily = ShurjoFamily,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,)
-                    }
+           ScrollableTabRow (
+               edgePadding = 2.dp,
+               containerColor = Color.White,
+               selectedTabIndex = pageState.currentPage) {
+               articleSections.forEachIndexed { index, value ->
+
+                   Tab(
+                       selected = pageState.currentPage == index,
+                       onClick = {
+                           coroutineScope.launch {
+                               pageState.animateScrollToPage(index)
+                           }
+                       },
+                       text = {
+                           Text(
+                               text = ProthomAlo().articleSections[value] ?: "",
+                               color = Color.Black,
+                               fontFamily = ShurjoFamily,
+                               fontSize = 14.sp,
+                               fontWeight = FontWeight.Normal,)
+                       }
+                   )
+
+               }
            }
 
         }
