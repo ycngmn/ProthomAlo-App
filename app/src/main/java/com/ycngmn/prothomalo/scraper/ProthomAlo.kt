@@ -1,24 +1,35 @@
 package com.ycngmn.prothomalo.scraper
 
-import android.util.Log
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+
 data class ArticleContainer (
     val title: String = "",
-    val image: String = "",
+    val thumbnail: String = "",
     val url: String = "",
     val date: String = "",
     val subHead: String = ""
 )
 
+data class NewsContainer(
+    val headline: String,
+    val summary: String?,
+    val author: String?,
+    val date: String = "",
+    val section: String = "",
+    val tags: List<String> = emptyList(),
+    val body: List<Any>,
+//    val images: List<Pair<String,String>> = emptyList(), //url, caption
+)
+
 
 class ProthomAlo {
 
-    private val webUrl = "https://www.prothomalo.com/"
+    private val webUrl = "https://www.prothomalo.com"
 
     val articleSections = mapOf(
         "latest" to "সর্বশেষ",
@@ -67,8 +78,6 @@ class ProthomAlo {
 
     fun getArticle(url: String) : List<ArticleContainer> {
 
-        Log.d("TAG", "getArticle: $url")
-
         val doc = Jsoup.connect(url)
             .ignoreContentType(true).execute()
 
@@ -81,7 +90,6 @@ class ProthomAlo {
 
         for (i in 0 until newsContainers.length()) {
 
-            //Log.d("duck", "getArticle: ${newsContainers.length()}")
             val newsContainer = newsContainers.getJSONObject(i)
             val story = newsContainer.getJSONObject("story")
 
@@ -89,25 +97,78 @@ class ProthomAlo {
 
             val newsUrl = story.getString("url")
             val date = story.getString("last-published-at").toLong()
-            val image = "https://media.prothomalo.com/" +
-                    (Regex("\"hero-image-s3-key\"\\s*:\\s*\"([^\"]+)\"")
-                        .find(story.toString())?.groupValues?.get(1))?.replace("\\", "")
+            var imgSlug = story.getString("hero-image-s3-key")
+            if (imgSlug == "null")
+                imgSlug = Regex("\"hero-image-s3-key\"\\s*:\\s*\"([^\"]+)\"")
+                    .find(story.toString())?.groupValues?.get(1)?.replace("\\", "").toString()
+
+            val image = "https://media.prothomalo.com/$imgSlug"
             val subHeadline = story.optString("subheadline","").trim()
 
-
             articleContainers += ArticleContainer(headline, image, newsUrl, formatTimeAgo(date), subHeadline)
-
 
         }
 
         return articleContainers
 
     }
-}
 
-//fun main() {
-//    println(ProthomAlo()
-//        .getArticle("https://www.prothomalo.com/api/v1/collections/entertainment-all?offset=0&limit=10"))
-//}
+
+    fun getNews (newsUrl : String) : NewsContainer {
+
+        val slug = newsUrl.substringAfter("$webUrl/")
+        val routeUrl = "$webUrl/route-data.json?path=$slug"
+
+        val doc = Jsoup.connect(routeUrl).ignoreContentType(true).execute()
+
+        val respJson = JSONObject(doc.body())
+        val storyObject = respJson.getJSONObject("data").getJSONObject("story")
+        val cardObjects = storyObject.getJSONArray("cards")
+
+
+        val newsBody = mutableListOf<Any>()
+
+        val imageHost = "https://media.prothomalo.com/"
+        var coverImage = ""
+
+        if (storyObject.getString("hero-image-s3-key") != "null")
+            coverImage = imageHost + storyObject.getString("hero-image-s3-key")
+
+        val coverImageCaption = storyObject.getString("hero-image-caption")
+        newsBody += Pair(coverImage, coverImageCaption)
+
+        for (i in 0 until cardObjects.length()) {
+            val cardObject = cardObjects.getJSONObject(i)
+            val storyElements = cardObject.getJSONArray("story-elements")
+
+            for (j in 0 until storyElements.length()) {
+                val storyElement = storyElements.getJSONObject(j)
+                if (storyElement.getString("type") == "text") {
+                    val text = storyElement.optString("text") ?: ""
+                    newsBody += text
+                }
+
+                else if (storyElement.getString("type") == "image") {
+                    val imgUrl = "https://media.prothomalo.com/" + storyElement.getString("image-s3-key")
+                    val caption = storyElement.optString("title") ?: ""
+                    newsBody += Pair(imgUrl, caption)
+                }
+
+            }
+        }
+
+        val headline = storyObject.optString("headline")
+        val summary = storyObject.optString("summary")
+        val section = storyObject.getJSONArray("sections").getJSONObject(0).getString("name")
+        val date = storyObject.getString("last-published-at").toLong()
+        val author = storyObject.optString("author-name")
+
+        return NewsContainer(headline, summary,author, formatTimeAgo(date), section, emptyList(), newsBody)
+
+
+
+    }
+
+}
 
 
