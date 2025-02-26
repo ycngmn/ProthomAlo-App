@@ -32,6 +32,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
@@ -59,6 +60,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
@@ -102,8 +104,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
 
 @Composable
 fun LoadingAnimation(size: Int = 100) {
@@ -250,7 +250,7 @@ fun SimpleNewsCard(
 
     val listState = rememberLazyListState()
 
-    val isLoadMore by remember (articlesVM.offset) {
+    val isLoadMore by remember(articlesVM.offset) {
         derivedStateOf {
             val lastVisibleItem = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
             lastVisibleItem >= articlesVM.offset.value - 5 && articlesVM.articles.value.isNotEmpty()
@@ -258,75 +258,106 @@ fun SimpleNewsCard(
     }
 
     LaunchedEffect(isLoadMore) {
-        if (isLoadMore) {
+        if (isLoadMore)
             articlesVM.loadMoreArticles()
-        }
     }
 
-    LazyColumn(state = listState) {
+    Column {
 
-        items(articlesVM.articles.value) { article ->
-            Column (modifier = Modifier.clickable {
-                        navController.navigate("news/${Uri.encode(article.url)}")
-                    }
-            ) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                    Text(
-                        text = buildAnnotatedString {
-                            if (article.subHead != "null") {
-                                withStyle(style = SpanStyle(
-                                    color = Color.hsl(0f,1f,0.42f),
-                                    fontFamily = ShurjoFamily,
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
-                                    )
-                                ) { append(article.subHead) }
+        LazyColumn(state = listState) {
 
-                                withStyle(SpanStyle(color = Color.Gray, fontSize = 12.sp)) {
-                                    append(" ● ")
-                                }
-                            }
-                            withStyle(SpanStyle(
-                                color = Color.Black,
-                                fontFamily = ShurjoFamily,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                )
-                            ) { append(article.title) }
+            items(articlesVM.articles.value) { article ->
+                ArticleCard(article, navController)
+            }
 
-                        },
-                        modifier = Modifier.padding(start = 20.dp, top = 20.dp).weight(0.8f)
-                    )
-
-                    Image(
-                        painter = rememberAsyncImagePainter(article.thumbnail),
-                        contentDescription = "News Image", // later todo
-                        modifier = Modifier
-                            .width(150.dp)
-                            .height(100.dp)
-                            .padding(start = 10.dp, top = 20.dp, end = 20.dp),
-                        contentScale = ContentScale.Crop
-                    )
-                }
-
-                Text(
-                    text = article.date,
-                    modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 12.sp,
-                    color = Color.Gray,
-                    fontFamily = ShurjoFamily,
+            item {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .padding(20.dp).fillMaxWidth(),
+                    trackColor = Color.White,
                 )
-
-                HorizontalDivider(
-                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                    color = Color.Gray, thickness = 0.2.dp
-                )
-
             }
         }
+
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun Ann() {
+    LinearProgressIndicator(
+        modifier = Modifier
+            .padding(20.dp).fillMaxWidth(),
+        color = Color.hsl(0f, 1f, 0.42f),
+        trackColor = Color.Gray
+    )
+}
+
+
+@Composable
+fun ArticleCard(
+    article: ArticleContainer,
+    navController: NavController = rememberNavController()
+) {
+    Column(modifier = Modifier.clickable { navController.navigate("news/${Uri.encode(article.url)}") }) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            Text(
+                text = buildAnnotatedString {
+                    if (article.subHead != "null") {
+                        withStyle(
+                            style = SpanStyle(
+                                color = Color.hsl(0f, 1f, 0.42f),
+                                fontFamily = ShurjoFamily,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        ) { append(article.subHead) }
+
+                        withStyle(SpanStyle(color = Color.Gray, fontSize = 12.sp)) {
+                            append(" ● ")
+                        }
+                    }
+                    withStyle(
+                        SpanStyle(
+                            color = Color.Black,
+                            fontFamily = ShurjoFamily,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    ) { append(article.title) }
+
+                },
+                modifier = Modifier.padding(start = 20.dp, top = 20.dp).weight(0.8f)
+            )
+
+            Image(
+                painter = rememberAsyncImagePainter(article.thumbnail),
+                contentDescription = "News Image", // later todo
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(100.dp)
+                    .padding(start = 10.dp, top = 20.dp, end = 20.dp),
+                contentScale = ContentScale.Crop
+            )
+        }
+
+        Text(
+            text = article.date,
+            modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
+            color = Color.Gray,
+            fontFamily = ShurjoFamily,
+        )
+
+        HorizontalDivider(
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+            color = Color.Gray, thickness = 0.2.dp
+        )
+
+    }
+}
+
 
 
 

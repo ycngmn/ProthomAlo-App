@@ -1,5 +1,6 @@
 package com.ycngmn.prothomalo.scraper
 
+import android.net.Uri
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
@@ -23,6 +24,8 @@ data class NewsContainer(
     val section: String = "",
     val tags: List<String> = emptyList(),
     val body: List<Any>,
+    val readAlso: List<ArticleContainer> = emptyList(),
+    val readAlsoText: String = ""
 //    val images: List<Pair<String,String>> = emptyList(), //url, caption
 )
 
@@ -92,6 +95,7 @@ class ProthomAlo {
 
             val newsContainer = newsContainers.getJSONObject(i)
             val story = newsContainer.getJSONObject("story")
+            story.remove("linked-stories")
 
             val headline = story.getString("headline")
 
@@ -116,8 +120,8 @@ class ProthomAlo {
 
     fun getNews (newsUrl : String) : NewsContainer {
 
-        val slug = newsUrl.substringAfter("$webUrl/")
-        val routeUrl = "$webUrl/route-data.json?path=$slug"
+        val parsedUrl = Uri.parse(newsUrl.replace("%3A",":").replace("%2F","/"))
+        val routeUrl = "https://${parsedUrl.host}/route-data.json?path=${parsedUrl.path}"
 
         val doc = Jsoup.connect(routeUrl).ignoreContentType(true).execute()
 
@@ -143,13 +147,15 @@ class ProthomAlo {
 
             for (j in 0 until storyElements.length()) {
                 val storyElement = storyElements.getJSONObject(j)
-                if (storyElement.getString("type") == "text") {
+                if (storyElement.getString("type") == "text" && (storyElement.getString("subtype") == "null")) {
+
                     val text = storyElement.optString("text") ?: ""
                     newsBody += text
                 }
 
                 else if (storyElement.getString("type") == "image") {
-                    val imgUrl = "https://media.prothomalo.com/" + storyElement.getString("image-s3-key")
+                    val imgUrl = "https://media.prothomalo.com/" + storyElement
+                        .getString("image-s3-key")
                     val caption = storyElement.optString("title") ?: ""
                     newsBody += Pair(imgUrl, caption)
                 }
@@ -163,12 +169,44 @@ class ProthomAlo {
         val date = storyObject.getString("last-published-at").toLong()
         val author = storyObject.optString("author-name")
 
-        return NewsContainer(headline, summary,author, formatTimeAgo(date), section, emptyList(), newsBody)
+        val mainKeyword = storyObject.getJSONObject("seo")
+            .getJSONArray("meta-keywords").getString(0)
 
+        return NewsContainer(headline, summary,author, formatTimeAgo(date), section, emptyList(), newsBody, getSeeMore(mainKeyword), "<u>$mainKeyword</u> নিয়ে আরও পড়ুন")
 
 
     }
 
+    private fun getSeeMore(mainKeyword : String) : List<ArticleContainer>  {
+
+        val reqUrl = "$webUrl/api/v1/advanced-search" +
+                "?limit=5&sort=latest-published&fields=headline,slug,url,last-published-at,hero-image-s3-key,alternative,subheadline&&tag-name=$mainKeyword"
+        val doc = Jsoup.connect(reqUrl).ignoreContentType(true).execute()
+        val respJson = JSONObject(doc.body())
+
+        val articleContainers = mutableListOf<ArticleContainer>()
+
+        val items = respJson.getJSONArray("items")
+
+        for (i in 0 until items.length()) {
+            val item = items.getJSONObject(i)
+            val headline = item.getString("headline")
+            val subHeadline = item.optString("subheadline")
+            val url = item.getString("url")
+            val date = item.getString("last-published-at").toLong()
+            var imagekey = item.getString("hero-image-s3-key")
+            if (imagekey == "null")
+                imagekey = Regex("\"hero-image-s3-key\"\\s*:\\s*\"([^\"]+)\"")
+                    .find(item.getJSONObject("alternative").toString())?.groupValues?.get(1)?.replace("\\", "")
+                    .toString()
+            val image = "https://media.prothomalo.com/$imagekey"
+
+            articleContainers += ArticleContainer(headline, image, url, formatTimeAgo(date), subHeadline)
+        }
+
+        return articleContainers
+
+    }
 }
 
 
