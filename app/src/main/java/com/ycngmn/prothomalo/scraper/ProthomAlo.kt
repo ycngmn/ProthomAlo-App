@@ -1,12 +1,20 @@
 package com.ycngmn.prothomalo.scraper
 
 import android.net.Uri
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import com.ycngmn.prothomalo.R
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+val ShurjoFamily = FontFamily(
+    Font(R.font.shurjo_regular, FontWeight.Normal),
+    Font(R.font.shurjo_bold, FontWeight.Bold)
+)
 
 data class ArticleContainer (
     val title: String = "",
@@ -79,7 +87,9 @@ class ProthomAlo {
         }
     }
 
-    fun getArticle(url: String) : List<ArticleContainer> {
+    fun getArticle(section : String, offset : Int = 0, limit : Int = 15) : List<ArticleContainer> {
+
+        val url = "$webUrl/api/v1/collections/$section?offset=$offset&limit=$limit"
 
         val doc = Jsoup.connect(url)
             .ignoreContentType(true).execute()

@@ -1,5 +1,6 @@
-package com.ycngmn.prothomalo.screens
+package com.ycngmn.prothomalo.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,21 +36,25 @@ import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
-import com.ycngmn.prothomalo.ArticleCard
-import com.ycngmn.prothomalo.LoadingAnimation
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.scraper.NewsContainer
 import com.ycngmn.prothomalo.scraper.ProthomAlo
+import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
+import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
 @Composable
-fun NewsLecture(url:String) {
+fun NewsLecture(navController: NavController,url:String) {
 
+    BackHandler {
+        navController.popBackStack("home", inclusive = false)
+    }
     val palo = ProthomAlo()
     var news by remember { mutableStateOf<NewsContainer?>(null) }
     val coroutineScope = rememberCoroutineScope()
@@ -62,8 +67,6 @@ fun NewsLecture(url:String) {
             }
         }
     }
-
-
 
     Column (
         Modifier
@@ -144,7 +147,7 @@ fun NewsLecture(url:String) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
-                    news!!.readAlso.forEach { ArticleCard(it) }
+                    news!!.readAlso.forEach { ArticleCard_V1(it,navController) }
                 }
 
                 Image(
@@ -153,7 +156,6 @@ fun NewsLecture(url:String) {
                     contentDescription = "ProthomAlo footer",
                 )
             }
-
 
         }
 
