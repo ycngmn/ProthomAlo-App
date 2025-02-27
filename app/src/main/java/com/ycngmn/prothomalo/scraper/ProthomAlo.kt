@@ -16,6 +16,7 @@ val ShurjoFamily = FontFamily(
     Font(R.font.shurjo_bold, FontWeight.Bold)
 )
 
+
 data class ArticleContainer (
     val title: String = "",
     val thumbnail: String = "",
@@ -31,11 +32,9 @@ data class NewsContainer(
     val authorLocation : String = "",
     val date: String = "",
     val section: String = "",
-    val tags: List<String> = emptyList(),
     val body: List<Any>,
     val readAlso: List<ArticleContainer> = emptyList(),
     val readAlsoText: String = ""
-//    val images: List<Pair<String,String>> = emptyList(), //url, caption
 )
 
 
@@ -191,7 +190,7 @@ class ProthomAlo {
         val mainKeyword = storyObject.getJSONObject("seo")
             .getJSONArray("meta-keywords").getString(0)
 
-        return NewsContainer(headline, summary,author, authorLocation, formatTimeAgo(date), section, emptyList(), newsBody, getSeeMore(mainKeyword, newsUrl), "<u>$mainKeyword</u> নিয়ে আরও পড়ুন")
+        return NewsContainer(headline, summary,author, authorLocation, formatTimeAgo(date), section, newsBody, getSeeMore(mainKeyword, newsUrl), "<u>$mainKeyword</u> নিয়ে আরও পড়ুন")
 
 
     }

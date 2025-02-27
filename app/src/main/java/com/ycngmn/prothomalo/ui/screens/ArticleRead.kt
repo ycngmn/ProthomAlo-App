@@ -1,7 +1,6 @@
 package com.ycngmn.prothomalo.ui.screens
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,14 +25,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.fromHtml
@@ -42,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
-import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.NewsContainer
 import com.ycngmn.prothomalo.scraper.ProthomAlo
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
@@ -52,6 +47,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+val paloBlue = Color.hsl(211f,0.94f,0.44f)
 
 @Composable
 fun NewsLecture(navController: NavController,url:String) {
@@ -78,7 +74,7 @@ fun NewsLecture(navController: NavController,url:String) {
             .background(Color.White)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
         if (news == null) {
             LoadingAnimation()
@@ -97,7 +93,8 @@ fun NewsLecture(navController: NavController,url:String) {
                         fontFamily = ShurjoFamily,
                         fontWeight = FontWeight.Normal,
                         fontSize = 18.sp,
-                        textAlign = TextAlign.Start)
+                        textAlign = TextAlign.Start,
+                        color = Color.hsl(0f,0f,0.07f))
 
                 }
 
@@ -119,7 +116,7 @@ fun NewsLecture(navController: NavController,url:String) {
                             Modifier.padding(16.dp,16.dp,16.dp, 10.dp),
                             fontFamily = ShurjoFamily,
                             fontWeight = FontWeight.Normal,
-                            fontSize = 13.sp,
+                            fontSize = 15.sp,
                             color = Color.Gray,
                             textAlign = TextAlign.Start)
                     }
@@ -147,18 +144,12 @@ fun NewsLecture(navController: NavController,url:String) {
                     )
                     news!!.readAlso.forEach { ArticleCard_V1(it,navController) }
                 }
-
-                Image(
-                    modifier = Modifier.scale(0.4f),
-                    painter = painterResource(R.drawable.palo_footer),
-                    contentDescription = "ProthomAlo footer",
-                )
             }
-
         }
 
     }
 }
+
 
 @Composable
 fun NewsHead(
@@ -173,7 +164,7 @@ fun NewsHead(
                 Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp).drawBehind {
                     val height = size.height
                     drawLine(
-                        color = Color.hsl(211f,0.94f,0.44f),
+                        color = paloBlue,
                         start = Offset(0f, height+10),
                         end = Offset(size.width, height+10),
                         strokeWidth = 4f
@@ -181,8 +172,8 @@ fun NewsHead(
                 },
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp,
-                color = Color.hsl(211f,0.94f,0.44f),
+                fontSize = 20.sp,
+                color = paloBlue,
             )
 
             Text(
@@ -190,7 +181,7 @@ fun NewsHead(
                 Modifier.padding(16.dp, 7.dp, 25.dp, 10.dp),
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.Bold,
-                fontSize = 25.sp
+                fontSize = 27.5f.sp
             )
 
         if (news.summary!="null")
@@ -200,7 +191,7 @@ fun NewsHead(
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.Normal,
                 color = Color.Gray,
-                fontSize = 16.sp
+                fontSize = 17.sp
             )
         if (news.author != "null")
 
@@ -231,7 +222,7 @@ fun NewsHead(
             Modifier.padding(start = 16.dp),
             fontFamily = ShurjoFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 15.sp
+            fontSize = 14.5f.sp
         )
 
         HorizontalDivider(modifier = Modifier

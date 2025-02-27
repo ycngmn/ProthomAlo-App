@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,67 +29,61 @@ import coil.compose.rememberAsyncImagePainter
 import com.ycngmn.prothomalo.scraper.ArticleContainer
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
 
-
 @Composable
 fun ArticleCard_V1(
     article: ArticleContainer,
     navController: NavController = rememberNavController()
 ) {
-    Column(modifier = Modifier.clickable { navController.navigate("news/${Uri.encode(article.url)}") }) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Text(
-                text = buildAnnotatedString {
-                    if (article.subHead != "null") {
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.hsl(0f, 1f, 0.42f),
-                                fontFamily = ShurjoFamily,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) { append(article.subHead) }
 
-                        withStyle(SpanStyle(color = Color.Gray, fontSize = 12.sp)) {
-                            append(" ● ")
+    MaterialTheme { // To counter the odd default rippleEffect
+        Column(modifier = Modifier.clickable { navController.navigate("news/${Uri.encode(article.url)}") }) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                Text(
+                    text = buildAnnotatedString {
+                        if (article.subHead != "null") {
+                            withStyle(
+                                style = SpanStyle(color = Color(0xFFD60000))
+                            ) { append(article.subHead) }
+
+                            withStyle(SpanStyle(color = Color.Gray, fontSize = 14.sp)) {
+                                append(" ● ")
+                            }
                         }
-                    }
-                    withStyle(
-                        SpanStyle(
-                            color = Color.Black,
-                            fontFamily = ShurjoFamily,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    ) { append(article.title) }
+                        withStyle(
+                            SpanStyle(color = Color.hsl(0f, 0f, 0.07f))
+                        ) { append(article.title) }
 
-                },
-                modifier = Modifier.padding(start = 20.dp, top = 20.dp).weight(0.8f)
+                    },
+                    modifier = Modifier.padding(start = 20.dp, top = 20.dp).weight(0.8f),
+                    fontFamily = ShurjoFamily,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Image(
+                    painter = rememberAsyncImagePainter(article.thumbnail),
+                    contentDescription = "News Image", // later todo
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(100.dp)
+                        .padding(start = 10.dp, top = 20.dp, end = 20.dp),
+                    contentScale = ContentScale.Crop
+                )
+            }
+
+            Text(
+                text = article.date,
+                modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
+                fontWeight = FontWeight.Normal,
+                fontSize = 13.sp,
+                color = Color.Gray,
+                fontFamily = ShurjoFamily,
             )
 
-            Image(
-                painter = rememberAsyncImagePainter(article.thumbnail),
-                contentDescription = "News Image", // later todo
-                modifier = Modifier
-                    .width(150.dp)
-                    .height(100.dp)
-                    .padding(start = 10.dp, top = 20.dp, end = 20.dp),
-                contentScale = ContentScale.Crop
+            HorizontalDivider(
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                color = Color.Gray, thickness = 0.2.dp
             )
         }
-
-        Text(
-            text = article.date,
-            modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
-            fontWeight = FontWeight.Normal,
-            fontSize = 12.sp,
-            color = Color.Gray,
-            fontFamily = ShurjoFamily,
-        )
-
-        HorizontalDivider(
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-            color = Color.Gray, thickness = 0.2.dp
-        )
-
     }
 }

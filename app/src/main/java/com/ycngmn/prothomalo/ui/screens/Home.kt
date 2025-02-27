@@ -1,6 +1,5 @@
 package com.ycngmn.prothomalo.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,9 +21,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,8 +37,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R
@@ -51,6 +46,7 @@ import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.utils.ArticleEngine
+import com.ycngmn.prothomalo.utils.CustomScrollableTabRow
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
 import kotlinx.coroutines.launch
 
@@ -58,9 +54,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomePage(navController: NavController) {
 
-    val articleVMs = remember {
-        mutableMapOf<String, ArticlesViewModel>()
-    }
+    val prothomAlo = remember { ProthomAlo() }
+    val keys = remember { prothomAlo.articleSections.keys.toList() }
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { ProthomAlo().articleSections.size })
 
     Scaffold (
@@ -79,35 +74,16 @@ fun HomePage(navController: NavController) {
                 .padding(it)
                 .background(Color.White)
         ) {
-
             HorizontalPager(state = pagerState) { page ->
-
-                val key = ProthomAlo().articleSections.keys.toList()[page]
-                Log.d("fuck", key)
-
-                val articleVM = articleVMs.getOrPut(key) {
-                    @Suppress("UNCHECKED_CAST")
-                    viewModel(
-                        key = key,
-                        factory = object : ViewModelProvider.Factory {
-                            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                                return ArticlesViewModel(key) as T
-                            }
-                        }
-
-                    )
-                }
-
+                val articleVM = viewModel(key = keys[page]) { ArticlesViewModel(keys[page]) }
                 NewsColumn(articleVM, navController)
             }
-
 
         }
 
 
     }
 }
-
 
 @Composable
 fun TopBar(pageState: PagerState) {
@@ -142,34 +118,17 @@ fun TopBar(pageState: PagerState) {
 
         }
 
-        val articleSections = ProthomAlo().articleSections.keys.toList()
+        val articleSections = ProthomAlo().articleSections.values.toList()
 
-        ScrollableTabRow (
-            edgePadding = 2.dp,
-            containerColor = Color.White,
-            selectedTabIndex = pageState.currentPage) {
-            articleSections.forEachIndexed { index, value ->
-
-                Tab(
-                    selected = pageState.currentPage == index,
-                    onClick = {
-                        coroutineScope.launch {
-                            pageState.animateScrollToPage(index)
-                        }
-                    },
-                    text = {
-                        Text(
-                            text = ProthomAlo().articleSections[value] ?: "",
-                            color = Color.Black,
-                            fontFamily = ShurjoFamily,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,)
-                    }
-                )
-
+        CustomScrollableTabRow (
+            selectedTabIndex = pageState.currentPage,
+            tabs = articleSections
+        ) {
+            coroutineScope.launch {
+                pageState.animateScrollToPage(it)
             }
-        }
 
+        }
     }
 }
 
@@ -190,7 +149,7 @@ fun NewsColumn(
     val isLoadMore by remember(articlesVM.offset) {
         derivedStateOf {
             val lastVisibleItem = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
-            lastVisibleItem >= articlesVM.offset.value - 5 && articlesVM.articles.value.isNotEmpty()
+            lastVisibleItem >= articlesVM.articles.value.size - 5 && articlesVM.articles.value.isNotEmpty()
         }
     }
 
