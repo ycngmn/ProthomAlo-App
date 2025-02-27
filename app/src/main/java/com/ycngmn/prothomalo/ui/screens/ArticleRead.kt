@@ -5,7 +5,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,7 +28,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -80,13 +84,7 @@ fun NewsLecture(navController: NavController,url:String) {
             LoadingAnimation()
         } else {
 
-            NewsHead(
-                section = news!!.section,
-                title = news!!.headline,
-                summary = news!!.summary,
-                author = news!!.author,
-                date = news!!.date
-            )
+            NewsHead(news!!)
 
             news!!.body.forEach {
                 if (it is String) {
@@ -109,7 +107,7 @@ fun NewsLecture(navController: NavController,url:String) {
                         model = it.first.toString(),
                         contentDescription = "News Image",
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier
+                        modifier = Modifier.defaultMinSize(minHeight = 300.dp)
                             .fillMaxWidth()
                             .padding(top = 20.dp),
                         loading = {
@@ -123,7 +121,7 @@ fun NewsLecture(navController: NavController,url:String) {
                             fontWeight = FontWeight.Normal,
                             fontSize = 13.sp,
                             color = Color.Gray,
-                            textAlign = TextAlign.Center)
+                            textAlign = TextAlign.Start)
                     }
                     else
                         Spacer(modifier = Modifier.padding(bottom = 16.dp))
@@ -162,65 +160,86 @@ fun NewsLecture(navController: NavController,url:String) {
     }
 }
 
-
-
-
 @Composable
 fun NewsHead(
-    section: String,
-    title: String,
-    summary: String?,
-    author: String?,
-    date: String,
+    news: NewsContainer
 ) {
     Column (Modifier
         .fillMaxSize()
         .background(Color.White)) {
 
             Text(
-                text = section,
-                Modifier.padding(start = 16.dp, top = 10.dp),
+                text = news.section,
+                Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp).drawBehind {
+                    val height = size.height
+                    drawLine(
+                        color = Color.hsl(211f,0.94f,0.44f),
+                        start = Offset(0f, height+10),
+                        end = Offset(size.width, height+10),
+                        strokeWidth = 4f
+                    )
+                },
                 fontFamily = ShurjoFamily,
-                fontWeight = FontWeight.Thin,
-                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 18.sp,
+                color = Color.hsl(211f,0.94f,0.44f),
             )
 
             Text(
-                text = title,
-                Modifier.padding(16.dp, 7.dp, 16.dp, 10.dp),
+                text = news.headline,
+                Modifier.padding(16.dp, 7.dp, 25.dp, 10.dp),
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.Bold,
-                fontSize = 30.sp
+                fontSize = 25.sp
             )
 
-        if (summary!="null")
+        if (news.summary!="null")
             Text(
-                text = summary!!,
+                text = news.summary!!,
                 Modifier.padding(horizontal = 16.dp),
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = 15.sp
+                color = Color.Gray,
+                fontSize = 16.sp
             )
-        if (author != "null")
-            Text(
-                text = author!!,
-                Modifier.padding(top = 10.dp, start = 16.dp),
-                fontFamily = ShurjoFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 13.sp
-            )
+        if (news.author != "null")
+
+            Row {
+
+                Text(
+                    text = news.author!!,
+                    Modifier.padding(top = 10.dp, start = 16.dp),
+                    fontFamily = ShurjoFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+
+                if (news.authorLocation != "null") {
+                    Text(
+                        text = news.authorLocation,
+                        Modifier.padding(top = 10.dp, start = 6.dp),
+                        fontFamily = ShurjoFamily,
+                        fontWeight = FontWeight.Normal,
+                        color = Color.Black,
+                        fontSize = 13.sp
+                    )
+                }
+            }
 
         Text(
-            text = date,
+            text = news.date,
             Modifier.padding(start = 16.dp),
             fontFamily = ShurjoFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 13.sp
+            fontSize = 15.sp
         )
 
         HorizontalDivider(modifier = Modifier
             .padding(16.dp, 10.dp, 10.dp)
-            .width(35.dp))
+            .width(35.dp),
+            thickness = 3.dp,
+        )
+
         }
 }
 

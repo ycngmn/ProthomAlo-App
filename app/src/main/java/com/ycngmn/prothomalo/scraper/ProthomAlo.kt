@@ -28,6 +28,7 @@ data class NewsContainer(
     val headline: String,
     val summary: String?,
     val author: String?,
+    val authorLocation : String = "",
     val date: String = "",
     val section: String = "",
     val tags: List<String> = emptyList(),
@@ -128,9 +129,10 @@ class ProthomAlo {
     }
 
 
-    fun getNews (newsUrl : String) : NewsContainer {
-
-        val parsedUrl = Uri.parse(newsUrl.replace("%3A",":").replace("%2F","/"))
+    fun getNews (newsUrlx : String) : NewsContainer {
+        
+        val newsUrl = newsUrlx.replace("%3A",":").replace("%2F","/")
+        val parsedUrl = Uri.parse(newsUrl)
         val routeUrl = "https://${parsedUrl.host}/route-data.json?path=${parsedUrl.path}"
 
         val doc = Jsoup.connect(routeUrl).ignoreContentType(true).execute()
@@ -148,7 +150,10 @@ class ProthomAlo {
         if (storyObject.getString("hero-image-s3-key") != "null")
             coverImage = imageHost + storyObject.getString("hero-image-s3-key")
 
-        val coverImageCaption = storyObject.getString("hero-image-caption")
+        var coverImageCaption = storyObject.getString("hero-image-caption")
+        val coverImageAttribution = storyObject.optString("image-attribution") ?: ""
+        if (coverImageAttribution != "null" && coverImageAttribution.isNotEmpty())
+            coverImageCaption += " | $coverImageAttribution"
         newsBody += Pair(coverImage, coverImageCaption)
 
         for (i in 0 until cardObjects.length()) {
@@ -166,7 +171,10 @@ class ProthomAlo {
                 else if (storyElement.getString("type") == "image") {
                     val imgUrl = "https://media.prothomalo.com/" + storyElement
                         .getString("image-s3-key")
-                    val caption = storyElement.optString("title") ?: ""
+                    var caption = storyElement.optString("title") ?: ""
+                    val imageAttribution = storyElement.optString("image-attribution") ?: ""
+                    if (imageAttribution != "null" && imageAttribution.isNotEmpty())
+                        caption += " | $imageAttribution"
                     newsBody += Pair(imgUrl, caption)
                 }
 
@@ -178,16 +186,17 @@ class ProthomAlo {
         val section = storyObject.getJSONArray("sections").getJSONObject(0).getString("name")
         val date = storyObject.getString("last-published-at").toLong()
         val author = storyObject.optString("author-name")
+        val authorLocation = storyObject.optJSONObject("metadata")?.optString("author-location") ?: ""
 
         val mainKeyword = storyObject.getJSONObject("seo")
             .getJSONArray("meta-keywords").getString(0)
 
-        return NewsContainer(headline, summary,author, formatTimeAgo(date), section, emptyList(), newsBody, getSeeMore(mainKeyword), "<u>$mainKeyword</u> নিয়ে আরও পড়ুন")
+        return NewsContainer(headline, summary,author, authorLocation, formatTimeAgo(date), section, emptyList(), newsBody, getSeeMore(mainKeyword, newsUrl), "<u>$mainKeyword</u> নিয়ে আরও পড়ুন")
 
 
     }
 
-    private fun getSeeMore(mainKeyword : String) : List<ArticleContainer>  {
+    private fun getSeeMore(mainKeyword : String, newsUrl: String) : List<ArticleContainer>  {
 
         val reqUrl = "$webUrl/api/v1/advanced-search" +
                 "?limit=5&sort=latest-published&fields=headline,slug,url,last-published-at,hero-image-s3-key,alternative,subheadline&&tag-name=$mainKeyword"
@@ -200,9 +209,10 @@ class ProthomAlo {
 
         for (i in 0 until items.length()) {
             val item = items.getJSONObject(i)
+            val url = item.getString("url")
+            if (url == newsUrl) continue
             val headline = item.getString("headline")
             val subHeadline = item.optString("subheadline")
-            val url = item.getString("url")
             val date = item.getString("last-published-at").toLong()
             var imagekey = item.getString("hero-image-s3-key")
             if (imagekey == "null")
