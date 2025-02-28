@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,13 +14,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -33,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -45,6 +48,7 @@ import com.ycngmn.prothomalo.scraper.ProthomAlo
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
+import com.ycngmn.prothomalo.ui.components.ArticleCard_V2
 import com.ycngmn.prothomalo.utils.ArticleEngine
 import com.ycngmn.prothomalo.utils.CustomScrollableTabRow
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
@@ -58,7 +62,7 @@ fun HomePage(navController: NavController) {
     val keys = remember { prothomAlo.articleSections.keys.toList() }
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { ProthomAlo().articleSections.size })
 
-    Scaffold (
+    Scaffold(
         topBar = {
             Surface(shadowElevation = 3.dp) {
                 TopBar(pagerState)
@@ -72,7 +76,7 @@ fun HomePage(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
         ) {
             HorizontalPager(state = pagerState) { page ->
                 val articleVM = viewModel(key = keys[page]) { ArticlesViewModel(keys[page]) }
@@ -80,8 +84,6 @@ fun HomePage(navController: NavController) {
             }
 
         }
-
-
     }
 }
 
@@ -93,7 +95,7 @@ fun TopBar(pageState: PagerState) {
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White),
+            .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.SpaceBetween
     )
     {
@@ -102,10 +104,18 @@ fun TopBar(pageState: PagerState) {
             modifier = Modifier.fillMaxWidth()
         )
         {
-            Image(
-                painter = painterResource(R.drawable.main_logo),
-                contentDescription = "ProthomAlo_Logo_White",
-            )
+            Box {
+                Image(
+                    painter = painterResource(R.drawable.main_logo_foreground),
+                    contentDescription = "ProthomAlo_Logo",
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                )
+                Image(
+                    painter = painterResource(R.drawable.main_logo_background),
+                    contentDescription = "ProthomAlo_Logo_red",
+                )
+            }
+
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -118,10 +128,12 @@ fun TopBar(pageState: PagerState) {
 
         }
 
+        Spacer(modifier = Modifier.height(10.dp))
+
         val articleSections = ProthomAlo().articleSections.values.toList()
 
         CustomScrollableTabRow (
-            selectedTabIndex = pageState.currentPage,
+            pagerState = pageState,
             tabs = articleSections
         ) {
             coroutineScope.launch {
@@ -162,16 +174,19 @@ fun NewsColumn(
 
         LazyColumn(state = listState) {
 
-            items(articlesVM.articles.value) { article ->
-                ArticleCard_V1(article, navController)
+            itemsIndexed(articlesVM.articles.value) { index, article ->
+                if (index%15 == 0)
+                    ArticleCard_V2(article, navController)
+                else
+                    ArticleCard_V1(article, navController)
             }
 
             item {
                 LinearProgressIndicator(
                     modifier = Modifier
                         .padding(horizontal = 20.dp, vertical = 35.dp).fillMaxWidth(),
-                    trackColor = Color.White,
-                    color = Color.Black
+                    trackColor = MaterialTheme.colorScheme.background,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
@@ -199,7 +214,7 @@ fun BottomBar() {
     )
 
     BottomAppBar(
-        containerColor = Color.White,
+        containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier
             .shadow(20.dp)
             .height(65.dp)
@@ -221,11 +236,14 @@ fun BottomBar() {
                     Icon(
                         modifier = Modifier.size(25.dp),
                         painter = painterResource(id = section.icon),
-                        contentDescription = section.label)
+                        contentDescription = section.label,
+                        tint = Color.Unspecified)
                     Text(
                         modifier = Modifier.padding(top = 4.dp),
                         text = section.label, fontSize = 8.sp, color = Color.Gray,
-                        fontFamily = ShurjoFamily, fontWeight = FontWeight.Bold)
+                        fontFamily = ShurjoFamily, fontWeight = FontWeight.Bold,)
+
+
                 }
             }
         }

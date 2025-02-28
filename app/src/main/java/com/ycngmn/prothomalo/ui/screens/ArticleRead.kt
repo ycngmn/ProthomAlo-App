@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -71,7 +72,7 @@ fun NewsLecture(navController: NavController,url:String) {
     Column (
         Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
 
@@ -94,8 +95,8 @@ fun NewsLecture(navController: NavController,url:String) {
                         fontWeight = FontWeight.Normal,
                         fontSize = 18.sp,
                         textAlign = TextAlign.Start,
-                        color = Color.hsl(0f,0f,0.07f))
-
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 }
 
                 else if (it is Pair<*, *> && it.first.toString().isNotEmpty()) {
@@ -132,7 +133,7 @@ fun NewsLecture(navController: NavController,url:String) {
                     elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier.padding(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
                 ) {
                     Spacer(modifier = Modifier.padding(bottom = 20.dp))
                     Text(
@@ -155,9 +156,7 @@ fun NewsLecture(navController: NavController,url:String) {
 fun NewsHead(
     news: NewsContainer
 ) {
-    Column (Modifier
-        .fillMaxSize()
-        .background(Color.White)) {
+    Column (Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
 
             Text(
                 text = news.section,
@@ -181,7 +180,8 @@ fun NewsHead(
                 Modifier.padding(16.dp, 7.dp, 25.dp, 10.dp),
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.Bold,
-                fontSize = 27.5f.sp
+                fontSize = 25f.sp,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
         if (news.summary!="null")
@@ -191,46 +191,50 @@ fun NewsHead(
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.Normal,
                 color = Color.Gray,
-                fontSize = 17.sp
+                fontSize = 18.sp
             )
-        if (news.author != "null")
 
-            Row {
 
+        Row (modifier = Modifier.padding(vertical = 10.dp)) {
+
+            if (news.author != "null")
                 Text(
                     text = news.author!!,
-                    Modifier.padding(top = 10.dp, start = 16.dp),
+                    Modifier.padding(start = 16.dp),
                     fontFamily = ShurjoFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 17.sp,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
-                if (news.authorLocation != "null") {
-                    Text(
-                        text = news.authorLocation,
-                        Modifier.padding(top = 10.dp, start = 6.dp),
-                        fontFamily = ShurjoFamily,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.Black,
-                        fontSize = 13.sp
-                    )
-                }
+            if (news.authorLocation != "null" && news.authorLocation.isNotEmpty()) {
+                Text(
+                    text = ", " + news.authorLocation,
+                    fontFamily = ShurjoFamily,
+                    fontWeight = FontWeight.Normal,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 17.sp
+                )
             }
 
-        Text(
-            text = news.date,
-            Modifier.padding(start = 16.dp),
-            fontFamily = ShurjoFamily,
-            fontWeight = FontWeight.Normal,
-            fontSize = 14.5f.sp
-        )
+            Spacer(modifier = Modifier.weight(1f))
 
-        HorizontalDivider(modifier = Modifier
-            .padding(16.dp, 10.dp, 10.dp)
-            .width(35.dp),
-            thickness = 3.dp,
-        )
-
+            Text(
+                text = news.date,
+                Modifier.padding(end = 16.dp),
+                fontFamily = ShurjoFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 17.sp,
+                color = MaterialTheme.colorScheme.onBackground
+            )
         }
+
+    HorizontalDivider(modifier = Modifier
+        .padding(16.dp, 5.dp, 10.dp)
+        .width(35.dp),
+        thickness = 3.dp,
+    )
+
+    }
 }
 

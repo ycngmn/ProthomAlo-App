@@ -1,6 +1,6 @@
 [versions]
 accompanistNavigationAnimationVersion = "0.32.0"
-agp = "8.8.1"
+agp = "8.8.2"
 coilAvif = "2.5.0"
 coilCompose = "2.2.2"
 coilGif = "2.6.0"
