@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ArticlesViewModel
 import com.ycngmn.prothomalo.scraper.ProthomAlo
@@ -54,9 +55,8 @@ import com.ycngmn.prothomalo.utils.CustomScrollableTabRow
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
 import kotlinx.coroutines.launch
 
-
 @Composable
-fun HomePage(navController: NavController) {
+fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
 
     val prothomAlo = remember { ProthomAlo() }
     val keys = remember { prothomAlo.articleSections.keys.toList() }
@@ -80,7 +80,7 @@ fun HomePage(navController: NavController) {
         ) {
             HorizontalPager(state = pagerState) { page ->
                 val articleVM = viewModel(key = keys[page]) { ArticlesViewModel(keys[page]) }
-                NewsColumn(articleVM, navController)
+                NewsColumn(articleVM, navController, newsViewModel )
             }
 
         }
@@ -123,7 +123,6 @@ fun TopBar(pageState: PagerState) {
                 painterResource(R.drawable.profile_setting_icon),
                 contentDescription = "Account_and_Setting_logo",
                 modifier = Modifier.size(35.dp)
-
             )
 
         }
@@ -146,8 +145,9 @@ fun TopBar(pageState: PagerState) {
 
 @Composable
 fun NewsColumn(
-    articlesVM : ArticlesViewModel,
-    navController : NavController
+    articlesVM: ArticlesViewModel,
+    navController: NavController,
+    newsViewModel: NewsViewModel
 ) {
 
     if (articlesVM.articles.value.isEmpty()) {
@@ -170,28 +170,36 @@ fun NewsColumn(
             ArticleEngine(articlesVM).loadMoreArticles()
     }
 
-    Column {
 
-        LazyColumn(state = listState) {
+    LazyColumn(state = listState) {
 
-            itemsIndexed(articlesVM.articles.value) { index, article ->
-                if (index%15 == 0)
-                    ArticleCard_V2(article, navController)
-                else
-                    ArticleCard_V1(article, navController)
-            }
+        itemsIndexed(articlesVM.articles.value) { index, article ->
 
-            item {
-                LinearProgressIndicator(
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp, vertical = 35.dp).fillMaxWidth(),
-                    trackColor = MaterialTheme.colorScheme.background,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            }
+
+            if (index%15 == 0)
+                ArticleCard_V2(article) {
+                    newsViewModel.setSection(articlesVM.getSection())
+                    newsViewModel.updateUrls(articlesVM.articles.value.map { it.url })
+                    navController.navigate("news/$index")
+                }
+            else
+                ArticleCard_V1(article) {
+                    newsViewModel.setSection(articlesVM.getSection())
+                    newsViewModel.updateUrls(articlesVM.articles.value.map { it.url })
+                    navController.navigate("news/$index")
+                }
         }
 
+        item {
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp, vertical = 35.dp).fillMaxWidth(),
+                trackColor = MaterialTheme.colorScheme.background,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
     }
+
 }
 
 

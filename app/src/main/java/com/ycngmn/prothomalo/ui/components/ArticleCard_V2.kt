@@ -1,6 +1,5 @@
 package com.ycngmn.prothomalo.ui.components
 
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,8 +18,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.SubcomposeAsyncImage
 import com.ycngmn.prothomalo.scraper.ArticleContainer
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
@@ -29,11 +26,11 @@ import com.ycngmn.prothomalo.scraper.ShurjoFamily
 @Composable
 fun ArticleCard_V2(
     article: ArticleContainer,
-    navController: NavController = rememberNavController()
+    clickAction: () -> Unit,
 ) {
 
     Box (modifier = Modifier.fillMaxWidth()
-        .clickable { navController.navigate("news/${Uri.encode(article.url)}") }) {
+        .clickable { clickAction() }) {
         SubcomposeAsyncImage(
             model = article.thumbnail,
             contentDescription = "News Image", // later todo

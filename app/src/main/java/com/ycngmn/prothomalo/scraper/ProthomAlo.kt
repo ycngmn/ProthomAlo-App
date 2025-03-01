@@ -29,9 +29,10 @@ data class NewsContainer(
     val headline: String,
     val summary: String?,
     val author: String?,
-    val authorLocation : String = "",
+    val authorLocation: String = "",
     val date: String = "",
     val section: String = "",
+    val sectionSlug: String,
     val body: List<Any>,
     val readAlso: List<ArticleContainer> = emptyList(),
     val readAlsoText: String = ""
@@ -182,7 +183,9 @@ class ProthomAlo {
 
         val headline = storyObject.optString("headline")
         val summary = storyObject.optString("summary")
-        val section = storyObject.getJSONArray("sections").getJSONObject(0).getString("name")
+        val sectionObj = storyObject.getJSONArray("sections").getJSONObject(0)
+        val section = sectionObj.getString("name")
+        val sectionSlug = sectionObj.getJSONObject("collection").getString("slug")
         val date = storyObject.getString("last-published-at").toLong()
         val author = storyObject.optString("author-name")
         val authorLocation = storyObject.optJSONObject("metadata")?.optString("author-location") ?: ""
@@ -190,7 +193,7 @@ class ProthomAlo {
         val mainKeyword = storyObject.getJSONObject("seo")
             .getJSONArray("meta-keywords").getString(0)
 
-        return NewsContainer(headline, summary,author, authorLocation, formatTimeAgo(date), section, newsBody, getSeeMore(mainKeyword, newsUrl), "<u>$mainKeyword</u> নিয়ে আরও পড়ুন")
+        return NewsContainer(headline, summary,author, authorLocation, formatTimeAgo(date), section, sectionSlug, newsBody, getSeeMore(mainKeyword, newsUrl), "<u>$mainKeyword</u> নিয়ে আরও পড়ুন")
 
 
     }

@@ -1,6 +1,5 @@
 package com.ycngmn.prothomalo.ui.components
 
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,8 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.ycngmn.prothomalo.scraper.ArticleContainer
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
@@ -53,10 +50,10 @@ fun titleBuilder(subHead: String, title: String, subColor: Color, titleColor: Co
 @Composable
 fun ArticleCard_V1(
     article: ArticleContainer,
-    navController: NavController = rememberNavController()
+    clickAction: () -> Unit
 ) {
     Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)
-        .clickable { navController.navigate("news/${Uri.encode(article.url)}") }) {
+        .clickable { clickAction() }) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Text(
                 text = titleBuilder(article.subHead, article.title, Color(0xFFD60000), MaterialTheme.colorScheme.onBackground),
