@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.ycngmn.prothomalo.scraper.ArticleContainer
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.ui.theme.PaloOrange
 
 
 @Composable
@@ -54,7 +55,7 @@ fun ArticleCard_V2(
                 Text(
                     modifier = Modifier,
                     text = titleBuilder(article.subHead, article.title,
-                        Color(0XFFFFB300), Color.White ),
+                        PaloOrange, Color.White ),
                     fontFamily = ShurjoFamily,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold

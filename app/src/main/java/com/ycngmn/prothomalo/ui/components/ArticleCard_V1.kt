@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ycngmn.prothomalo.scraper.ArticleContainer
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.ui.theme.PaloRed
 
 
 fun titleBuilder(subHead: String, title: String, subColor: Color, titleColor: Color): AnnotatedString {
@@ -56,7 +57,7 @@ fun ArticleCard_V1(
         .clickable { clickAction() }) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Text(
-                text = titleBuilder(article.subHead, article.title, Color(0xFFD60000), MaterialTheme.colorScheme.onBackground),
+                text = titleBuilder(article.subHead, article.title, PaloRed, MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.padding(start = 20.dp, top = 20.dp).weight(0.8f),
                 fontFamily = ShurjoFamily,
                 fontSize = 17.sp,

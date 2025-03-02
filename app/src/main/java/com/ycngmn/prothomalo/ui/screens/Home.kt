@@ -2,7 +2,6 @@ package com.ycngmn.prothomalo.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,19 +17,26 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -52,11 +58,15 @@ import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V2
 import com.ycngmn.prothomalo.utils.ArticleEngine
 import com.ycngmn.prothomalo.utils.CustomScrollableTabRow
+import com.ycngmn.prothomalo.utils.SetStatusBarColor
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
+import com.ycngmn.prothomalo.utils.selectColorByIndex
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
+
+    SetStatusBarColor()
 
     val prothomAlo = remember { ProthomAlo() }
     val keys = remember { prothomAlo.articleSections.keys.toList() }
@@ -99,12 +109,8 @@ fun TopBar(pageState: PagerState) {
         verticalArrangement = Arrangement.SpaceBetween
     )
     {
-        Row (
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        )
-        {
-            Box {
+        Row {
+            Box (modifier = Modifier.fillMaxWidth()) {
                 Image(
                     painter = painterResource(R.drawable.main_logo_foreground),
                     contentDescription = "ProthomAlo_Logo",
@@ -114,16 +120,14 @@ fun TopBar(pageState: PagerState) {
                     painter = painterResource(R.drawable.main_logo_background),
                     contentDescription = "ProthomAlo_Logo_red",
                 )
+
+                Icon(
+                    painterResource(R.drawable.profile_setting_icon),
+                    contentDescription = "Account_and_Setting_logo",
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                        .padding(end = 10.dp),
+                )
             }
-
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Icon(
-                painterResource(R.drawable.profile_setting_icon),
-                contentDescription = "Account_and_Setting_logo",
-                modifier = Modifier.size(35.dp)
-            )
 
         }
 
@@ -143,6 +147,8 @@ fun TopBar(pageState: PagerState) {
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsColumn(
     articlesVM: ArticlesViewModel,
@@ -171,36 +177,44 @@ fun NewsColumn(
             ArticleEngine(articlesVM).loadMoreArticles()
     }
 
+    var isRefreshing by remember { mutableStateOf(false) }
 
-    LazyColumn(state = listState) {
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = {
+            isRefreshing = true
+            ArticleEngine(articlesVM).refreshArticles()
+        },
+    ) {
+        LazyColumn(state = listState) {
 
-        itemsIndexed(articlesVM.articles.value) { index, article ->
+            itemsIndexed(articlesVM.articles.value) { index, article ->
 
 
-            if (index%15 == 0)
-                ArticleCard_V2(article) {
-                    newsViewModel.setSection(articlesVM.getSection())
-                    newsViewModel.updateUrls(articlesVM.articles.value.map { it.url })
-                    navController.navigate("news/$index@$source")
-                }
-            else
-                ArticleCard_V1(article) {
-                    newsViewModel.setSection(articlesVM.getSection())
-                    newsViewModel.updateUrls(articlesVM.articles.value.map { it.url })
-                    navController.navigate("news/$index@$source")
-                }
-        }
+                if (index % 15 == 0)
+                    ArticleCard_V2(article) {
+                        newsViewModel.setSection(articlesVM.getSection())
+                        newsViewModel.updateUrls(articlesVM.articles.value.map { it.url })
+                        navController.navigate("news/$index@$source")
+                    }
+                else
+                    ArticleCard_V1(article) {
+                        newsViewModel.setSection(articlesVM.getSection())
+                        newsViewModel.updateUrls(articlesVM.articles.value.map { it.url })
+                        navController.navigate("news/$index@$source")
+                    }
+            }
 
-        item {
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 35.dp).fillMaxWidth(),
-                trackColor = MaterialTheme.colorScheme.background,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            item {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp, vertical = 35.dp).fillMaxWidth(),
+                    trackColor = MaterialTheme.colorScheme.background,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
         }
     }
-
 }
 
 
@@ -213,8 +227,6 @@ data class BottomNavItem(
 @Composable
 fun BottomBar() {
 
-    //val selectedItem = remember { mutableIntStateOf(0) }
-
     val sections = listOf(
         BottomNavItem("Home", R.drawable.pa_icon, "Home"),
         BottomNavItem("Explore", R.drawable.discover_icon, "Explore"),
@@ -222,40 +234,45 @@ fun BottomBar() {
         BottomNavItem("Menu", R.drawable.menu_icon, "Menu")
     )
 
-    BottomAppBar(
-        containerColor = MaterialTheme.colorScheme.background,
-        modifier = Modifier
-            .shadow(20.dp)
-            .height(65.dp)
-    ) {
+    var selectedItem by remember { mutableIntStateOf(0) }
 
-        Row (
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
-        )
-        {
-            for (section in sections) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .clickable(onClick = {})
-                        .padding(8.dp)
+    Surface (modifier = Modifier.fillMaxWidth(), shadowElevation = 10.dp) {
+        NavigationBar(
+            containerColor = MaterialTheme.colorScheme.background,
+            modifier = Modifier
+                .shadow(50.dp)
+                .height(60.dp)
+        ) {
+            sections.forEachIndexed { index, item ->
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            painterResource(item.icon),
+                            contentDescription = item.label,
+                            modifier = Modifier.size(25.dp),
+                        )
+                    },
 
-                ) {
-                    Icon(
-                        modifier = Modifier.size(25.dp),
-                        painter = painterResource(id = section.icon),
-                        contentDescription = section.label,
-                        tint = Color.Unspecified)
-                    Text(
-                        modifier = Modifier.padding(top = 4.dp),
-                        text = section.label, fontSize = 8.sp, color = Color.Gray,
-                        fontFamily = ShurjoFamily, fontWeight = FontWeight.Bold,)
+                    label = {
+                        Text(
+                            item.label, fontSize = 8.sp,
+                            fontFamily = ShurjoFamily, fontWeight = FontWeight.Bold
+                        )
+                    },
+                    selected = selectedItem == index,
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = selectColorByIndex(index),
+                        selectedTextColor = selectColorByIndex(index),
+                        indicatorColor = MaterialTheme.colorScheme.background,
+                        unselectedIconColor = Color.Gray,
+                        unselectedTextColor = Color.Gray,
+                    ),
+                    onClick = { selectedItem = index },
 
-
-                }
+                    )
             }
+
+
         }
     }
-
 }

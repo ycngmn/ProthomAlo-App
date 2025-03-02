@@ -97,7 +97,8 @@ class ProthomAlo {
         return extractContainer(reqUrl, urlToSkip)
     }
 
-    private fun extractContainer (rawUrl: String, urlToSkip: String = "") : List<ArticleContainer> {
+    private fun extractContainer (rawUrl: String, urlToSkip: String = "", isTryAgain: Boolean = false) : List<ArticleContainer> {
+
 
         val fieldsParam = "&fields=headline,subheadline,url,last-published-at,hero-image-s3-key,hero-image-metadata,last-published-at,alternative"
         val url = rawUrl + fieldsParam
@@ -109,6 +110,8 @@ class ProthomAlo {
 
         val newsContainers = respJson.getJSONArray("items")
 
+        if (newsContainers.length() == 0 && !isTryAgain)
+            return tryAgainExtract(rawUrl, urlToSkip)
 
         for (i in 0 until newsContainers.length()) {
 
@@ -120,11 +123,7 @@ class ProthomAlo {
                     else newsContainer
             }
             catch (e : org.json.JSONException) {
-                val bug = rawUrl.substringBefore("?").substringAfter("-")
-                val patch = rawUrl.replace(bug,"all")
-
-                return extractContainer(patch, urlToSkip)
-
+                return tryAgainExtract(rawUrl, urlToSkip)
             }
 
             story.remove("linked-stories")
@@ -143,11 +142,21 @@ class ProthomAlo {
             val image = "https://media.prothomalo.com/$imgSlug"
             val subHeadline = story.optString("subheadline","").trim()
 
-            articleContainers += ArticleContainer(headline, image, newsUrl, formatTimeAgo(date), subHeadline)
+            articleContainers += ArticleContainer(headline.trim(), image, newsUrl, formatTimeAgo(date), subHeadline.trim())
 
         }
-
         return articleContainers
+    }
+
+    private fun tryAgainExtract (rawUrl: String, urlToSkip: String = "") : List<ArticleContainer> {
+        val bug = rawUrl.substringBefore("?")
+
+        val patch = if (bug.contains("-"))
+            rawUrl.replace(bug.substringAfter("-"),"all")
+        else
+            rawUrl.replace(bug.substringAfterLast("/"),"${bug.substringAfterLast("/")}-all")
+
+        return extractContainer(patch, urlToSkip, isTryAgain = true )
     }
 
     fun getNews (newsUrlx : String) : NewsContainer {
@@ -214,7 +223,7 @@ class ProthomAlo {
             .getJSONArray("meta-keywords").getString(0)
 
         return NewsContainer (
-            headline,summary, author, authorLocation, formatTimeAgo(date), section,
+            headline.trim(),summary.trim(), author, authorLocation, formatTimeAgo(date), section.trim(),
             sectionSlug, newsBody, getSeeMore(mainKeyword, newsUrl), mainKeyword )
 
 
