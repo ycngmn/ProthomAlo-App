@@ -18,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,13 +35,12 @@ import com.ycngmn.prothomalo.scraper.ShurjoFamily
 @Composable
 fun TopicScreen(navController: NavHostController, topicX: String, newsViewModel: NewsViewModel) {
 
-    val topic = topicX.split("@").first()
+    val topicSlug = topicX.split("@").first()
     val topicText = topicX.split("@").last()
 
     BackHandler {
         navController.popBackStack("home", inclusive = false)
     }
-
 
     Scaffold (
         topBar = { TopicTopBar(topicText) },
@@ -51,11 +52,16 @@ fun TopicScreen(navController: NavHostController, topicX: String, newsViewModel:
                 .padding(it)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            val articleVM = viewModel(key = topic) { ArticlesViewModel(topic) }
+            val articleVM = viewModel(key = topicSlug) {
+                if (topicSlug == topicText)
+                    ArticlesViewModel(topicSlug, isTopic = true)
+                else ArticlesViewModel(topicSlug)
+            }
             NewsColumn(
-                articlesVM = articleVM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ,
+                articlesVM = articleVM,
                 navController = navController,
-                newsViewModel = newsViewModel
+                newsViewModel = newsViewModel,
+                source = "topic"
             )
         }
     }
@@ -75,12 +81,18 @@ fun TopicTopBar(topic: String) {
             )
 
             Text(
-                modifier = Modifier.align(Alignment.Center),
+                modifier = Modifier.align(Alignment.Center).drawBehind {
+                    drawLine(
+                        color = Color(0XFFEE4023),
+                        start = Offset(0f, size.height+6),
+                        end = Offset(size.width, size.height+6),
+                        strokeWidth = 4f
+                    ) },
                 text = topic,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = ShurjoFamily,
-                color = Color(0XFFD60000)
+                color = Color(0XFFEE4023)
             )
 
             Icon(

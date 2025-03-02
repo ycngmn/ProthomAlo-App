@@ -80,7 +80,7 @@ fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
         ) {
             HorizontalPager(state = pagerState) { page ->
                 val articleVM = viewModel(key = keys[page]) { ArticlesViewModel(keys[page]) }
-                NewsColumn(articleVM, navController, newsViewModel )
+                NewsColumn(articleVM, navController, newsViewModel)
             }
 
         }
@@ -147,7 +147,8 @@ fun TopBar(pageState: PagerState) {
 fun NewsColumn(
     articlesVM: ArticlesViewModel,
     navController: NavController,
-    newsViewModel: NewsViewModel
+    newsViewModel: NewsViewModel,
+    source: String = "home"
 ) {
 
     if (articlesVM.articles.value.isEmpty()) {
@@ -180,13 +181,13 @@ fun NewsColumn(
                 ArticleCard_V2(article) {
                     newsViewModel.setSection(articlesVM.getSection())
                     newsViewModel.updateUrls(articlesVM.articles.value.map { it.url })
-                    navController.navigate("news/$index")
+                    navController.navigate("news/$index@$source")
                 }
             else
                 ArticleCard_V1(article) {
                     newsViewModel.setSection(articlesVM.getSection())
                     newsViewModel.updateUrls(articlesVM.articles.value.map { it.url })
-                    navController.navigate("news/$index")
+                    navController.navigate("news/$index@$source")
                 }
         }
 

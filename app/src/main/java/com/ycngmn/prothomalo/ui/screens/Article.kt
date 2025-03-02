@@ -1,10 +1,12 @@
 package com.ycngmn.prothomalo.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
@@ -54,7 +56,14 @@ import kotlinx.coroutines.launch
 val paloBlue = Color.hsl(211f,0.94f,0.44f)
 
 @Composable
-fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex: Int = 0) {
+fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex: Int = 0, navSource : String) {
+
+    BackHandler {
+        if (navSource == "topic")
+            navController.popBackStack("topic/{topicKey}", false)
+        else
+            navController.popBackStack("home", false)
+    }
 
     val urls = urlsVM.newsUrls
     val pagerState = rememberPagerState(initialPage = startIndex, pageCount = { urls.size } )
@@ -64,7 +73,6 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
     val newsCache = remember { mutableStateMapOf<String, NewsContainer?>() }
 
     HorizontalPager(state = pagerState) { pageIndex ->
-
 
         var news by remember { mutableStateOf<NewsContainer?>(null) }
 
@@ -85,7 +93,6 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
         } else {
             news = newsCache[urls[pageIndex]]
         }
-
 
         Column(
             Modifier
@@ -151,9 +158,11 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
                     ) {
                         Spacer(modifier = Modifier.padding(bottom = 20.dp))
+                        val topicKey = news!!.readAlsoText
                         Text(
-                            text = AnnotatedString.fromHtml(htmlString = news!!.readAlsoText),
-                            Modifier.padding(16.dp, 7.dp, 16.dp, 20.dp),
+                            text = "$topicKey  নিয়ে আরও পড়ুন",
+                            modifier = Modifier.padding(16.dp, 7.dp, 16.dp, 20.dp)
+                                .clickable { navController.navigate("topic/$topicKey@$topicKey") },
                             fontFamily = ShurjoFamily,
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
@@ -161,7 +170,7 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
                         news!!.readAlso.forEachIndexed { index, it ->
                             ArticleCard_V1(it) {
                                 urlsVM.updateUrls(news!!.readAlso.map { article -> article.url })
-                                navController.navigate("news/$index")
+                                navController.navigate("news/$index@$navSource")
                             }
                         }
                     }
@@ -173,6 +182,7 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
 
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun NewsHead(
     news: NewsContainer,
@@ -217,25 +227,21 @@ fun NewsHead(
             )
 
 
-        Row (modifier = Modifier.padding(vertical = 10.dp)) {
+        FlowRow (modifier = Modifier.padding(vertical = 10.dp)) {
 
-            if (news.author != "null")
+            if (news.author != "null") {
+                val authorText = news.author!!
+
+                if (news.authorLocation != "null" && news.authorLocation.isNotEmpty())
+                    authorText.plus(", $news.authorLocation")
+
                 Text(
-                    text = news.author!!,
+                    text = authorText,
                     Modifier.padding(start = 16.dp),
                     fontFamily = ShurjoFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 17.sp,
                     color = MaterialTheme.colorScheme.onBackground
-                )
-
-            if (news.authorLocation != "null" && news.authorLocation.isNotEmpty()) {
-                Text(
-                    text = ", " + news.authorLocation,
-                    fontFamily = ShurjoFamily,
-                    fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = 17.sp
                 )
             }
 
@@ -243,7 +249,7 @@ fun NewsHead(
 
             Text(
                 text = news.date,
-                Modifier.padding(end = 16.dp),
+                Modifier.padding(horizontal = 16.dp),
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 17.sp,

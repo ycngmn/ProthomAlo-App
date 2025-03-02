@@ -4,6 +4,7 @@ agp = "8.8.2"
 coilAvif = "2.5.0"
 coilCompose = "2.2.2"
 coilGif = "2.6.0"
+gsonVersion = "2.10.1"
 jsoup = "1.18.3"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
@@ -28,6 +29,7 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose"
 coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coilGif" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilGif" }
 google-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimationVersion" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

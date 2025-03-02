@@ -89,12 +89,20 @@ class ProthomAlo {
     }
 
     fun getArticle(section : String, offset : Int = 0, limit : Int = 15) : List<ArticleContainer> {
+        return extractContainer("$webUrl/api/v1/collections/$section?offset=$offset&limit=$limit")
+    }
 
-        val url = "$webUrl/api/v1/collections/$section?offset=$offset&limit=$limit"
+    fun getSeeMore(mainKeyword : String, urlToSkip: String = "", offset : Int = 0, limit : Int = 5) : List<ArticleContainer>  {
+        val reqUrl = "$webUrl/api/v1/advanced-search/?offset=$offset&limit=$limit&sort=latest-published&tag-name=$mainKeyword"
+        return extractContainer(reqUrl, urlToSkip)
+    }
 
-        val doc = Jsoup.connect(url)
-            .ignoreContentType(true).execute()
+    private fun extractContainer (rawUrl: String, urlToSkip: String = "") : List<ArticleContainer> {
 
+        val fieldsParam = "&fields=headline,subheadline,url,last-published-at,hero-image-s3-key,hero-image-metadata,last-published-at,alternative"
+        val url = rawUrl + fieldsParam
+
+        val doc = Jsoup.connect(url).ignoreContentType(true).execute()
         val respJson = JSONObject(doc.body())
 
         val articleContainers = mutableListOf<ArticleContainer>()
@@ -105,12 +113,27 @@ class ProthomAlo {
         for (i in 0 until newsContainers.length()) {
 
             val newsContainer = newsContainers.getJSONObject(i)
-            val story = newsContainer.getJSONObject("story")
+
+            val story = try {
+                    if (urlToSkip.isEmpty())
+                        newsContainer.getJSONObject("story")
+                    else newsContainer
+            }
+            catch (e : org.json.JSONException) {
+                val bug = rawUrl.substringBefore("?").substringAfter("-")
+                val patch = rawUrl.replace(bug,"all")
+
+                return extractContainer(patch, urlToSkip)
+
+            }
+
             story.remove("linked-stories")
 
             val headline = story.getString("headline")
-
             val newsUrl = story.getString("url")
+
+            if (urlToSkip.isNotEmpty() && newsUrl == urlToSkip) continue
+
             val date = story.getString("last-published-at").toLong()
             var imgSlug = story.getString("hero-image-s3-key")
             if (imgSlug == "null")
@@ -125,12 +148,10 @@ class ProthomAlo {
         }
 
         return articleContainers
-
     }
 
-
     fun getNews (newsUrlx : String) : NewsContainer {
-        
+
         val newsUrl = newsUrlx.replace("%3A",":").replace("%2F","/")
         val parsedUrl = Uri.parse(newsUrl)
         val routeUrl = "https://${parsedUrl.host}/route-data.json?path=${parsedUrl.path}"
@@ -163,7 +184,6 @@ class ProthomAlo {
             for (j in 0 until storyElements.length()) {
                 val storyElement = storyElements.getJSONObject(j)
                 if (storyElement.getString("type") == "text" && (storyElement.getString("subtype") == "null")) {
-
                     val text = storyElement.optString("text") ?: ""
                     newsBody += text
                 }
@@ -193,42 +213,13 @@ class ProthomAlo {
         val mainKeyword = storyObject.getJSONObject("seo")
             .getJSONArray("meta-keywords").getString(0)
 
-        return NewsContainer(headline, summary,author, authorLocation, formatTimeAgo(date), section, sectionSlug, newsBody, getSeeMore(mainKeyword, newsUrl), "<u>$mainKeyword</u> নিয়ে আরও পড়ুন")
+        return NewsContainer (
+            headline,summary, author, authorLocation, formatTimeAgo(date), section,
+            sectionSlug, newsBody, getSeeMore(mainKeyword, newsUrl), mainKeyword )
 
 
     }
 
-    private fun getSeeMore(mainKeyword : String, newsUrl: String) : List<ArticleContainer>  {
-
-        val reqUrl = "$webUrl/api/v1/advanced-search" +
-                "?limit=5&sort=latest-published&fields=headline,slug,url,last-published-at,hero-image-s3-key,alternative,subheadline&&tag-name=$mainKeyword"
-        val doc = Jsoup.connect(reqUrl).ignoreContentType(true).execute()
-        val respJson = JSONObject(doc.body())
-
-        val articleContainers = mutableListOf<ArticleContainer>()
-
-        val items = respJson.getJSONArray("items")
-
-        for (i in 0 until items.length()) {
-            val item = items.getJSONObject(i)
-            val url = item.getString("url")
-            if (url == newsUrl) continue
-            val headline = item.getString("headline")
-            val subHeadline = item.optString("subheadline")
-            val date = item.getString("last-published-at").toLong()
-            var imagekey = item.getString("hero-image-s3-key")
-            if (imagekey == "null")
-                imagekey = Regex("\"hero-image-s3-key\"\\s*:\\s*\"([^\"]+)\"")
-                    .find(item.getJSONObject("alternative").toString())?.groupValues?.get(1)?.replace("\\", "")
-                    .toString()
-            val image = "https://media.prothomalo.com/$imagekey"
-
-            articleContainers += ArticleContainer(headline, image, url, formatTimeAgo(date), subHeadline)
-        }
-
-        return articleContainers
-
-    }
 }
 
 

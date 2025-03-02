@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -45,7 +44,7 @@ fun ArticleCard_V2(
                     Brush.verticalGradient(
                         colors = listOf(
                             Color.Transparent,
-                            MaterialTheme.colorScheme.background.copy(alpha = 1f)
+                            Color.Black.copy(alpha = 1f)
                         )
                     )
                 )
@@ -54,11 +53,11 @@ fun ArticleCard_V2(
             Column (Modifier.align(Alignment.BottomStart).padding(16.dp)) {
                 Text(
                     modifier = Modifier,
-                    text = article.title,
+                    text = titleBuilder(article.subHead, article.title,
+                        Color(0XFFFFB300), Color.White ),
                     fontFamily = ShurjoFamily,
                     fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
+                    fontWeight = FontWeight.Bold
                 )
 
                 Text(

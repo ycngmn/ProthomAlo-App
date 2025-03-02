@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -57,7 +58,7 @@ fun CustomScrollableTabRow(
                     nextTabWidth = tabWidths.getOrNull(nextPage),
                     offsetFraction = offsetFraction
                 ),
-                color = MaterialTheme.colorScheme.onBackground
+                color = Color(0XFFFFB300)
             )
         }
     ) {

@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val viewModel: NewsViewModel = viewModel()
 
-            ProthomAloTheme(darkTheme = true) {
+            ProthomAloTheme(darkTheme = false) {
 
                 NavHost(navController = navController, startDestination = "home") {
                     composable(
@@ -64,8 +64,10 @@ class MainActivity : ComponentActivity() {
 
 
                     ) { backStackEntry ->
-                        val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0
-                        NewsLecture(navController, urlsVM = viewModel, startIndex = index)
+                        val str = backStackEntry.arguments?.getString("index")
+                        val index = str?.split("@")?.first()?.toIntOrNull() ?: 0
+                        val source = str?.split("@")?.last() ?: "home"
+                        NewsLecture(navController, urlsVM = viewModel, startIndex = index, navSource = source)
                     }
 
                     composable("topic/{topicKey}",

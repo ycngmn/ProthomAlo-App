@@ -5,9 +5,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
-class ArticlesViewModel (key : String) : ViewModel() {
+class ArticlesViewModel (key : String, isTopic: Boolean = false) : ViewModel() {
 
-    var limit = 15
+    var isTopic: Boolean
+    var limit = 50
     private var section = ""
 
     private var _offset = mutableIntStateOf(0)
@@ -19,6 +20,7 @@ class ArticlesViewModel (key : String) : ViewModel() {
 
     init {
         this.section = key
+        this.isTopic = isTopic
     }
 
     fun getSection() : String {
