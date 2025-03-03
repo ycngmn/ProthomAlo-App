@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -46,7 +45,7 @@ fun TopicScreen(navController: NavHostController, topicX: String, newsViewModel:
 
     Scaffold (
         topBar = { TopicTopBar(topicText) { navController.popBackStack("home", inclusive = false) } },
-        bottomBar = { BottomBar() }
+        bottomBar = { BottomBar(navController) }
     ) {
         Column(
             modifier = Modifier
@@ -95,10 +94,10 @@ fun TopicTopBar(topic: String, onBackPressed : () -> Unit) {
                         strokeWidth = 4f
                     ) },
                 text = topic,
-                fontSize = 28.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = ShurjoFamily,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onBackground,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

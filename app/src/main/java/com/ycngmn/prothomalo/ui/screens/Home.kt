@@ -32,7 +32,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -48,6 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ArticlesViewModel
@@ -58,15 +59,12 @@ import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V2
 import com.ycngmn.prothomalo.utils.ArticleEngine
 import com.ycngmn.prothomalo.utils.CustomScrollableTabRow
-import com.ycngmn.prothomalo.utils.SetStatusBarColor
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
 import com.ycngmn.prothomalo.utils.selectColorByIndex
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
-
-    SetStatusBarColor()
 
     val prothomAlo = remember { ProthomAlo() }
     val keys = remember { prothomAlo.articleSections.keys.toList() }
@@ -78,7 +76,7 @@ fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
                 TopBar(pagerState)
             }
         },
-        bottomBar = { BottomBar() }
+        bottomBar = { BottomBar(navController) }
     )
 
     {
@@ -225,41 +223,44 @@ data class BottomNavItem(
 )
 
 @Composable
-fun BottomBar() {
+fun currentRoute(navController: NavController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
+}
+
+@Composable
+fun BottomBar(navController: NavController ) {
 
     val sections = listOf(
-        BottomNavItem("Home", R.drawable.pa_icon, "Home"),
+        BottomNavItem("home", R.drawable.pa_icon, "Home"),
         BottomNavItem("Explore", R.drawable.discover_icon, "Explore"),
         BottomNavItem("Bookmark", R.drawable.bookmark_icon, "Bookmark"),
         BottomNavItem("Menu", R.drawable.menu_icon, "Menu")
     )
 
-    var selectedItem by remember { mutableIntStateOf(0) }
+    val currentRoute = currentRoute(navController)
 
     Surface (modifier = Modifier.fillMaxWidth(), shadowElevation = 10.dp) {
         NavigationBar(
             containerColor = MaterialTheme.colorScheme.background,
-            modifier = Modifier
-                .shadow(50.dp)
-                .height(60.dp)
+            modifier = Modifier.shadow(50.dp).height(60.dp)
         ) {
             sections.forEachIndexed { index, item ->
                 NavigationBarItem(
                     icon = {
-                        Icon(
-                            painterResource(item.icon),
-                            contentDescription = item.label,
-                            modifier = Modifier.size(25.dp),
-                        )
+                        Column (horizontalAlignment = Alignment.CenterHorizontally) {
+                            Icon(
+                                painterResource(item.icon),
+                                contentDescription = item.label,
+                                modifier = Modifier.size(27.dp),
+                            )
+                            Text(
+                                item.label, fontSize = 9.sp,
+                                fontFamily = ShurjoFamily, fontWeight = FontWeight.Bold
+                            )
+                        }
                     },
-
-                    label = {
-                        Text(
-                            item.label, fontSize = 8.sp,
-                            fontFamily = ShurjoFamily, fontWeight = FontWeight.Bold
-                        )
-                    },
-                    selected = selectedItem == index,
+                    selected = currentRoute == item.route,
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = selectColorByIndex(index),
                         selectedTextColor = selectColorByIndex(index),
@@ -267,7 +268,13 @@ fun BottomBar() {
                         unselectedIconColor = Color.Gray,
                         unselectedTextColor = Color.Gray,
                     ),
-                    onClick = { selectedItem = index },
+                    onClick = {
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
 
                     )
             }

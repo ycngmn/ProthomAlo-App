@@ -7,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.ycngmn.prothomalo.ui.theme.ProthomAloTheme
 import com.ycngmn.prothomalo.utils.MainNavGraph
 
 
@@ -32,12 +31,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
-
-            ProthomAloTheme(darkTheme = true) {
-                MainNavGraph()
-
-            }
+            MainNavGraph()
         }
     }
 }
