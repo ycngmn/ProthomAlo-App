@@ -16,7 +16,6 @@ val ShurjoFamily = FontFamily(
     Font(R.font.shurjo_bold, FontWeight.Bold)
 )
 
-
 data class ArticleContainer (
     val title: String = "",
     val thumbnail: String = "",
@@ -44,20 +43,18 @@ class ProthomAlo {
     private val webUrl = "https://www.prothomalo.com"
 
     val articleSections = mapOf(
+        "featured" to "প্রচ্ছদ",
         "latest" to "সর্বশেষ",
-        "politics" to "রাজনীতি",
-        "bangladesh" to "বাংলাদেশ",
-        "crime-bangladesh" to "অপরাধ",
-        "world-all" to "বিশ্ব",
-        "technology-all" to "প্রযুক্তি",
-        "crime-bangladesh" to "অপরাধ",
-        "world-all" to "বিশ্ব",
-        "education-top5" to "শিক্ষা",
-        "sports-all" to "খেলা",
-        "entertainment-all" to "বিনোদন",
-        "chakri-all" to "চাকরি",
-        "lifestyle-all" to "জীবনযাপন",
-        "religion-all" to "ধর্ম",
+        "mostread" to "সবচেয়ে পঠিত",
+        "discussed" to "আলোচিত",
+        "goodnews" to "সুখবর",
+        "fun" to "একটু থামুন",
+        "onnoalo" to "অন্য আলো",
+        "kishoralo-home-featured" to "কিশোর আলো",
+        "bigganchinta-feature" to "বিজ্ঞানচিন্তা",
+        "home-nagorik-sangbad" to "নাগরিক সংবাদ",
+        "home-durporobash" to "দূর পরবাস"
+
     )
 
     private fun Long.toBengaliNumber(): String = this.toString()
@@ -88,6 +85,7 @@ class ProthomAlo {
         }
     }
 
+
     fun getArticle(section : String, offset : Int = 0, limit : Int = 15) : List<ArticleContainer> {
         return extractContainer("$webUrl/api/v1/collections/$section?offset=$offset&limit=$limit")
     }
@@ -97,13 +95,15 @@ class ProthomAlo {
         return extractContainer(reqUrl, urlToSkip)
     }
 
-    private fun extractContainer (rawUrl: String, urlToSkip: String = "", isTryAgain: Boolean = false) : List<ArticleContainer> {
+    private fun extractContainer (rawUrl: String, urlToSkip: String = "", isTryAgain: Boolean = false, isFieldsParam : Boolean = true) : List<ArticleContainer> {
 
 
         val fieldsParam = "&fields=headline,subheadline,url,last-published-at,hero-image-s3-key,hero-image-metadata,last-published-at,alternative"
-        val url = rawUrl + fieldsParam
+        val url = if (isFieldsParam) rawUrl + fieldsParam else rawUrl
 
-        val doc = Jsoup.connect(url).ignoreContentType(true).execute()
+        val doc = Jsoup.connect(url).maxBodySize(0)
+            .ignoreContentType(true).execute()
+
         val respJson = JSONObject(doc.body())
 
         val articleContainers = mutableListOf<ArticleContainer>()
@@ -126,26 +126,32 @@ class ProthomAlo {
                 return tryAgainExtract(rawUrl, urlToSkip)
             }
 
-            story.remove("linked-stories")
-
-            val headline = story.getString("headline")
             val newsUrl = story.getString("url")
-
             if (urlToSkip.isNotEmpty() && newsUrl == urlToSkip) continue
 
-            val date = story.getString("last-published-at").toLong()
-            var imgSlug = story.getString("hero-image-s3-key")
-            if (imgSlug == "null")
-                imgSlug = Regex("\"hero-image-s3-key\"\\s*:\\s*\"([^\"]+)\"")
-                    .find(story.toString())?.groupValues?.get(1)?.replace("\\", "").toString()
-
-            val image = "https://media.prothomalo.com/$imgSlug"
-            val subHeadline = story.optString("subheadline","").trim()
-
-            articleContainers += ArticleContainer(headline.trim(), image, newsUrl, formatTimeAgo(date), subHeadline.trim())
-
+            articleContainers += articleFromStory(story)
         }
         return articleContainers
+    }
+
+    private fun articleFromStory (story : JSONObject) : ArticleContainer {
+
+        story.remove("linked-stories")
+
+        val headline = story.getString("headline")
+        val newsUrl = story.getString("url")
+
+        val date = story.getString("last-published-at").toLong()
+        var imgSlug = story.getString("hero-image-s3-key")
+        if (imgSlug == "null")
+            imgSlug = Regex("\"hero-image-s3-key\"\\s*:\\s*\"([^\"]+)\"")
+                .find(story.toString())?.groupValues?.get(1)?.replace("\\", "").toString()
+
+        val image = "https://media.prothomalo.com/$imgSlug"
+        val subHeadline = story.optString("subheadline","").trim()
+
+        return ArticleContainer(headline.trim(), image, newsUrl, formatTimeAgo(date), subHeadline.trim())
+
     }
 
     private fun tryAgainExtract (rawUrl: String, urlToSkip: String = "") : List<ArticleContainer> {
@@ -230,5 +236,3 @@ class ProthomAlo {
     }
 
 }
-
-

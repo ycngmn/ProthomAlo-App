@@ -32,6 +32,7 @@ import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ArticlesViewModel
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.ui.screens.home.NewsColumn
 
 @Composable
 fun TopicScreen(navController: NavHostController, topicX: String, newsViewModel: NewsViewModel) {
@@ -45,7 +46,6 @@ fun TopicScreen(navController: NavHostController, topicX: String, newsViewModel:
 
     Scaffold (
         topBar = { TopicTopBar(topicText) { navController.popBackStack("home", inclusive = false) } },
-        bottomBar = { BottomBar(navController) }
     ) {
         Column(
             modifier = Modifier

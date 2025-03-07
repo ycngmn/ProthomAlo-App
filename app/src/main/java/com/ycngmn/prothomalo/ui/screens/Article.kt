@@ -158,7 +158,7 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
                     Card(
                         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
                         modifier = Modifier.padding(16.dp).background(color = MaterialTheme.colorScheme.background),
-                        colors = CardDefaults.cardColors(containerColor = Color.LightGray)
+                        colors = CardDefaults.cardColors(containerColor = Color.Unspecified)
 
                     ) {
                         Spacer(modifier = Modifier.padding(bottom = 20.dp))
@@ -172,6 +172,7 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
                             fontSize = 20.sp,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         news!!.readAlso.forEachIndexed { index, it ->
                             ArticleCard_V1(it) {

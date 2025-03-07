@@ -32,6 +32,7 @@ coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coilGif" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilGif" }
 google-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimationVersion" }
 google-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontrollerVersion" }
+google-gson = { module = "com.google.code.gson:gson" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

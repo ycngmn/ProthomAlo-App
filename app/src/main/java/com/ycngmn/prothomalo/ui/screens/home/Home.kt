@@ -1,7 +1,8 @@
-package com.ycngmn.prothomalo.ui.screens
+package com.ycngmn.prothomalo.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -73,7 +74,9 @@ fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
     Scaffold(
         topBar = {
             Surface(shadowElevation = 3.dp) {
-                TopBar(pagerState)
+                TopBar(pagerState) {
+                    navController.navigate("profile")
+                }
             }
         },
         bottomBar = { BottomBar(navController) }
@@ -96,7 +99,7 @@ fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
 }
 
 @Composable
-fun TopBar(pageState: PagerState) {
+fun TopBar(pageState: PagerState, onProfileClick: () -> Unit = {}) {
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -123,7 +126,9 @@ fun TopBar(pageState: PagerState) {
                     painterResource(R.drawable.profile_setting_icon),
                     contentDescription = "Account_and_Setting_logo",
                     modifier = Modifier.align(Alignment.CenterEnd)
-                        .padding(end = 10.dp),
+                        .padding(end = 10.dp).clickable {
+                           onProfileClick()
+                        },
                 )
             }
 
@@ -144,6 +149,8 @@ fun TopBar(pageState: PagerState) {
         }
     }
 }
+
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -186,19 +193,19 @@ fun NewsColumn(
     ) {
         LazyColumn(state = listState) {
 
-            itemsIndexed(articlesVM.articles.value) { index, article ->
-
+            val articles = articlesVM.articles.value
+            itemsIndexed(articles) { index, article ->
 
                 if (index % 15 == 0)
                     ArticleCard_V2(article) {
                         newsViewModel.setSection(articlesVM.getSection())
-                        newsViewModel.updateUrls(articlesVM.articles.value.map { it.url })
+                        newsViewModel.updateUrls(articles.map { it.url })
                         navController.navigate("news/$index@$source")
                     }
                 else
                     ArticleCard_V1(article) {
                         newsViewModel.setSection(articlesVM.getSection())
-                        newsViewModel.updateUrls(articlesVM.articles.value.map { it.url })
+                        newsViewModel.updateUrls(articles.map { it.url })
                         navController.navigate("news/$index@$source")
                     }
             }
@@ -232,11 +239,13 @@ fun currentRoute(navController: NavController): String? {
 fun BottomBar(navController: NavController ) {
 
     val sections = listOf(
-        BottomNavItem("home", R.drawable.pa_icon, "Home"),
-        BottomNavItem("Explore", R.drawable.discover_icon, "Explore"),
-        BottomNavItem("Bookmark", R.drawable.bookmark_icon, "Bookmark"),
-        BottomNavItem("Menu", R.drawable.menu_icon, "Menu")
+        BottomNavItem("home", R.drawable.pa_icon, "প্রচ্ছদ"),
+        BottomNavItem("Explore", R.drawable.discover_icon, "অন্বেষণ"),
+        BottomNavItem("Bookmark", R.drawable.bookmark_icon, "সংরক্ষণ"),
+        BottomNavItem("Menu", R.drawable.menu_icon, "তালিকা")
     )
+
+    sections.map { it.route }
 
     val currentRoute = currentRoute(navController)
 
@@ -255,7 +264,7 @@ fun BottomBar(navController: NavController ) {
                                 modifier = Modifier.size(27.dp),
                             )
                             Text(
-                                item.label, fontSize = 9.sp,
+                                item.label, fontSize = 11.sp,
                                 fontFamily = ShurjoFamily, fontWeight = FontWeight.Bold
                             )
                         }
@@ -275,8 +284,7 @@ fun BottomBar(navController: NavController ) {
                             restoreState = true
                         }
                     }
-
-                    )
+                )
             }
 
 

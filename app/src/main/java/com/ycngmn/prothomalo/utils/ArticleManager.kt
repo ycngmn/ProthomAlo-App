@@ -9,8 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-// Apparently,serves only the Homepage.
-
 class ArticleEngine(
     private val viewModel: ArticlesViewModel,
     private val articleClass : ProthomAlo = ProthomAlo()
@@ -19,10 +17,11 @@ class ArticleEngine(
     private suspend fun fetchArticlesFromNetwork(): List<ArticleContainer> {
 
         return withContext(Dispatchers.IO) {
-            if (!viewModel.isTopic)
+            if (!viewModel.isTopic) {
                 articleClass.getArticle(
                     viewModel.getSection(),viewModel.offset.value,viewModel.limit
                 )
+            }
             else
                 articleClass.getSeeMore(viewModel.getSection(), urlToSkip = "&@àml", // to detect see more, not the best of the methods but works
                     offset = viewModel.offset.value,limit = viewModel.limit)

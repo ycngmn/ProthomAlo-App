@@ -8,17 +8,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.ui.screens.HomePage
+import com.ycngmn.prothomalo.ui.screens.home.HomePage
 import com.ycngmn.prothomalo.ui.screens.MenuScreen
 import com.ycngmn.prothomalo.ui.screens.NewsLecture
+import com.ycngmn.prothomalo.ui.screens.ProfileScreen
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
 import com.ycngmn.prothomalo.ui.theme.ProthomAloTheme
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -82,12 +81,19 @@ fun MainNavGraph() {
                 val topicKey = it.arguments?.getString("topicKey") ?: ""
                 TopicScreen(navController, topicKey, viewModel)
             }
+
+            composable(
+                "Profile",
+                enterTransition = { EnterTransition.None },
+                popEnterTransition = { EnterTransition.None },
+            ) { ProfileScreen(themeViewModel) }
+
             composable(
                 "Menu",
                 enterTransition = { EnterTransition.None },
                 popEnterTransition = { EnterTransition.None },
             ) {
-                MenuScreen(themeViewModel, navController)
+                MenuScreen(navController)
             }
 
         }
