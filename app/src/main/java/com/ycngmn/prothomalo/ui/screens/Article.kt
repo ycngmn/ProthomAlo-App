@@ -51,6 +51,7 @@ import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
+import com.ycngmn.prothomalo.utils.YouTubeVideo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -111,18 +112,28 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
                 news!!.body.forEach {
 
                     if (it is String) {
-                        Text(
-                            AnnotatedString.fromHtml(
-                                it.replace("</p><p>", "<br><br>")
-                                    .replace(Regex("^<p>|</p>$"), "") + "<br>"
-                            ),
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            fontFamily = ShurjoFamily,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Start,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
+
+                        if (it.contains("https://www.youtube.com/embed/")) {
+                            if (pagerState.currentPage == pageIndex) {
+                                YouTubeVideo(it)
+                                Spacer(modifier = Modifier.padding(bottom = 16.dp))
+                            }
+                        }
+
+                        else {
+                            Text(
+                                AnnotatedString.fromHtml(
+                                    it.replace("</p><p>", "<br><br>")
+                                        .replace(Regex("^<p>|</p>$"), "") + "<br>"
+                                ),
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                fontFamily = ShurjoFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 18.sp,
+                                textAlign = TextAlign.Start,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
                     }
                     else if (it is Pair<*, *> && it.first.toString().isNotEmpty() && !it.first.toString().contains(".avif")) {
                             SubcomposeAsyncImage(

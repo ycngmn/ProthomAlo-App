@@ -14,11 +14,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.ui.screens.home.HomePage
-import com.ycngmn.prothomalo.ui.screens.MenuScreen
 import com.ycngmn.prothomalo.ui.screens.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.ProfileScreen
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
+import com.ycngmn.prothomalo.ui.screens.home.HomePage
+import com.ycngmn.prothomalo.ui.screens.menu.MenuScreen
 import com.ycngmn.prothomalo.ui.theme.ProthomAloTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

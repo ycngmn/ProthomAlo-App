@@ -47,14 +47,14 @@ class ProthomAlo {
         "latest" to "সর্বশেষ",
         "mostread" to "সবচেয়ে পঠিত",
         "discussed" to "আলোচিত",
+        "special-news" to "বিশেষ সংবাদ",
         "goodnews" to "সুখবর",
         "fun" to "একটু থামুন",
         "onnoalo" to "অন্য আলো",
         "kishoralo-home-featured" to "কিশোর আলো",
         "bigganchinta-feature" to "বিজ্ঞানচিন্তা",
         "home-nagorik-sangbad" to "নাগরিক সংবাদ",
-        "home-durporobash" to "দূর পরবাস"
-
+        "home-durporobash" to "দূর পরবাস",
     )
 
     private fun Long.toBengaliNumber(): String = this.toString()
@@ -138,7 +138,7 @@ class ProthomAlo {
 
         story.remove("linked-stories")
 
-        val headline = story.getString("headline")
+        val headline = story.getString("headline").replace("\n", "")
         val newsUrl = story.getString("url")
 
         val date = story.getString("last-published-at").toLong()
@@ -181,16 +181,20 @@ class ProthomAlo {
         val newsBody = mutableListOf<Any>()
 
         val imageHost = "https://media.prothomalo.com/"
+
+
         var coverImage = ""
 
-        if (storyObject.getString("hero-image-s3-key") != "null")
-            coverImage = imageHost + storyObject.getString("hero-image-s3-key")
+        if (!newsUrlx.contains("/video/")) {
+            if (storyObject.getString("hero-image-s3-key") != "null")
+                coverImage = imageHost + storyObject.getString("hero-image-s3-key")
 
-        var coverImageCaption = storyObject.getString("hero-image-caption")
-        val coverImageAttribution = storyObject.optString("image-attribution") ?: ""
-        if (coverImageAttribution != "null" && coverImageAttribution.isNotEmpty())
-            coverImageCaption += " | $coverImageAttribution"
-        newsBody += Pair(coverImage, coverImageCaption)
+            var coverImageCaption = storyObject.getString("hero-image-caption")
+            val coverImageAttribution = storyObject.optString("image-attribution") ?: ""
+            if (coverImageAttribution != "null" && coverImageAttribution.isNotEmpty())
+                coverImageCaption += " | $coverImageAttribution"
+            newsBody += Pair(coverImage, coverImageCaption)
+        }
 
         for (i in 0 until cardObjects.length()) {
             val cardObject = cardObjects.getJSONObject(i)
@@ -198,12 +202,11 @@ class ProthomAlo {
 
             for (j in 0 until storyElements.length()) {
                 val storyElement = storyElements.getJSONObject(j)
-                if (storyElement.getString("type") == "text" && (storyElement.getString("subtype") == "null")) {
+                if (storyElement.getString("type") == "text" &&
+                    ((storyElement.getString("subtype") == "null") || newsUrlx.contains("/video/"))) {
                     val text = storyElement.optString("text") ?: ""
                     newsBody += text
-                }
-
-                else if (storyElement.getString("type") == "image") {
+                } else if (storyElement.getString("type") == "image") {
                     val imgUrl = "https://media.prothomalo.com/" + storyElement
                         .getString("image-s3-key")
                     var caption = storyElement.optString("title") ?: ""
@@ -211,12 +214,14 @@ class ProthomAlo {
                     if (imageAttribution != "null" && imageAttribution.isNotEmpty())
                         caption += " | $imageAttribution"
                     newsBody += Pair(imgUrl, caption)
+                } else if (storyElement.getString("type") == "youtube-video") {
+                    val embedUrl = storyElement.getString("embed-url")
+                    newsBody += embedUrl
                 }
-
             }
         }
 
-        val headline = storyObject.optString("headline")
+        val headline = storyObject.optString("headline").replace("\n", "")
         val summary = storyObject.optString("summary")
         val sectionObj = storyObject.getJSONArray("sections").getJSONObject(0)
         val section = sectionObj.getString("name")
@@ -225,12 +230,21 @@ class ProthomAlo {
         val author = storyObject.optString("author-name")
         val authorLocation = storyObject.optJSONObject("metadata")?.optString("author-location") ?: ""
 
-        val mainKeyword = storyObject.getJSONObject("seo")
-            .getJSONArray("meta-keywords").getString(0)
+        var mainKeyword: String
+        var moreArticles: List<ArticleContainer>
+
+        try {
+            mainKeyword = storyObject.getJSONObject("seo")
+                .getJSONArray("meta-keywords").getString(0)
+            moreArticles = getSeeMore(mainKeyword, newsUrl)
+        } catch (_: Exception) {
+            mainKeyword = ""
+            moreArticles = emptyList()
+        }
 
         return NewsContainer (
             headline.trim(),summary.trim(), author, authorLocation, formatTimeAgo(date), section.trim(),
-            sectionSlug, newsBody, getSeeMore(mainKeyword, newsUrl), mainKeyword )
+            sectionSlug, newsBody, moreArticles, mainKeyword )
 
 
     }
