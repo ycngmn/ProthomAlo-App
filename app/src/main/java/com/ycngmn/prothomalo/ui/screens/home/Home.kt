@@ -93,7 +93,6 @@ fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
                 val articleVM = viewModel(key = keys[page]) { ArticlesViewModel(keys[page]) }
                 NewsColumn(articleVM, navController, newsViewModel)
             }
-
         }
     }
 }
@@ -278,10 +277,15 @@ fun BottomBar(navController: NavController ) {
                         unselectedTextColor = Color.Gray,
                     ),
                     onClick = {
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
+
+                        if (!navController.popBackStack(route=item.route, inclusive = false)) {
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
                     }
                 )

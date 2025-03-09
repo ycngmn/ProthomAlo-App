@@ -148,7 +148,8 @@ class ProthomAlo {
                 .find(story.toString())?.groupValues?.get(1)?.replace("\\", "").toString()
 
         val image = "https://media.prothomalo.com/$imgSlug"
-        val subHeadline = story.optString("subheadline","").trim()
+        val subHeadline = story.optString("subheadline","")
+            .replace("\n", "").trim()
 
         return ArticleContainer(headline.trim(), image, newsUrl, formatTimeAgo(date), subHeadline.trim())
 

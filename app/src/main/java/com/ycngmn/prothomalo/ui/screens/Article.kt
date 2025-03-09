@@ -55,15 +55,12 @@ import com.ycngmn.prothomalo.utils.YouTubeVideo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 @Composable
-fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex: Int = 0, navSource : String) {
+fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex: Int = 0) {
 
     BackHandler {
-        if (navSource == "topic")
-            navController.popBackStack("topic/{topicKey}", false)
-        else
-            navController.popBackStack("home", false)
+        if (!navController.popBackStack(route = "topic/{topicKey}", inclusive = false))
+            navController.popBackStack("home", inclusive = false)
     }
 
     val urls = urlsVM.newsUrls
@@ -107,7 +104,9 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
 
             else {
                 NewsHead(news!!) {
-                    navController.navigate("topic/$it")
+                    if (!navController.popBackStack(route = "topic/$it", inclusive = false))
+                        navController.navigate("topic/$it")
+
                 }
                 news!!.body.forEach {
 
@@ -177,7 +176,11 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
                         Text(
                             text = AnnotatedString.fromHtml("<u>$topicKey</u> নিয়ে আরও পড়ুন"),
                             modifier = Modifier.padding(16.dp, 7.dp, 16.dp, 20.dp)
-                                .clickable { navController.navigate("topic/$topicKey@$topicKey") },
+                                .clickable {
+                                    //
+                                    if (!navController.popBackStack(route = "topic/$topicKey@$topicKey", inclusive = false))
+                                        navController.navigate("topic/$topicKey@$topicKey")
+                                           },
                             fontFamily = ShurjoFamily,
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp,
@@ -188,7 +191,7 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
                         news!!.readAlso.forEachIndexed { index, it ->
                             ArticleCard_V1(it) {
                                 urlsVM.updateUrls(news!!.readAlso.map { article -> article.url })
-                                navController.navigate("news/$index@$navSource")
+                                navController.navigate("news/$index")
                             }
                         }
                     }

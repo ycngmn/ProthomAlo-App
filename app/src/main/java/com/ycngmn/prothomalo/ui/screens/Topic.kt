@@ -32,20 +32,26 @@ import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ArticlesViewModel
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.ui.screens.home.NewsColumn
 
 @Composable
 fun TopicScreen(navController: NavHostController, topicX: String, newsViewModel: NewsViewModel) {
 
+    BackHandler {
+        while (navController.navigateUp()) {
+            if (navController.currentDestination?.route != "news/{index}")
+                break
+        }
+    }
+
     val topicSlug = topicX.split("@").first()
     val topicText = topicX.split("@").last()
 
-    BackHandler {
-        navController.popBackStack("home", inclusive = false)
-    }
 
     Scaffold (
         topBar = { TopicTopBar(topicText) { navController.popBackStack("home", inclusive = false) } },
+        bottomBar = { BottomBar(navController) }
     ) {
         Column(
             modifier = Modifier

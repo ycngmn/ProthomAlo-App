@@ -54,7 +54,6 @@ fun MainNavGraph() {
                 HomePage(navController, viewModel)
             }
             composable("news/{index}",
-                arguments = listOf(navArgument("index") { type = NavType.StringType }),
                 enterTransition = { EnterTransition.None },
                 exitTransition = { fadeOut(animationSpec = tween(durationMillis = 300)) },
                 popExitTransition = { fadeOut(animationSpec = tween(durationMillis = 300)) }
@@ -63,12 +62,10 @@ fun MainNavGraph() {
             ) { backStackEntry ->
                 val str = backStackEntry.arguments?.getString("index")
                 val index = str?.split("@")?.first()?.toIntOrNull() ?: 0
-                val source = str?.split("@")?.last() ?: "home"
                 NewsLecture(
                     navController,
                     urlsVM = viewModel,
                     startIndex = index,
-                    navSource = source
                 )
             }
 
