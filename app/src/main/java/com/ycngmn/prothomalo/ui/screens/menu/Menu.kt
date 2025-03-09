@@ -91,9 +91,10 @@ fun ExpandableItem(
         if (expanded) {
 
             Column (modifier = Modifier.padding(start = 15.dp, top = 20.dp)) {
-                for (section in sections) {
+                sections.forEachIndexed { index, section ->
                     Text(section.first, modifier = Modifier.fillMaxWidth().clickable { navController.navigate("topic/${section.second}@${section.first}") })
-                    HorizontalDivider(Modifier.padding(vertical = 12.dp), thickness = 0.3.dp)
+                    if (index<sections.size-1)
+                        HorizontalDivider(Modifier.padding(vertical = 12.dp), thickness = 0.3.dp)
                 }
             }
         }

@@ -10,6 +10,7 @@ class ArticlesViewModel (key : String, isTopic: Boolean = false) : ViewModel() {
     var isTopic: Boolean
     var limit = 50
     private var section = ""
+    var isLimitReached = false
 
     private var _offset = mutableIntStateOf(0)
     var offset: State<Int> = _offset

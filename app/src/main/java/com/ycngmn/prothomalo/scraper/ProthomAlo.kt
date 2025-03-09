@@ -97,7 +97,6 @@ class ProthomAlo {
 
     private fun extractContainer (rawUrl: String, urlToSkip: String = "", isTryAgain: Boolean = false, isFieldsParam : Boolean = true) : List<ArticleContainer> {
 
-
         val fieldsParam = "&fields=headline,subheadline,url,last-published-at,hero-image-s3-key,hero-image-metadata,last-published-at,alternative"
         val url = if (isFieldsParam) rawUrl + fieldsParam else rawUrl
 

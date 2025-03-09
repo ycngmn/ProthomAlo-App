@@ -81,7 +81,8 @@ fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex:
                     news = result
                     newsCache[urls[pageIndex]] = result
                     if (urls.size > 10 && pageIndex > urls.size - 2 ) {
-                        val newUrls = palo.getArticle(section = urlsVM.getSection(), offset = urls.size, limit = 12).map { it.url }
+                         val newUrls = try {palo.getArticle(section = urlsVM.getSection(), offset = urls.size, limit = 12).map { it.url } }
+                            catch (_ : Exception) { emptyList() }
                         urlsVM.updateUrls(
                             urls + newUrls
                         )

@@ -18,9 +18,15 @@ class ArticleEngine(
 
         return withContext(Dispatchers.IO) {
             if (!viewModel.isTopic) {
-                articleClass.getArticle(
-                    viewModel.getSection(),viewModel.offset.value,viewModel.limit
-                )
+                try {
+                    articleClass.getArticle(
+                        viewModel.getSection(), viewModel.offset.value, viewModel.limit
+                    )
+                } catch (e: Exception) {
+                    viewModel.isLimitReached = true
+                    viewModel.setArticles(viewModel.articles.value.dropLast(1))
+                    emptyList()
+                }
             }
             else
                 articleClass.getSeeMore(viewModel.getSection(), urlToSkip = "&@àml", // to detect see more, not the best of the methods but works

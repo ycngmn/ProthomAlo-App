@@ -177,8 +177,9 @@ fun NewsColumn(
     }
 
     LaunchedEffect(isLoadMore) {
-        if (isLoadMore)
+        if (isLoadMore && !articlesVM.isLimitReached) {
             ArticleEngine(articlesVM).loadMoreArticles()
+        }
     }
 
     var isRefreshing by remember { mutableStateOf(false) }
@@ -209,13 +210,15 @@ fun NewsColumn(
                     }
             }
 
-            item {
-                LinearProgressIndicator(
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp, vertical = 35.dp).fillMaxWidth(),
-                    trackColor = MaterialTheme.colorScheme.background,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
+            if (!articlesVM.isLimitReached) {
+                item {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp, vertical = 35.dp).fillMaxWidth(),
+                        trackColor = MaterialTheme.colorScheme.background,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
             }
         }
     }
