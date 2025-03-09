@@ -16,6 +16,7 @@ import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.ui.screens.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.ProfileScreen
+import com.ycngmn.prothomalo.ui.screens.SearchMain
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
 import com.ycngmn.prothomalo.ui.screens.home.HomePage
 import com.ycngmn.prothomalo.ui.screens.menu.MenuScreen
@@ -91,6 +92,14 @@ fun MainNavGraph() {
                 popEnterTransition = { EnterTransition.None },
             ) {
                 MenuScreen(navController)
+            }
+
+            composable(
+                "Explore",
+                enterTransition = { EnterTransition.None },
+                popEnterTransition = { EnterTransition.None },
+            ) {
+                SearchMain()
             }
 
         }

@@ -16,6 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -80,7 +81,7 @@ fun ExpandableItem(
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
             )
             Icon(
-                Icons.Default.KeyboardArrowDown,
+                if (expanded) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
                 contentDescription = "Expand $title",
                 modifier = Modifier.size(50.dp).padding(start = 10.dp)
                     .clickable { onExpand() }
@@ -102,8 +103,6 @@ fun ExpandableItem(
         HorizontalDivider(Modifier.padding(top = 10.dp), thickness = 0.2.dp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
     }
 }
-
-
 
 
 @Composable
