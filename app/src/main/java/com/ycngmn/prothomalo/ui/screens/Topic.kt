@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -29,7 +28,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ArticlesViewModel
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
@@ -106,12 +104,6 @@ fun TopicTopBar(topic: String, onBackPressed : () -> Unit) {
                 color = MaterialTheme.colorScheme.onBackground,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
-            )
-
-            Icon(
-                painterResource(R.drawable.profile_setting_icon),
-                contentDescription = "Account_and_Setting_logo",
-                modifier = Modifier.size(35.dp).align(Alignment.CenterEnd)
             )
         }
 

@@ -37,17 +37,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.utils.ThemeViewModel
 
 
 @Composable
-fun ProfileScreen(themeViewModel: ThemeViewModel) {
+fun ProfileScreen(themeViewModel: ThemeViewModel, navController: NavController) {
 
 
     Scaffold(
         topBar = { ProfileTopBar() },
+        bottomBar = { BottomBar(navController)}
     ) {
         Column (modifier = Modifier.padding(it)){
             ProfileScreenPreview(themeViewModel)
@@ -61,7 +64,7 @@ fun ProfileScreen(themeViewModel: ThemeViewModel) {
 @Composable
 fun BasicAlertDialogSample(themeViewModel: ThemeViewModel, onDismissRequest: () -> Unit) {
 
-    val isDarkTheme by themeViewModel.isDarkTheme.collectAsState()
+    val theme by themeViewModel.theme.collectAsState()
 
     val openDialog = remember { mutableStateOf(true) }
 
@@ -70,7 +73,7 @@ fun BasicAlertDialogSample(themeViewModel: ThemeViewModel, onDismissRequest: () 
     }
 
     val options = listOf("সিস্টেম", "উজ্জ্বল", "অন্ধকার")
-    var selectedOption by remember { mutableStateOf(options[0]) } // Default selection
+    var selectedOption by remember { mutableStateOf(options[theme]) } // Default selection
 
 
     if (openDialog.value) {
@@ -119,12 +122,7 @@ fun BasicAlertDialogSample(themeViewModel: ThemeViewModel, onDismissRequest: () 
                             openDialog.value = false
                             onDismissRequest()
 
-                            when(selectedOption){
-                                options[1] -> if (isDarkTheme) {themeViewModel.toggleTheme()}
-                                options[2] -> if (!isDarkTheme) {themeViewModel.toggleTheme()}
-                            }
-
-
+                            themeViewModel.toggleTheme(options.indexOf(selectedOption))
                                   },
                         modifier = Modifier.align(Alignment.End).padding(start = 150.dp)
                     ) {

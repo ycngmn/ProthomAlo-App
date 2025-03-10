@@ -2,7 +2,6 @@ package com.ycngmn.prothomalo.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,9 +73,7 @@ fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
     Scaffold(
         topBar = {
             Surface(shadowElevation = 3.dp) {
-                TopBar(pagerState) {
-                    navController.navigate("profile")
-                }
+                TopBar(pagerState)
             }
         },
         bottomBar = { BottomBar(navController) }
@@ -98,7 +95,7 @@ fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
 }
 
 @Composable
-fun TopBar(pageState: PagerState, onProfileClick: () -> Unit = {}) {
+fun TopBar(pageState: PagerState) {
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -110,7 +107,7 @@ fun TopBar(pageState: PagerState, onProfileClick: () -> Unit = {}) {
     )
     {
         Row {
-            Box (modifier = Modifier.fillMaxWidth()) {
+            Box (modifier = Modifier.fillMaxWidth().padding(start = 10.dp)) {
                 Image(
                     painter = painterResource(R.drawable.main_logo_foreground),
                     contentDescription = "ProthomAlo_Logo",
@@ -119,15 +116,6 @@ fun TopBar(pageState: PagerState, onProfileClick: () -> Unit = {}) {
                 Image(
                     painter = painterResource(R.drawable.main_logo_background),
                     contentDescription = "ProthomAlo_Logo_red",
-                )
-
-                Icon(
-                    painterResource(R.drawable.profile_setting_icon),
-                    contentDescription = "Account_and_Setting_logo",
-                    modifier = Modifier.align(Alignment.CenterEnd)
-                        .padding(end = 10.dp).clickable {
-                           onProfileClick()
-                        },
                 )
             }
 
@@ -242,7 +230,7 @@ fun BottomBar(navController: NavController ) {
 
     val sections = listOf(
         BottomNavItem("home", R.drawable.pa_icon, "প্রচ্ছদ"),
-        BottomNavItem("Explore", R.drawable.discover_icon, "অন্বেষণ"),
+        BottomNavItem("Settings", R.drawable.discover_icon, "বিন্যাস"),
         BottomNavItem("Bookmark", R.drawable.bookmark_icon, "সংরক্ষণ"),
         BottomNavItem("Menu", R.drawable.menu_icon, "তালিকা")
     )
