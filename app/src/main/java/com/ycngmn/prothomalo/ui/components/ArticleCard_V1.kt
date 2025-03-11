@@ -4,19 +4,25 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -25,6 +31,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ArticleContainer
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.PaloRed
@@ -56,6 +63,7 @@ fun ArticleCard_V1(
     Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)
         .clickable { clickAction() }) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+
             Text(
                 text = titleBuilder(article.subHead, article.title, PaloRed, MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.padding(start = 20.dp, top = 20.dp).weight(0.8f),
@@ -64,15 +72,35 @@ fun ArticleCard_V1(
                 fontWeight = FontWeight.Bold
             )
 
-            Image(
-                painter = rememberAsyncImagePainter(article.thumbnail),
-                contentDescription = "News Image", // later todo
-                modifier = Modifier
-                    .width(150.dp)
-                    .height(100.dp)
-                    .padding(start = 10.dp, top = 20.dp, end = 20.dp),
-                contentScale = ContentScale.Crop
-            )
+            Box (modifier = Modifier.width(150.dp)
+                .height(100.dp)
+                .padding(start = 10.dp, top = 20.dp, end = 20.dp)) {
+
+                Image(
+                    painter = rememberAsyncImagePainter(article.thumbnail),
+                    contentDescription = "News Image", // later todo
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+                val iconRes = when {
+                    article.url.contains("/video/") -> R.drawable.video_library_24px
+                    article.url.contains("/photo/") -> R.drawable.photo_library_24px
+                    else -> null
+                }
+
+                iconRes?.let {
+                    Icon(
+                        painter = painterResource(id = it),
+                        contentDescription = if (article.url.contains("/video/")) "Video" else "Photo",
+                        tint = PaloRed,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+
+            }
         }
 
         Text(
