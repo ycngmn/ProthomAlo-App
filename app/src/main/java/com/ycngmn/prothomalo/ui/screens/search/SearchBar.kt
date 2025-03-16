@@ -13,15 +13,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,9 +33,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -103,9 +109,13 @@ fun PaloSeachBar(
 
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun FilterBar() {
+
+    var filterDate = rememberDatePickerState()
 
     Card(
         modifier = Modifier
@@ -118,28 +128,104 @@ fun FilterBar() {
 
         Column (modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-            Column (horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = "আরও নির্দিষ্ট করে খুঁজুন",
+
+            Text(
+                text = "আরও নির্দিষ্ট করে খুঁজুন",
+                fontFamily = ShurjoFamily,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+
+
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                singleLine = true,
+                trailingIcon = { Icon(
+                    Icons.Default.DateRange,
+                    contentDescription = "Date",
+                    tint = MaterialTheme.colorScheme.onBackground
+                    ) },
+                label = { Text("তারিখ",
                     fontFamily = ShurjoFamily,
                     color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-                HorizontalDivider(color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f))
-            }
+                    fontSize = 16.sp,
+                    modifier = Modifier.background(Color.Transparent)
+                    ) },
+                modifier = Modifier.fillMaxWidth().onFocusChanged {  },
+                colors = TextFieldDefaults.colors(focusedIndicatorColor = PaloBlue,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground)
+            )
 
             TextField(
                 value = "",
                 onValueChange = {},
                 singleLine = true,
+                trailingIcon = { Icon(
+                    Icons.Default.Person,
+                    contentDescription = "Date",
+                    tint = MaterialTheme.colorScheme.onBackground
+                ) },
+                placeholder = { Text("লেখক") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(focusedIndicatorColor = PaloBlue,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground)
+            )
+
+            TextField(
+                value = "",
+                onValueChange = {},
+                singleLine = true,
+                trailingIcon = { Icon(
+                    Icons.Default.DateRange,
+                    contentDescription = "Date",
+                    tint = MaterialTheme.colorScheme.onBackground
+                ) },
                 placeholder = { Text("তারিখ") },
                 modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.colors(focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent)
+                colors = TextFieldDefaults.colors(focusedIndicatorColor = PaloBlue,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground)
             )
 
 
         }
     }
+}
+
+@Composable
+fun FilterTextFieldMaker() {
+
+    var isFocused by remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        value = "",
+        onValueChange = {},
+        singleLine = true,
+        trailingIcon = { Icon(
+            Icons.Default.DateRange,
+            contentDescription = "Date",
+            tint = MaterialTheme.colorScheme.onBackground
+        ) },
+        label = { if (isFocused)
+            Text(
+                text ="তারিখ",
+                fontFamily = ShurjoFamily,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 16.sp,
+                modifier = Modifier.background(Color.Transparent)
+            ) else Text(
+            text ="তারিখ",
+            fontFamily = ShurjoFamily,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.background(Color.Black)
+        ) },
+        modifier = Modifier.fillMaxWidth().onFocusChanged { isFocused = it.isFocused },
+        colors = TextFieldDefaults.colors(focusedIndicatorColor = PaloBlue,
+            unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground)
+    )
+
 }
