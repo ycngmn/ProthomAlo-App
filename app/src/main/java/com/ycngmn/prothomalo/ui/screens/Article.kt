@@ -59,8 +59,10 @@ import kotlinx.coroutines.launch
 fun NewsLecture(navController: NavController, urlsVM: NewsViewModel, startIndex: Int = 0) {
 
     BackHandler {
-        if (!navController.popBackStack(route = "topic/{topicKey}", inclusive = false))
-            navController.popBackStack("home", inclusive = false)
+        if (!navController.popBackStack(route = "topic/{topicKey}", inclusive = false)) {
+            if (!navController.popBackStack(route = "search", inclusive = false))
+                navController.popBackStack("home", inclusive = false)
+        }
     }
 
     val urls = urlsVM.newsUrls

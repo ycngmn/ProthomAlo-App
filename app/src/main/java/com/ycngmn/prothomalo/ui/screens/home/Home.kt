@@ -138,8 +138,6 @@ fun TopBar(pageState: PagerState) {
 }
 
 
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsColumn(
@@ -156,6 +154,7 @@ fun NewsColumn(
     }
 
     val listState = rememberForeverLazyListState(key = articlesVM.getSection())
+
 
     val isLoadMore by remember(articlesVM.offset) {
         derivedStateOf {

@@ -17,7 +17,19 @@ class ArticleEngine(
     private suspend fun fetchArticlesFromNetwork(): List<ArticleContainer> {
 
         return withContext(Dispatchers.IO) {
-            if (!viewModel.isTopic) {
+
+            if (viewModel.isSearch) {
+                articleClass.search(
+                    query =  viewModel.searchVM.searchText,
+                    author = viewModel.searchVM.selectedAuthor,
+                    sections = viewModel.searchVM.selectedSections,
+                    types = viewModel.searchVM.selectedTypes,
+                    offset = viewModel.offset.value,
+                    limit = viewModel.limit,
+                )
+            }
+
+            else if (!viewModel.isTopic) {
                 try {
                     articleClass.getArticle(
                         viewModel.getSection(), viewModel.offset.value, viewModel.limit
@@ -50,6 +62,5 @@ class ArticleEngine(
         viewModel.setArticles(emptyList())
         loadArticles()
     }
-
 
 }

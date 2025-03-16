@@ -24,6 +24,8 @@ import com.ycngmn.prothomalo.ui.screens.ProfileScreen
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
 import com.ycngmn.prothomalo.ui.screens.home.HomePage
 import com.ycngmn.prothomalo.ui.screens.menu.MenuScreen
+import com.ycngmn.prothomalo.ui.screens.search.SearchResultScreen
+import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
 import com.ycngmn.prothomalo.ui.theme.ProthomAloTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -67,6 +69,7 @@ fun MainNavGraph() {
 
     val navController = rememberNavController()
     val viewModel: NewsViewModel = viewModel()
+    val searchViewModel: SearchViewModel = viewModel()
 
     val context = LocalContext.current
     val dataStoreManager = remember { DataStoreManager(context) }
@@ -102,7 +105,8 @@ fun MainNavGraph() {
                 )
             }
 
-            composable("topic/{topicKey}",
+            composable(
+                route = "topic/{topicKey}",
                 arguments = listOf(navArgument("topicKey") { type = NavType.StringType }),
                 enterTransition = { EnterTransition.None },
                 exitTransition = { fadeOut(animationSpec = tween(durationMillis = 300)) },
@@ -112,20 +116,22 @@ fun MainNavGraph() {
                 TopicScreen(navController, topicKey, viewModel)
             }
             composable(
-                "Menu",
+                route = "Menu",
                 enterTransition = { EnterTransition.None },
                 popEnterTransition = { EnterTransition.None },
-            ) {
-                MenuScreen(navController)
-            }
+            ) { MenuScreen(navController,searchViewModel) }
 
             composable(
-                "Settings",
+                route = "Settings",
                 enterTransition = { EnterTransition.None },
                 popEnterTransition = { EnterTransition.None },
-            ) {
-                ProfileScreen(themeViewModel, navController)
-            }
+            ) { ProfileScreen(themeViewModel, navController) }
+
+            composable(
+                route = "search",
+                enterTransition = { EnterTransition.None },
+                popEnterTransition = { EnterTransition.None },
+            ) { SearchResultScreen(navController, searchViewModel, viewModel) }
 
         }
     }

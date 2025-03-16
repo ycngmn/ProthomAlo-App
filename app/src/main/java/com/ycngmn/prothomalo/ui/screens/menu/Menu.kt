@@ -18,10 +18,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
+import com.ycngmn.prothomalo.ui.screens.search.FilterBar
+import com.ycngmn.prothomalo.ui.screens.search.PaloSeachBar
+import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
 
 
 @Composable
-fun MenuScreen(navController: NavHostController) {
+fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewModel) {
 
     val scrollState = rememberScrollState()
     var expandedStates by rememberSaveable { mutableStateOf(List(sectionMap.size) { false }) }
@@ -36,10 +39,11 @@ fun MenuScreen(navController: NavHostController) {
                 .padding(it).padding(16.dp, 16.dp, 16.dp, 0.dp)
                 .verticalScroll(scrollState),
         ) {
-            PaloSeachBar(isSearchFilterVisible) { isSearchFilterVisible = !isSearchFilterVisible }
-            if (isSearchFilterVisible) {
-                FilterBar()
-            }
+            PaloSeachBar(isSearchFilterVisible, searchViewModel,
+                onBackPress = { isSearchFilterVisible = !isSearchFilterVisible },
+                onSearch = {
+                    navController.navigate("search")
+                })
 
             Row(
                 modifier = Modifier.fillMaxWidth()
@@ -73,7 +77,7 @@ fun MenuScreen(navController: NavHostController) {
         }
         if (isSearchFilterVisible) {
             Column {
-                FilterBar()
+                FilterBar(searchViewModel)
             }
 
         }

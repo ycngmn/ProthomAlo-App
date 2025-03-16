@@ -1,6 +1,7 @@
 package com.ycngmn.prothomalo.scraper
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -181,8 +182,6 @@ class ProthomAlo {
         val newsBody = mutableListOf<Any>()
 
         val imageHost = "https://media.prothomalo.com/"
-
-
         var coverImage = ""
 
         if (!newsUrlx.contains("/video/")) {
@@ -245,8 +244,50 @@ class ProthomAlo {
         return NewsContainer (
             headline.trim(),summary.trim(), author, authorLocation, formatTimeAgo(date), section.trim(),
             sectionSlug, newsBody, moreArticles, mainKeyword )
+    }
 
+    private fun extractSearch(rawUrl: String): List<ArticleContainer> {
+        val fieldsParam = "&fields=headline,subheadline,url,last-published-at,hero-image-s3-key,hero-image-metadata,last-published-at,alternative"
+        val url =  rawUrl + fieldsParam
 
+        Log.d("duck", url)
+
+        val doc = Jsoup.connect(url).maxBodySize(0)
+            .ignoreContentType(true).execute()
+
+        val respJson = JSONObject(doc.body())
+
+        val articleContainers = mutableListOf<ArticleContainer>()
+
+        val stories = respJson.getJSONObject("data")
+            .getJSONArray("stories")
+
+        for (i in 0 until stories.length()) {
+            val story = stories.getJSONObject(i)
+            articleContainers += articleFromStory(story)
+        }
+        return articleContainers
+    }
+
+    fun search(query: String, author: String,
+        sections: List<String>,
+        types: List<String>, offset : Int = 0,
+        limit : Int = 15): List<ArticleContainer> {
+
+        var searchUrl = "$webUrl/route-data.json?path=search&offset=$offset&limit=$limit"
+        if (query.isNotEmpty()) {
+            searchUrl += "&q=$query"
+        }
+        if (author.isNotEmpty()) {
+            searchUrl += "&author=$author"
+        }
+        if (sections.isNotEmpty()) {
+            searchUrl += "&section=${sections.joinToString(",")}"
+        }
+        if (types.isNotEmpty()) {
+            searchUrl += "&type=${types.joinToString(",")}"
+        }
+        return extractSearch(searchUrl)
     }
 
 }
