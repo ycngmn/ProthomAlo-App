@@ -53,7 +53,7 @@ import com.ycngmn.prothomalo.ui.theme.PaloBlue
 
 
 @Composable
-fun PaloSeachBar(
+fun PaloSearchBar(
     isSearchFilterVisible: Boolean,
     searchViewModel: SearchViewModel,
     onBackPress: () -> Unit,

@@ -103,14 +103,14 @@ fun ArticleCard_V1(
             }
         }
 
-        Text(
-            text = article.date,
-            modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
-            fontWeight = FontWeight.Normal,
-            fontSize = 13.sp,
-            color = Color.Gray,
-            fontFamily = ShurjoFamily,
-        )
+            Text(
+                text = article.date,
+                modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
+                fontWeight = FontWeight.Normal,
+                fontSize = 13.sp,
+                color = Color.Gray,
+                fontFamily = ShurjoFamily,
+            )
 
         HorizontalDivider(
             modifier = Modifier.padding(start = 20.dp, end = 20.dp),

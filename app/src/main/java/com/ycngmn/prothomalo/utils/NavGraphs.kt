@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.NewsViewModel
+import com.ycngmn.prothomalo.ui.screens.BookmarkScreen
 import com.ycngmn.prothomalo.ui.screens.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.ProfileScreen
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
@@ -126,6 +127,12 @@ fun MainNavGraph() {
                 enterTransition = { EnterTransition.None },
                 popEnterTransition = { EnterTransition.None },
             ) { ProfileScreen(themeViewModel, navController) }
+
+            composable(
+                route = "Bookmark",
+                enterTransition = { EnterTransition.None },
+                popEnterTransition = { EnterTransition.None },
+            ) { BookmarkScreen(navController) }
 
             composable(
                 route = "search",

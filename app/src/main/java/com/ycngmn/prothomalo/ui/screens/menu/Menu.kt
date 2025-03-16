@@ -19,7 +19,7 @@ import androidx.navigation.NavHostController
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.ui.screens.search.FilterBar
-import com.ycngmn.prothomalo.ui.screens.search.PaloSeachBar
+import com.ycngmn.prothomalo.ui.screens.search.PaloSearchBar
 import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
 
 
@@ -39,7 +39,7 @@ fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewMode
                 .padding(it).padding(16.dp, 16.dp, 16.dp, 0.dp)
                 .verticalScroll(scrollState),
         ) {
-            PaloSeachBar(isSearchFilterVisible, searchViewModel,
+            PaloSearchBar(isSearchFilterVisible, searchViewModel,
                 onBackPress = { isSearchFilterVisible = !isSearchFilterVisible },
                 onSearch = {
                     navController.navigate("search")

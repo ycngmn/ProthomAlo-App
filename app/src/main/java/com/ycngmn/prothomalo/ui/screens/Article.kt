@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -20,6 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +37,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.fromHtml
@@ -45,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.ycngmn.prothomalo.NewsViewModel
+import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.NewsContainer
 import com.ycngmn.prothomalo.scraper.ProthomAlo
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
@@ -251,7 +255,7 @@ fun NewsHead(
             )
 
 
-        FlowRow (modifier = Modifier.padding(vertical = 10.dp)) {
+        FlowRow (modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp ).fillMaxWidth()){
 
             if (news.author != "null") {
                 val authorText = news.author!!
@@ -261,7 +265,6 @@ fun NewsHead(
 
                 Text(
                     text = authorText,
-                    Modifier.padding(start = 16.dp),
                     fontFamily = ShurjoFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 17.sp,
@@ -269,17 +272,23 @@ fun NewsHead(
                 )
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(Modifier.weight(1F))
 
             Text(
                 text = news.date,
-                Modifier.padding(horizontal = 16.dp),
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 17.sp,
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
+        Icon(
+            painter = painterResource(R.drawable.bookmark_icon),
+            contentDescription = "Bookmark article",
+            modifier = Modifier.size(45.dp).padding(bottom = 20.dp)
+                .clickable {TODO()},
+            tint = MaterialTheme.colorScheme.onBackground,
+        )
 
     HorizontalDivider(modifier = Modifier
         .padding(16.dp, 5.dp, 10.dp)

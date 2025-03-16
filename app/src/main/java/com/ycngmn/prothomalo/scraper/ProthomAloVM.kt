@@ -14,6 +14,7 @@ class ArticlesViewModel (key : String,
     var searchVM: SearchViewModel
     var isTopic: Boolean
     var isSearch : Boolean
+    var nbArticles = mutableIntStateOf(-1)
 
     var limit = 50
     private var section = ""
@@ -42,6 +43,7 @@ class ArticlesViewModel (key : String,
     }
 
     fun setArticles(articles : List<ArticleContainer>) {
+        nbArticles.intValue = articles.size
         _articles.value = articles
     }
 }

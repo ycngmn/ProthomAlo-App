@@ -1,7 +1,6 @@
 package com.ycngmn.prothomalo.scraper
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -249,8 +248,6 @@ class ProthomAlo {
     private fun extractSearch(rawUrl: String): List<ArticleContainer> {
         val fieldsParam = "&fields=headline,subheadline,url,last-published-at,hero-image-s3-key,hero-image-metadata,last-published-at,alternative"
         val url =  rawUrl + fieldsParam
-
-        Log.d("duck", url)
 
         val doc = Jsoup.connect(url).maxBodySize(0)
             .ignoreContentType(true).execute()
