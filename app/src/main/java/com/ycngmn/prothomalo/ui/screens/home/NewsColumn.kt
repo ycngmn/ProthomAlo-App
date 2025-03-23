@@ -40,6 +40,7 @@ fun NewsColumn(
         ErrorPage(navController)
         return
     }
+    
     else if (articlesVM.articles.value.isEmpty()) {
         LoadingAnimation()
         ArticleEngine(articlesVM).loadArticles()

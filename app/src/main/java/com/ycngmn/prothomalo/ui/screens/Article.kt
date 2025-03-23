@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
@@ -282,13 +283,43 @@ fun NewsHead(
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
-        Icon(
-            painter = painterResource(R.drawable.bookmark_icon),
-            contentDescription = "Bookmark article",
-            modifier = Modifier.size(45.dp).padding(bottom = 20.dp)
-                .clickable {TODO()},
-            tint = MaterialTheme.colorScheme.onBackground,
-        )
+        Row (Modifier.padding(bottom = 20.dp, start = 14.dp, end = 14.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+
+            Icon(
+                painter = painterResource(R.drawable.text_increase_40px),
+                contentDescription = "Bookmark article",
+                modifier = Modifier.size(25.dp)
+                    .clickable { TODO() },
+                tint = MaterialTheme.colorScheme.onBackground,
+            )
+            Icon(
+                painter = painterResource(R.drawable.text_decrease_40px),
+                contentDescription = "Bookmark article",
+                modifier = Modifier.size(25.dp),
+                tint = MaterialTheme.colorScheme.onBackground,
+            )
+
+            Spacer(modifier = Modifier.weight(1F))
+
+            Icon(
+                painter = painterResource(R.drawable.bookmark_icon),
+                contentDescription = "Bookmark article",
+                modifier = Modifier.size(25.dp)
+                    .clickable { TODO() },
+                tint = MaterialTheme.colorScheme.onBackground,
+            )
+
+            Icon(
+                painter = painterResource(R.drawable.share_windows_40px),
+                contentDescription = "Share article",
+                modifier = Modifier.size(25.dp)
+                    .clickable { TODO() },
+                tint = MaterialTheme.colorScheme.onBackground,
+            )
+
+
+
+        }
 
     HorizontalDivider(modifier = Modifier
         .padding(16.dp, 5.dp, 10.dp)

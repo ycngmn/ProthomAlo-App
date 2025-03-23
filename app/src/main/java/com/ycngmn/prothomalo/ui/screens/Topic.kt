@@ -106,6 +106,5 @@ fun TopicTopBar(topic: String, onBackPressed : () -> Unit) {
                 overflow = TextOverflow.Ellipsis
             )
         }
-
     }
 }

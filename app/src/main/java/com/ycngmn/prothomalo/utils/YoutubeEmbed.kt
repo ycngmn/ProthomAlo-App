@@ -29,7 +29,7 @@ import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
   * */
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun YouTubeVideo(embedUrl: String) {
+fun YouTubeVideo(embedUrl: String, source: String = "home") {
     var isLoading by remember { mutableStateOf(true) }
 
     Box(
@@ -60,7 +60,7 @@ fun YouTubeVideo(embedUrl: String) {
                             isLoading = false
                         }
                     }
-                    loadUrl("$embedUrl?autoplay=1&mute=0&playsinline=1")
+                    loadUrl("$embedUrl?autoplay=${if (source=="video") 1 else 0}&mute=0&playsinline=1")
                 }
             },
             modifier = Modifier
