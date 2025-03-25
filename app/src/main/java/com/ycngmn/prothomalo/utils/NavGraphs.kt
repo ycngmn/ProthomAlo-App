@@ -5,8 +5,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
@@ -20,9 +22,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.ui.screens.BookmarkScreen
-import com.ycngmn.prothomalo.ui.screens.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.ProfileScreen
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
+import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.home.HomePage
 import com.ycngmn.prothomalo.ui.screens.menu.MenuScreen
 import com.ycngmn.prothomalo.ui.screens.search.SearchResultScreen
@@ -38,16 +40,28 @@ class ThemeViewModel(private val dataStoreManager: DataStoreManager) : ViewModel
     private val _theme = MutableStateFlow(0)
     val theme: StateFlow<Int> = _theme
 
+    private val _isSeeMoreEnabled = mutableStateOf(true)
+    val isSeeMoreEnabled: State<Boolean> = _isSeeMoreEnabled
+
     init {
         runBlocking { // wait to avoid premature theme load.
             _theme.value = dataStoreManager.themeState.first()
+            _isSeeMoreEnabled.value =  dataStoreManager.seeMoreState.first()
         }
+
     }
 
     fun toggleTheme(state: Int) {
         _theme.value = state
         viewModelScope.launch {
             dataStoreManager.saveThemeState(state)
+        }
+    }
+
+    fun toggleSeeMore(state: Boolean) {
+        _isSeeMoreEnabled.value = state
+        viewModelScope.launch {
+            dataStoreManager.saveSeeMoreState(state)
         }
     }
 
@@ -103,6 +117,7 @@ fun MainNavGraph() {
                     navController,
                     urlsVM = viewModel,
                     startIndex = index,
+                    themeViewModel
                 )
             }
 
