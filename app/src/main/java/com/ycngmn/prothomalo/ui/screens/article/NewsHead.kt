@@ -54,6 +54,7 @@ fun NewsHead(
             fontFamily = ShurjoFamily,
             fontWeight = FontWeight.SemiBold,
             fontSize = 20.sp,
+            lineHeight = 25.sp,
             color = PaloBlue,
         )
 
@@ -62,7 +63,7 @@ fun NewsHead(
             Modifier.padding(16.dp, 7.dp, 25.dp, 10.dp),
             fontFamily = ShurjoFamily,
             fontWeight = FontWeight.Bold,
-            fontSize = 25f.sp,
+            fontSize = 40.sp,
             color = MaterialTheme.colorScheme.onBackground
         )
 
@@ -104,12 +105,13 @@ fun NewsHead(
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
+
         Row (Modifier.padding(bottom = 20.dp, start = 14.dp, end = 14.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
 
             Icon(
                 painter = painterResource(R.drawable.text_increase_40px),
                 contentDescription = "Bookmark article",
-                modifier = Modifier.size(25.dp)
+                modifier = Modifier.size(30.dp)
                     .clickable { TODO() },
                 tint = MaterialTheme.colorScheme.onBackground,
             )
@@ -137,9 +139,6 @@ fun NewsHead(
                     .clickable { TODO() },
                 tint = MaterialTheme.colorScheme.onBackground,
             )
-
-
-
         }
 
         HorizontalDivider(modifier = Modifier

@@ -1,8 +1,10 @@
 package com.ycngmn.prothomalo.ui.components
 
+import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,10 +20,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -33,8 +37,12 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ArticleContainer
+import com.ycngmn.prothomalo.scraper.ProthomAlo
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDatabaseHelper
 import com.ycngmn.prothomalo.ui.theme.PaloRed
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 fun titleBuilder(subHead: String, title: String, subColor: Color, titleColor: Color): AnnotatedString {
@@ -55,13 +63,28 @@ fun titleBuilder(subHead: String, title: String, subColor: Color, titleColor: Co
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ArticleCard_V1(
     article: ArticleContainer,
     clickAction: () -> Unit
 ) {
+    val context = LocalContext.current
+    val database = BookmarkDatabaseHelper.getInstance(context)
+    val bookmarkDao = database.bookmarkDao()
+    val coroutineScope = rememberCoroutineScope()
     Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)
-        .clickable { clickAction() }) {
+        .combinedClickable(
+            onClick = clickAction,
+            onLongClick = {
+                    coroutineScope.launch(Dispatchers.IO) {
+                        val result = ProthomAlo().getNews(article.url)
+                        bookmarkDao.insertBookmark(result)
+                    }
+                Toast.makeText(context, "নিবন্ধটি সফলভাবে সংরক্ষণ করা হয়েছে", Toast.LENGTH_SHORT).show()
+            }
+        )
+    ) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
 
             Text(

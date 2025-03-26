@@ -1,9 +1,11 @@
 package com.ycngmn.prothomalo.scraper
 
-import android.net.Uri
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.core.net.toUri
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.ycngmn.prothomalo.R
 import org.json.JSONObject
 import org.jsoup.Jsoup
@@ -24,6 +26,7 @@ data class ArticleContainer (
     val subHead: String = ""
 )
 
+@Entity(tableName = "bookmarks")
 data class NewsContainer(
     val headline: String,
     val summary: String?,
@@ -32,13 +35,14 @@ data class NewsContainer(
     val date: String = "",
     val section: String = "",
     val sectionSlug: String,
-    val body: List<Any>,
+    val body: List<Pair<String, String>>,
     val readAlso: List<ArticleContainer> = emptyList(),
-    val readAlsoText: String = ""
+    val readAlsoText: String = "",
+    @PrimaryKey(autoGenerate = true) val newsId: Int = 0,
 )
 
 
-class ProthomAlo {
+open class ProthomAlo {
 
     private val webUrl = "https://www.prothomalo.com"
 
@@ -121,7 +125,7 @@ class ProthomAlo {
                         newsContainer.getJSONObject("story")
                     else newsContainer
             }
-            catch (e : org.json.JSONException) {
+            catch (_ : org.json.JSONException) {
                 return tryAgainExtract(rawUrl, urlToSkip)
             }
 
@@ -168,7 +172,7 @@ class ProthomAlo {
     fun getNews (newsUrlx : String) : NewsContainer {
 
         val newsUrl = newsUrlx.replace("%3A",":").replace("%2F","/")
-        val parsedUrl = Uri.parse(newsUrl)
+        val parsedUrl = newsUrl.toUri()
         val routeUrl = "https://${parsedUrl.host}/route-data.json?path=${parsedUrl.path}"
 
         val doc = Jsoup.connect(routeUrl).ignoreContentType(true).execute()
@@ -178,7 +182,7 @@ class ProthomAlo {
         val cardObjects = storyObject.getJSONArray("cards")
 
 
-        val newsBody = mutableListOf<Any>()
+        val newsBody = mutableListOf<Pair<String, String>>()
 
         val imageHost = "https://media.prothomalo.com/"
         var coverImage = ""
@@ -191,7 +195,8 @@ class ProthomAlo {
             val coverImageAttribution = storyObject.optString("image-attribution") ?: ""
             if (coverImageAttribution != "null" && coverImageAttribution.isNotEmpty())
                 coverImageCaption += " | $coverImageAttribution"
-            newsBody += Pair(coverImage, coverImageCaption)
+            newsBody += Pair("image",coverImage)
+            newsBody += Pair("caption",coverImageCaption)
         }
 
         for (i in 0 until cardObjects.length()) {
@@ -203,7 +208,7 @@ class ProthomAlo {
                 if (storyElement.getString("type") == "text" &&
                     ((storyElement.getString("subtype") == "null") || newsUrlx.contains("/video/"))) {
                     val text = storyElement.optString("text") ?: ""
-                    newsBody += text
+                    newsBody += Pair("text",text)
                 } else if (storyElement.getString("type") == "image") {
                     val imgUrl = "https://media.prothomalo.com/" + storyElement
                         .getString("image-s3-key")
@@ -211,10 +216,11 @@ class ProthomAlo {
                     val imageAttribution = storyElement.optString("image-attribution") ?: ""
                     if (imageAttribution != "null" && imageAttribution.isNotEmpty())
                         caption += " | $imageAttribution"
-                    newsBody += Pair(imgUrl, caption)
+                    newsBody += Pair("image",imgUrl)
+                    newsBody += Pair("caption",caption)
                 } else if (storyElement.getString("type") == "youtube-video") {
                     val embedUrl = storyElement.getString("embed-url")
-                    newsBody += embedUrl
+                    newsBody += Pair("video",embedUrl)
                 }
             }
         }

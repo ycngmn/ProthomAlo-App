@@ -111,33 +111,31 @@ fun NewsLecture(
                 }
                 news!!.body.forEach {
 
-                    if (it is String) {
-
-                        if (it.contains("https://www.youtube.com/embed/")) {
+                    if (it.first == "video") {
+                        if (it.second.contains("https://www.youtube.com/embed/")) {
                             if (pagerState.currentPage == pageIndex) {
-                                YouTubeVideo(it)
+                                YouTubeVideo(it.second)
                                 Spacer(modifier = Modifier.padding(bottom = 16.dp))
                             }
                         }
-
-                        else {
-                            Text(
-                                AnnotatedString.fromHtml(
-                                    it.replace("</p><p>", "<br><br>")
-                                        .replace(Regex("^<p>|</p>$"), "") + "<br>"
-                                ),
-                                modifier = Modifier.padding(horizontal = 16.dp),
-                                fontFamily = ShurjoFamily,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 18.sp,
-                                textAlign = TextAlign.Start,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
                     }
-                    else if (it is Pair<*, *> && it.first.toString().isNotEmpty() && !it.first.toString().contains(".avif")) {
+
+                    else if (it.first == "text") {
+                        Text(
+                            AnnotatedString.fromHtml(
+                                it.second.replace("</p><p>", "<br><br>")
+                                    .replace(Regex("^<p>|</p>$"), "") + "<br>"),
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            fontFamily = ShurjoFamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Start,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                    else if (it.first == "image" && !it.second.contains(".avif")) {
                             SubcomposeAsyncImage(
-                                model = it.first.toString(),
+                                model = it.second,
                                 contentDescription = "News Image",
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
@@ -150,19 +148,19 @@ fun NewsLecture(
                                     // do nothing
                                 }
                             )
-                            if (it.second.toString() != "null") {
-                                Text(
-                                    text = it.second.toString(),
-                                    Modifier.padding(16.dp, 16.dp, 16.dp, 10.dp),
-                                    fontFamily = ShurjoFamily,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 15.sp,
-                                    color = Color.Gray,
-                                    textAlign = TextAlign.Start
-                                )
-                            } else Spacer(modifier = Modifier.padding(bottom = 16.dp))
-
                     }
+                    else if (it.second.toString() != "null") {
+                        Text(
+                            text = it.second.toString(),
+                            Modifier.padding(16.dp, 16.dp, 16.dp, 10.dp),
+                            fontFamily = ShurjoFamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 15.sp,
+                            color = Color.Gray,
+                            textAlign = TextAlign.Start
+                        )
+                    } else Spacer(modifier = Modifier.padding(bottom = 16.dp))
+
                 }
 
                 if (news!!.readAlso.isNotEmpty() && themeViewModel.isSeeMoreEnabled.value) {

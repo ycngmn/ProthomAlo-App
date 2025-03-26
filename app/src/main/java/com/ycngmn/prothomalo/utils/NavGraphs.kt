@@ -21,7 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.ui.screens.BookmarkScreen
+import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkScreen
 import com.ycngmn.prothomalo.ui.screens.ProfileScreen
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture

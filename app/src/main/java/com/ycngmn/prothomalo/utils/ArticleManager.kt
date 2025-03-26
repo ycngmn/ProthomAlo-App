@@ -58,9 +58,11 @@ class ArticleEngine(
     }
 
     fun refreshArticles() {
+
         viewModel.setOffset(0)
         viewModel.setArticles(emptyList())
         loadArticles()
+        viewModel.nbArticles.intValue = -1
     }
 
 }
