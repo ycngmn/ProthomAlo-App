@@ -73,7 +73,7 @@ class NewsConverters {
 
 @Dao
 interface BookmarkDao {
-    @Query("Select * from bookmarks")
+    @Query("Select * from bookmarks Order by newsId DESC")
     suspend fun getBookmarks(): List<NewsContainer>
 
     @Query("Delete from bookmarks where newsId = :newsId")

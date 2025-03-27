@@ -30,6 +30,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
@@ -40,10 +42,11 @@ import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.scraper.NewsContainer
-import com.ycngmn.prothomalo.scraper.ProthomAlo
+import com.ycngmn.prothomalo.scraper.PaloEnglish
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
+import com.ycngmn.prothomalo.ui.theme.PaloBlue
 import com.ycngmn.prothomalo.utils.ThemeViewModel
 import com.ycngmn.prothomalo.utils.YouTubeVideo
 import kotlinx.coroutines.Dispatchers
@@ -56,7 +59,7 @@ fun NewsLecture(
     startIndex: Int = 0,
     themeViewModel: ThemeViewModel) {
 
-    BackHandler {
+    BackHandler { // these if statements execute stuffs
         if (!navController.popBackStack(route = "topic/{topicKey}", inclusive = false)) {
             if (!navController.popBackStack(route = "search", inclusive = false))
                 navController.popBackStack("home", inclusive = false)
@@ -64,33 +67,37 @@ fun NewsLecture(
     }
 
     val urls = urlsVM.newsUrls
-    val pagerState = rememberPagerState(initialPage = startIndex, pageCount = { urls.size } )
+    val pagerState = rememberPagerState(initialPage = startIndex, pageCount = { urls.size })
     val coroutineScope = rememberCoroutineScope()
-    val palo = ProthomAlo()
-
+    val palo = PaloEnglish()
     val newsCache = remember { mutableStateMapOf<String, NewsContainer?>() }
 
     HorizontalPager(state = pagerState) { pageIndex ->
 
         var news by remember { mutableStateOf<NewsContainer?>(null) }
+        val url = urls[pageIndex]
 
-        if (!newsCache.containsKey(urls[pageIndex])) {
-            LaunchedEffect(urls[pageIndex]) {
+        LaunchedEffect(url) {
+            if (!newsCache.containsKey(url)) {
                 coroutineScope.launch(Dispatchers.IO) {
-                    val result = palo.getNews(urls[pageIndex])
-                    news = result
-                    newsCache[urls[pageIndex]] = result
-                    if (urls.size > 10 && pageIndex > urls.size - 2 ) {
-                         val newUrls = try {palo.getArticle(section = urlsVM.getSection(), offset = urls.size, limit = 12).map { it.url } }
-                            catch (_ : Exception) { emptyList() }
-                        urlsVM.updateUrls(
-                            urls + newUrls
-                        )
+                    palo.getNews(url).let { result ->
+                        news = result
+                        newsCache[url] = result
+                    }
+                    // Load more articles if near the end
+                    if (urls.size > 10 && pageIndex > urls.size - 2) {
+                        val newUrls = runCatching {
+                            palo.getArticle(
+                                section = urlsVM.getSection(),
+                                offset = urls.size,
+                                limit = 12
+                            ).map { it.url }
+                        }.getOrElse { emptyList() }
+                        urlsVM.updateUrls(urls + newUrls)
                     }
                 }
             }
-        } else {
-            news = newsCache[urls[pageIndex]]
+            else news = newsCache[url]
         }
 
         Column(
@@ -111,12 +118,10 @@ fun NewsLecture(
                 }
                 news!!.body.forEach {
 
-                    if (it.first == "video") {
-                        if (it.second.contains("https://www.youtube.com/embed/")) {
-                            if (pagerState.currentPage == pageIndex) {
-                                YouTubeVideo(it.second)
-                                Spacer(modifier = Modifier.padding(bottom = 16.dp))
-                            }
+                    if (it.second.contains("https://www.youtube.com/embed/")) {
+                        if (pagerState.currentPage == pageIndex) {
+                            YouTubeVideo(it.second)
+                            Spacer(modifier = Modifier.padding(bottom = 16.dp))
                         }
                     }
 
@@ -124,7 +129,9 @@ fun NewsLecture(
                         Text(
                             AnnotatedString.fromHtml(
                                 it.second.replace("</p><p>", "<br><br>")
-                                    .replace(Regex("^<p>|</p>$"), "") + "<br>"),
+                                    .replace(Regex("^<p>|</p>$"), "") + "<br>",
+                                linkStyles = TextLinkStyles(
+                                    SpanStyle(color = PaloBlue, fontWeight = FontWeight.Bold))),
                             modifier = Modifier.padding(horizontal = 16.dp),
                             fontFamily = ShurjoFamily,
                             fontWeight = FontWeight.Normal,

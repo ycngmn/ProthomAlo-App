@@ -17,14 +17,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.scraper.ArticlesViewModel
-import com.ycngmn.prothomalo.scraper.ProthomAlo
+import com.ycngmn.prothomalo.scraper.PaloEnglish
 
 @Composable
 fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
 
-    val prothomAlo = remember { ProthomAlo() }
+    val prothomAlo = remember { PaloEnglish() }
     val keys = remember { prothomAlo.articleSections.keys.toList() }
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = { ProthomAlo().articleSections.size })
+    val pagerState = rememberPagerState(initialPage = 0, pageCount = { prothomAlo.articleSections.size })
 
     Scaffold(
         topBar = {

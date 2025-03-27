@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ArticleContainer
-import com.ycngmn.prothomalo.scraper.ProthomAlo
+import com.ycngmn.prothomalo.scraper.PaloEnglish
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDatabaseHelper
 import com.ycngmn.prothomalo.ui.theme.PaloRed
@@ -78,7 +78,7 @@ fun ArticleCard_V1(
             onClick = clickAction,
             onLongClick = {
                     coroutineScope.launch(Dispatchers.IO) {
-                        val result = ProthomAlo().getNews(article.url)
+                        val result = PaloEnglish().getNews(article.url)
                         bookmarkDao.insertBookmark(result)
                     }
                 Toast.makeText(context, "নিবন্ধটি সফলভাবে সংরক্ষণ করা হয়েছে", Toast.LENGTH_SHORT).show()

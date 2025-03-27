@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.scraper.ProthomAlo
+import com.ycngmn.prothomalo.scraper.PaloEnglish
 import com.ycngmn.prothomalo.utils.CustomScrollableTabRow
 import kotlinx.coroutines.launch
 
@@ -52,7 +52,7 @@ fun TopBar(pageState: PagerState) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        val articleSections = ProthomAlo().articleSections.values.toList()
+        val articleSections = PaloEnglish().articleSections.values.toList()
 
         CustomScrollableTabRow (
             pagerState = pageState,

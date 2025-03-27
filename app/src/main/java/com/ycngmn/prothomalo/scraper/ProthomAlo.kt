@@ -44,21 +44,21 @@ data class NewsContainer(
 
 open class ProthomAlo {
 
-    private val webUrl = "https://www.prothomalo.com"
+    open val webUrl = "https://prothomalo.com"
 
-    val articleSections = mapOf(
+    open var articleSections = mapOf(
         "featured" to "প্রচ্ছদ",
         "latest" to "সর্বশেষ",
         "mostread" to "সবচেয়ে পঠিত",
-        "discussed" to "আলোচিত",
-        "special-news" to "বিশেষ সংবাদ",
-        "goodnews" to "সুখবর",
+//        "discussed" to "আলোচিত",
+//        "special-news" to "বিশেষ সংবাদ",
         "fun" to "একটু থামুন",
         "onnoalo" to "অন্য আলো",
         "kishoralo-home-featured" to "কিশোর আলো",
         "bigganchinta-feature" to "বিজ্ঞানচিন্তা",
         "home-nagorik-sangbad" to "নাগরিক সংবাদ",
         "home-durporobash" to "দূর পরবাস",
+        "goodnews" to "সুখবর",
     )
 
     private fun Long.toBengaliNumber(): String = this.toString()

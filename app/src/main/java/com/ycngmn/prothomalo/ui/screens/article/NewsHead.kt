@@ -54,7 +54,6 @@ fun NewsHead(
             fontFamily = ShurjoFamily,
             fontWeight = FontWeight.SemiBold,
             fontSize = 20.sp,
-            lineHeight = 25.sp,
             color = PaloBlue,
         )
 
@@ -63,7 +62,8 @@ fun NewsHead(
             Modifier.padding(16.dp, 7.dp, 25.dp, 10.dp),
             fontFamily = ShurjoFamily,
             fontWeight = FontWeight.Bold,
-            fontSize = 40.sp,
+            fontSize = 25.sp,
+            lineHeight = 33.sp,
             color = MaterialTheme.colorScheme.onBackground
         )
 
