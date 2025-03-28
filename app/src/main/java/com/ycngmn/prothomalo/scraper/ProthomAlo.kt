@@ -61,6 +61,9 @@ open class ProthomAlo {
         "goodnews" to "সুখবর",
     )
 
+    open val dayLogo = R.drawable.palo_bangla_logo
+    open val nightLogo = R.drawable.palo_bangla_night
+
     private fun Long.toBengaliNumber(): String = this.toString()
         .replace('0', '০')
         .replace('1', '১')

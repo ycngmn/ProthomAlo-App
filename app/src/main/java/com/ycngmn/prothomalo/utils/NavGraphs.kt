@@ -22,7 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.scraper.ProthomAlo
-import com.ycngmn.prothomalo.scraper.paloChilds.PaloFactory
+import com.ycngmn.prothomalo.scraper.subs.PaloFactory
 import com.ycngmn.prothomalo.ui.screens.ProfileScreen
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
@@ -82,6 +82,7 @@ class ThemeViewModel(private val dataStoreManager: DataStoreManager) : ViewModel
 
 object PaloGlobal {
     var paloKey = "PaloMain"
+    var isDarkTheme = false
     fun getPalo() : ProthomAlo {
         return PaloFactory.get(paloKey)
     }
@@ -112,6 +113,7 @@ fun MainNavGraph() {
     val theme by themeViewModel.theme.collectAsState()
     val paloKey by themeViewModel.paloKey.collectAsState()
     PaloGlobal.paloKey = paloKey
+    PaloGlobal.isDarkTheme = theme == 2 || (theme == 0 && isSystemInDarkTheme())
 
     ProthomAloTheme(darkTheme = theme == 2 || (theme == 0 && isSystemInDarkTheme()) ) {
         SetStatusBarColor()

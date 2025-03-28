@@ -103,16 +103,34 @@ fun LanguageButtons(isDarkTheme: Boolean, themeViewModel: ThemeViewModel) {
         }
         LanguageButton(
             if (isDarkTheme) R.drawable.kishore_alo_night
-            else R.drawable.kishore_alo_logo) { }
-        LanguageButton(R.drawable.muktijuddho_logo) { }
-        LanguageButton(R.drawable.biggan_chinta_logo) { }
-        LanguageButton(R.drawable.nagorik_songbad_logo) { }
+            else R.drawable.kishore_alo_logo) {
+            themeViewModel.setPaloKey("KishorAlo")
+            restartApp(context)
+        }
+        LanguageButton(R.drawable.muktijuddho_logo) {
+            themeViewModel.setPaloKey("Mukti1971")
+            restartApp(context)
+        }
+        LanguageButton(R.drawable.biggan_chinta_logo) {
+            themeViewModel.setPaloKey("BigganChinta")
+            restartApp(context)
+        }
+        LanguageButton(R.drawable.nagorik_songbad_logo) {
+            themeViewModel.setPaloKey("Nagorik")
+            restartApp(context)
+        }
         LanguageButton(
             if (isDarkTheme) R.drawable.bondhushava_night
-            else R.drawable.bondhushava_logo) { }
+            else R.drawable.bondhushava_logo) {
+            themeViewModel.setPaloKey("BondhuShava")
+            restartApp(context)
+        }
         LanguageButton(
             if (isDarkTheme) R.drawable.palo_trust_night
-            else R.drawable.prothomalo_trust_logo) { }
+            else R.drawable.prothomalo_trust_logo) {
+            themeViewModel.setPaloKey("PaloTrust")
+            restartApp(context)
+        }
 
 
     }

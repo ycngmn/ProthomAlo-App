@@ -140,7 +140,7 @@ fun NewsLecture(
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     }
-                    else if (it.first == "image" && !it.second.contains(".avif")) {
+                    else if (it.first == "image" && !it.second.contains(".avif") && it.second.isNotEmpty()) {
                             SubcomposeAsyncImage(
                                 model = it.second,
                                 contentDescription = "News Image",
@@ -166,7 +166,7 @@ fun NewsLecture(
                             color = Color.Gray,
                             textAlign = TextAlign.Start
                         )
-                    } else Spacer(modifier = Modifier.padding(bottom = 16.dp))
+                    } else Spacer(modifier = Modifier.padding(bottom = 10.dp))
 
                 }
 
