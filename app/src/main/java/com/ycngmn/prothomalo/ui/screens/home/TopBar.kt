@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.scraper.PaloEnglish
+import com.ycngmn.prothomalo.scraper.paloChilds.PaloEnglish
 import com.ycngmn.prothomalo.utils.CustomScrollableTabRow
 import kotlinx.coroutines.launch
 

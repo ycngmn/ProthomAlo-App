@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ycngmn.prothomalo.scraper.ArticleContainer
 import com.ycngmn.prothomalo.scraper.ArticlesViewModel
-import com.ycngmn.prothomalo.scraper.PaloEnglish
 import com.ycngmn.prothomalo.scraper.ProthomAlo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,7 +11,7 @@ import kotlinx.coroutines.withContext
 
 class ArticleEngine(
     private val viewModel: ArticlesViewModel,
-    private val articleClass : ProthomAlo = PaloEnglish()
+    private val articleClass : ProthomAlo
 ) : ViewModel() {
 
     private suspend fun fetchArticlesFromNetwork(): List<ArticleContainer> {

@@ -25,6 +25,7 @@ import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V2
 import com.ycngmn.prothomalo.ui.screens.ErrorPage
 import com.ycngmn.prothomalo.utils.ArticleEngine
+import com.ycngmn.prothomalo.utils.PaloGlobal
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,6 +37,8 @@ fun NewsColumn(
     source: String = "home"
 ) {
 
+    val articleEngine = ArticleEngine(articlesVM, PaloGlobal.getPalo())
+
     if (articlesVM.nbArticles.intValue == 0) {
         ErrorPage(navController)
         return
@@ -43,7 +46,7 @@ fun NewsColumn(
     
     else if (articlesVM.articles.value.isEmpty()) {
         LoadingAnimation()
-        ArticleEngine(articlesVM).loadArticles()
+        articleEngine.loadArticles()
         return
     }
 
@@ -58,7 +61,7 @@ fun NewsColumn(
 
     LaunchedEffect(isLoadMore) {
         if (isLoadMore && !articlesVM.isLimitReached) {
-            ArticleEngine(articlesVM).loadMoreArticles()
+            articleEngine.loadMoreArticles()
         }
     }
 
@@ -68,7 +71,7 @@ fun NewsColumn(
         isRefreshing = isRefreshing,
         onRefresh = {
             isRefreshing = true
-            ArticleEngine(articlesVM).refreshArticles()
+            articleEngine.refreshArticles()
         },
     ) {
         LazyColumn(state = listState) {

@@ -49,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -59,6 +60,7 @@ import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.utils.ThemeViewModel
+import com.ycngmn.prothomalo.utils.restartApp
 
 
 @Composable
@@ -79,8 +81,8 @@ fun LanguageButton(imgId: Int, onClick: () -> Unit) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun LanguageButtons(isDarkTheme: Boolean) {
-
+fun LanguageButtons(isDarkTheme: Boolean, themeViewModel: ThemeViewModel) {
+    val context = LocalContext.current
 
     FlowRow (modifier = Modifier.padding(16.dp).fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -88,11 +90,17 @@ fun LanguageButtons(isDarkTheme: Boolean) {
 
         LanguageButton(
             if (isDarkTheme ) R.drawable.palo_bangla_night
-            else R.drawable.palo_bangla_logo) { }
+            else R.drawable.palo_bangla_logo) {
+            themeViewModel.setPaloKey("PaloMain")
+            restartApp(context)
+        }
         LanguageButton(
             if (isDarkTheme) R.drawable.palo_eng_night
             else R.drawable.english_site_og_image
-        ) {}
+        ) {
+            themeViewModel.setPaloKey("PaloEnglish")
+            restartApp(context)
+        }
         LanguageButton(
             if (isDarkTheme) R.drawable.kishore_alo_night
             else R.drawable.kishore_alo_logo) { }
@@ -245,9 +253,7 @@ fun ProfileScreenPreview(themeViewModel: ThemeViewModel) {
     var checked by remember { mutableStateOf(themeViewModel.isSeeMoreEnabled.value) }
 
     if (isShowThemeDialog) {
-        BasicAlertDialogSample(themeViewModel) {
-            isShowThemeDialog = false
-        }
+        BasicAlertDialogSample(themeViewModel) { isShowThemeDialog = false }
     }
 
     val scrollState = rememberScrollState()
@@ -277,9 +283,7 @@ fun ProfileScreenPreview(themeViewModel: ThemeViewModel) {
                 value = sliderValue,
                 valueRange = 0f..2f,
                 steps = 1,
-                onValueChange = {
-                    sliderValue = it
-                }
+                onValueChange = { sliderValue = it }
             )
 
         }
@@ -304,7 +308,7 @@ fun ProfileScreenPreview(themeViewModel: ThemeViewModel) {
         }
         val isDarkTheme = themeViewModel.theme.collectAsState().value == 2
                 || (themeViewModel.theme.collectAsState().value == 0 && isSystemInDarkTheme())
-        LanguageButtons(isDarkTheme)
+        LanguageButtons(isDarkTheme, themeViewModel)
     }
 
 }

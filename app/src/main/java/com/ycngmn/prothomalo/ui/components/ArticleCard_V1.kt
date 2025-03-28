@@ -1,6 +1,5 @@
 package com.ycngmn.prothomalo.ui.components
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,12 +36,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ArticleContainer
-import com.ycngmn.prothomalo.scraper.PaloEnglish
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDatabaseHelper
 import com.ycngmn.prothomalo.ui.theme.PaloRed
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 fun titleBuilder(subHead: String, title: String, subColor: Color, titleColor: Color): AnnotatedString {
@@ -67,7 +63,7 @@ fun titleBuilder(subHead: String, title: String, subColor: Color, titleColor: Co
 @Composable
 fun ArticleCard_V1(
     article: ArticleContainer,
-    clickAction: () -> Unit
+    clickAction: () -> Unit,
 ) {
     val context = LocalContext.current
     val database = BookmarkDatabaseHelper.getInstance(context)
@@ -76,13 +72,13 @@ fun ArticleCard_V1(
     Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)
         .combinedClickable(
             onClick = clickAction,
-            onLongClick = {
-                    coroutineScope.launch(Dispatchers.IO) {
-                        val result = PaloEnglish().getNews(article.url)
-                        bookmarkDao.insertBookmark(result)
-                    }
+            onLongClick = {} /* {
+                coroutineScope.launch(Dispatchers.IO) {
+                    val result = PaloEnglish().getNews(article.url)
+                    bookmarkDao.insertBookmark(result)
+                }
                 Toast.makeText(context, "নিবন্ধটি সফলভাবে সংরক্ষণ করা হয়েছে", Toast.LENGTH_SHORT).show()
-            }
+            } */
         )
     ) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {

@@ -1,4 +1,6 @@
-package com.ycngmn.prothomalo.scraper
+package com.ycngmn.prothomalo.scraper.paloChilds
+
+import com.ycngmn.prothomalo.scraper.ProthomAlo
 
 class PaloEnglish : ProthomAlo() {
 

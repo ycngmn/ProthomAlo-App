@@ -42,11 +42,11 @@ import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.scraper.NewsContainer
-import com.ycngmn.prothomalo.scraper.PaloEnglish
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
+import com.ycngmn.prothomalo.utils.PaloGlobal
 import com.ycngmn.prothomalo.utils.ThemeViewModel
 import com.ycngmn.prothomalo.utils.YouTubeVideo
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +69,7 @@ fun NewsLecture(
     val urls = urlsVM.newsUrls
     val pagerState = rememberPagerState(initialPage = startIndex, pageCount = { urls.size })
     val coroutineScope = rememberCoroutineScope()
-    val palo = PaloEnglish()
+    val palo = PaloGlobal.getPalo()
     val newsCache = remember { mutableStateMapOf<String, NewsContainer?>() }
 
     HorizontalPager(state = pagerState) { pageIndex ->

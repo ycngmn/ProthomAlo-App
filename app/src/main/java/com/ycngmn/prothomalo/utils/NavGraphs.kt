@@ -21,10 +21,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkScreen
+import com.ycngmn.prothomalo.scraper.ProthomAlo
+import com.ycngmn.prothomalo.scraper.paloChilds.PaloFactory
 import com.ycngmn.prothomalo.ui.screens.ProfileScreen
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
+import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkScreen
 import com.ycngmn.prothomalo.ui.screens.home.HomePage
 import com.ycngmn.prothomalo.ui.screens.menu.MenuScreen
 import com.ycngmn.prothomalo.ui.screens.search.SearchResultScreen
@@ -37,6 +39,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class ThemeViewModel(private val dataStoreManager: DataStoreManager) : ViewModel() {
+
+    private val _paloKey = MutableStateFlow("PaloMain")
+    val paloKey: StateFlow<String> = _paloKey
+
     private val _theme = MutableStateFlow(0)
     val theme: StateFlow<Int> = _theme
 
@@ -47,8 +53,15 @@ class ThemeViewModel(private val dataStoreManager: DataStoreManager) : ViewModel
         runBlocking { // wait to avoid premature theme load.
             _theme.value = dataStoreManager.themeState.first()
             _isSeeMoreEnabled.value =  dataStoreManager.seeMoreState.first()
+            _paloKey.value = dataStoreManager.paloKey.first()
         }
 
+    }
+
+    fun setPaloKey(key: String) {
+        viewModelScope.launch {
+            dataStoreManager.savePaloKey(key)
+        }
     }
 
     fun toggleTheme(state: Int) {
@@ -67,6 +80,13 @@ class ThemeViewModel(private val dataStoreManager: DataStoreManager) : ViewModel
 
 }
 
+object PaloGlobal {
+    var paloKey = "PaloMain"
+    fun getPalo() : ProthomAlo {
+        return PaloFactory.get(paloKey)
+    }
+}
+
 class ThemeViewModelFactory(private val dataStoreManager: DataStoreManager) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ThemeViewModel::class.java)) {
@@ -76,7 +96,6 @@ class ThemeViewModelFactory(private val dataStoreManager: DataStoreManager) : Vi
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
-
 
 
 @Composable
@@ -91,8 +110,8 @@ fun MainNavGraph() {
 
     val themeViewModel: ThemeViewModel = viewModel(factory = ThemeViewModelFactory(dataStoreManager))
     val theme by themeViewModel.theme.collectAsState()
-
-
+    val paloKey by themeViewModel.paloKey.collectAsState()
+    PaloGlobal.paloKey = paloKey
 
     ProthomAloTheme(darkTheme = theme == 2 || (theme == 0 && isSystemInDarkTheme()) ) {
         SetStatusBarColor()
