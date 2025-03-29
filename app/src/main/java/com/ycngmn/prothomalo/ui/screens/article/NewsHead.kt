@@ -111,7 +111,7 @@ fun NewsHead(
             Icon(
                 painter = painterResource(R.drawable.text_increase_40px),
                 contentDescription = "Bookmark article",
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(25.dp)
                     .clickable { TODO() },
                 tint = MaterialTheme.colorScheme.onBackground,
             )

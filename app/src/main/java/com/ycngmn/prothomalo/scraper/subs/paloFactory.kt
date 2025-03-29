@@ -2,18 +2,24 @@ package com.ycngmn.prothomalo.scraper.subs
 
 import com.ycngmn.prothomalo.scraper.ProthomAlo
 
+enum class PaloKeys {
+    PaloMain, PaloEnglish,
+    KishorAlo, Mukti1971,
+    BigganChinta, Nagorik,
+    BondhuShava, PaloTrust
+}
+
 object PaloFactory {
-    fun get (classKey: String) : ProthomAlo {
+    fun get (classKey: PaloKeys) : ProthomAlo {
         return when (classKey) {
-            "PaloMain" -> ProthomAlo()
-            "PaloEnglish" -> PaloEnglish()
-            "KishorAlo" -> KishoreAlo()
-            "Mukti1971" -> Mukti1971()
-            "BigganChinta" -> BigganChinta()
-            "Nagorik" -> Nagorik()
-            "BondhuShava" -> BondhuShava()
-            "PaloTrust" -> PaloTrust()
-            else -> throw IllegalArgumentException("Unknown class key: $classKey")
+            PaloKeys.PaloMain -> ProthomAlo()
+            PaloKeys.PaloEnglish -> PaloEnglish()
+            PaloKeys.KishorAlo -> KishoreAlo()
+            PaloKeys.Mukti1971 -> Mukti1971()
+            PaloKeys.BigganChinta -> BigganChinta()
+            PaloKeys.Nagorik -> Nagorik()
+            PaloKeys.BondhuShava -> BondhuShava()
+            PaloKeys.PaloTrust -> PaloTrust()
         }
     }
 }

@@ -12,11 +12,10 @@ class PaloTrust : ProthomAlo() {
 
     override var articleSections = mapOf(
         "trust-featured" to "প্রচ্ছদ",
-        "activities-trust" to "কার্যক্রম",
-        "drug-abuse-activities-trust" to "মাদকবিরোধী আন্দোলন",
-        "alor-school-activities-trust" to "আলোর পাঠশালা",
+        "alor-pathshala" to "আলোর পাঠশালা",
         "aparajeyo-tara" to "অপরাজেয় তারা",
         "oditiya" to "অদ্বিতীয়া",
+        "anti-narcotics-andolon" to "মাদকবিরোধী আন্দোলন",
         "odommo-medhabi-tohbil" to "অদম্য মেধাবী তহবিল"
     )
 }

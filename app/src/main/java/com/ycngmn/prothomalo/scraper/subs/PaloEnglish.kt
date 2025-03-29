@@ -11,8 +11,7 @@ class PaloEnglish : ProthomAlo() {
     override val nightLogo = R.drawable.palo_eng_night
 
     override var articleSections = mapOf(
-        "featured" to "Home",
-        "latest" to "Latest",
+        "latest" to "Home",
         "trending" to "Trending",
         "exclusive" to "Exclusive",
         "claim-vs-fact" to "Claim vs Fact",

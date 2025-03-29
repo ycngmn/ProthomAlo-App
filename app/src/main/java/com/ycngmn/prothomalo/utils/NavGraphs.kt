@@ -23,6 +23,7 @@ import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.scraper.ProthomAlo
 import com.ycngmn.prothomalo.scraper.subs.PaloFactory
+import com.ycngmn.prothomalo.scraper.subs.PaloKeys
 import com.ycngmn.prothomalo.ui.screens.ProfileScreen
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
@@ -40,8 +41,8 @@ import kotlinx.coroutines.runBlocking
 
 class ThemeViewModel(private val dataStoreManager: DataStoreManager) : ViewModel() {
 
-    private val _paloKey = MutableStateFlow("PaloMain")
-    val paloKey: StateFlow<String> = _paloKey
+    private val _paloKey = MutableStateFlow(PaloKeys.PaloMain)
+    val paloKey: StateFlow<PaloKeys> = _paloKey
 
     private val _theme = MutableStateFlow(0)
     val theme: StateFlow<Int> = _theme
@@ -58,7 +59,7 @@ class ThemeViewModel(private val dataStoreManager: DataStoreManager) : ViewModel
 
     }
 
-    fun setPaloKey(key: String) {
+    fun setPaloKey(key: PaloKeys) {
         viewModelScope.launch {
             dataStoreManager.savePaloKey(key)
         }
@@ -81,7 +82,7 @@ class ThemeViewModel(private val dataStoreManager: DataStoreManager) : ViewModel
 }
 
 object PaloGlobal {
-    var paloKey = "PaloMain"
+    var paloKey = PaloKeys.PaloMain
     var isDarkTheme = false
     fun getPalo() : ProthomAlo {
         return PaloFactory.get(paloKey)

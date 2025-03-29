@@ -16,7 +16,6 @@ class KishoreAlo : ProthomAlo() {
         "golpo-kishoralo" to "গল্প",
         "kobita-kishoralo" to "কবিতা",
         "comics-kishoralo" to "কমিকস",
-        "rommo-kishoralo" to "রম্য",
         "kia-uponnas" to "উপন্যাস",
         "kia-chora" to "ছড়া",
         "kia-koutuk" to "কৌতুক",

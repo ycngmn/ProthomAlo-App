@@ -156,7 +156,7 @@ fun NewsLecture(
                                 }
                             )
                     }
-                    else if (it.second.toString() != "null") {
+                    else if (it.second.toString() != "null" && it.second.toString().isNotEmpty()) {
                         Text(
                             text = it.second.toString(),
                             Modifier.padding(16.dp, 16.dp, 16.dp, 10.dp),
@@ -166,7 +166,7 @@ fun NewsLecture(
                             color = Color.Gray,
                             textAlign = TextAlign.Start
                         )
-                    } else Spacer(modifier = Modifier.padding(bottom = 10.dp))
+                    }
 
                 }
 

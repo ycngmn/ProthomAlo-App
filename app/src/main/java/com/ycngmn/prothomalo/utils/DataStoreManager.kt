@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.ycngmn.prothomalo.scraper.subs.PaloKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -19,8 +20,9 @@ class DataStoreManager (private val context: Context) {
     private val themeStateKey = intPreferencesKey("theme_state")
     private val seeMoreStateKey = booleanPreferencesKey("see_more_state")
 
-    val paloKey : Flow<String> = context.dataStore.data.map { preferences ->
-        preferences[paloKeyId] ?: "PaloMain"
+    val paloKey : Flow<PaloKeys> = context.dataStore.data.map { preferences ->
+        val keyName = preferences[paloKeyId] ?: PaloKeys.PaloMain.name
+        PaloKeys.valueOf(keyName)
     }
 
     val themeState : Flow<Int> = context.dataStore.data.map { preferences ->
@@ -31,9 +33,9 @@ class DataStoreManager (private val context: Context) {
         preferences[seeMoreStateKey] ?: true
     }
 
-    suspend fun savePaloKey(key: String) {
+    suspend fun savePaloKey(key: PaloKeys) {
         context.dataStore.edit { preferences ->
-            preferences[paloKeyId] = key
+            preferences[paloKeyId] = key.name
         }
     }
 
@@ -41,7 +43,6 @@ class DataStoreManager (private val context: Context) {
         context.dataStore.edit { preferences ->
             preferences[themeStateKey] = state
         }
-
     }
 
     suspend fun saveSeeMoreState(state: Boolean) {

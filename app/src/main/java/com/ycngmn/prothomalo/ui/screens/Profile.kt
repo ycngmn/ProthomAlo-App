@@ -58,19 +58,31 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.scraper.subs.PaloKeys
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
+import com.ycngmn.prothomalo.ui.theme.PaloBlue
+import com.ycngmn.prothomalo.utils.PaloGlobal
 import com.ycngmn.prothomalo.utils.ThemeViewModel
 import com.ycngmn.prothomalo.utils.restartApp
 
 
 @Composable
-fun LanguageButton(imgId: Int, onClick: () -> Unit) {
+fun LanguageButton(imgId: Int, themeViewModel: ThemeViewModel, paloKey: PaloKeys) {
+
+    val context = LocalContext.current
+    val isCurrent = PaloGlobal.paloKey == paloKey
+
     Button(
         modifier = Modifier.height(62.dp).width(160.dp),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background),
-        border = BorderStroke(1.dp, Color.Gray),
+        border = BorderStroke(1.dp, if (isCurrent) PaloBlue else Color.Gray),
         shape = RoundedCornerShape(8.dp),
-        onClick = { onClick() }
+        onClick = {
+            if (!isCurrent) {
+                themeViewModel.setPaloKey(paloKey)
+                restartApp(context)
+            }
+        }
     ) {
         Image(
             painter = painterResource(id = imgId),
@@ -82,7 +94,6 @@ fun LanguageButton(imgId: Int, onClick: () -> Unit) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LanguageButtons(isDarkTheme: Boolean, themeViewModel: ThemeViewModel) {
-    val context = LocalContext.current
 
     FlowRow (modifier = Modifier.padding(16.dp).fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -90,49 +101,31 @@ fun LanguageButtons(isDarkTheme: Boolean, themeViewModel: ThemeViewModel) {
 
         LanguageButton(
             if (isDarkTheme ) R.drawable.palo_bangla_night
-            else R.drawable.palo_bangla_logo) {
-            themeViewModel.setPaloKey("PaloMain")
-            restartApp(context)
-        }
+            else R.drawable.palo_bangla_logo,
+            themeViewModel,PaloKeys.PaloMain)
         LanguageButton(
             if (isDarkTheme) R.drawable.palo_eng_night
-            else R.drawable.english_site_og_image
-        ) {
-            themeViewModel.setPaloKey("PaloEnglish")
-            restartApp(context)
-        }
+            else R.drawable.english_site_og_image,
+            themeViewModel,PaloKeys.PaloEnglish
+        )
         LanguageButton(
             if (isDarkTheme) R.drawable.kishore_alo_night
-            else R.drawable.kishore_alo_logo) {
-            themeViewModel.setPaloKey("KishorAlo")
-            restartApp(context)
-        }
-        LanguageButton(R.drawable.muktijuddho_logo) {
-            themeViewModel.setPaloKey("Mukti1971")
-            restartApp(context)
-        }
-        LanguageButton(R.drawable.biggan_chinta_logo) {
-            themeViewModel.setPaloKey("BigganChinta")
-            restartApp(context)
-        }
-        LanguageButton(R.drawable.nagorik_songbad_logo) {
-            themeViewModel.setPaloKey("Nagorik")
-            restartApp(context)
-        }
+            else R.drawable.kishore_alo_logo,
+            themeViewModel, PaloKeys.KishorAlo)
+        LanguageButton(R.drawable.muktijuddho_logo,
+            themeViewModel, PaloKeys.Mukti1971)
+        LanguageButton(R.drawable.biggan_chinta_logo,
+            themeViewModel, PaloKeys.BigganChinta)
+        LanguageButton(R.drawable.nagorik_songbad_logo,
+            themeViewModel, PaloKeys.Nagorik)
         LanguageButton(
             if (isDarkTheme) R.drawable.bondhushava_night
-            else R.drawable.bondhushava_logo) {
-            themeViewModel.setPaloKey("BondhuShava")
-            restartApp(context)
-        }
+            else R.drawable.bondhushava_logo,
+            themeViewModel, PaloKeys.BondhuShava)
         LanguageButton(
             if (isDarkTheme) R.drawable.palo_trust_night
-            else R.drawable.prothomalo_trust_logo) {
-            themeViewModel.setPaloKey("PaloTrust")
-            restartApp(context)
-        }
-
-
+            else R.drawable.prothomalo_trust_logo,
+            themeViewModel, PaloKeys.PaloTrust)
     }
 
 }
@@ -141,7 +134,6 @@ fun LanguageButtons(isDarkTheme: Boolean, themeViewModel: ThemeViewModel) {
 @Composable
 fun ProfileScreen(themeViewModel: ThemeViewModel, navController: NavController) {
 
-
     Scaffold(
         topBar = { ProfileTopBar() },
         bottomBar = { BottomBar(navController)}
@@ -149,9 +141,7 @@ fun ProfileScreen(themeViewModel: ThemeViewModel, navController: NavController) 
         Column (modifier = Modifier.padding(it)){
             ProfileScreenPreview(themeViewModel)
         }
-
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -166,7 +156,7 @@ fun BasicAlertDialogSample(themeViewModel: ThemeViewModel, onDismissRequest: () 
         openDialog.value = true
     }
 
-    val options = listOf("স্বয়ংক্রিয়", "উজ্জ্বল", "অন্ধকার")
+    val options = listOf("স্বয়ংক্রিয়", "দিবা", "নিশা")
     var selectedOption by remember { mutableStateOf(options[theme]) } // Default selection
 
 
@@ -239,7 +229,6 @@ fun SettingTile(iconRes: Int, title: String, subtitle: String, modifier: Modifie
         modifier = modifier.padding(20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Icon(
             painterResource(id = iconRes), contentDescription = title,
             modifier = Modifier.padding(end = 30.dp).size(30.dp),
@@ -274,11 +263,14 @@ fun ProfileScreenPreview(themeViewModel: ThemeViewModel) {
         BasicAlertDialogSample(themeViewModel) { isShowThemeDialog = false }
     }
 
+    val themeOptions = listOf("স্বয়ংক্রিয়", "দিবা", "নিশা")
+    val themeSubtitle = themeOptions.joinToString(", ")
+
     val scrollState = rememberScrollState()
     Column (modifier = Modifier.verticalScroll(scrollState)){
         SettingTile(
             R.drawable.bulb_theme_24px, "প্রদর্শন শৈলী",
-            "অন্ধকার, উজ্জ্বল বা স্বয়ংক্রিয়",
+            themeSubtitle,
             Modifier.fillMaxWidth()
                 .clickable { isShowThemeDialog = true }
         )

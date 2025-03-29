@@ -15,7 +15,7 @@ class Nagorik : ProthomAlo() {
         "ayojon-nagorik-sangbad" to "আয়োজন",
         "durporobash-life-style" to "দূর পরবাস",
         "prosperity-nagorik-sangbad" to "সফলতা",
-        "reader-nagorik-sangbads" to "পাঠক",
+        "reader-nagorik-sangbad" to "পাঠক",
         "arts-nagorik-sangbad" to "সংস্কৃতি",
         "travel-nagorik-sangbad" to "ভ্রমণ"
     )
