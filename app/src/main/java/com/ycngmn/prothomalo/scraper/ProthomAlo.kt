@@ -50,8 +50,6 @@ open class ProthomAlo {
         "featured" to "প্রচ্ছদ",
         "latest" to "সর্বশেষ",
         "mostread" to "সবচেয়ে পঠিত",
-//        "discussed" to "আলোচিত",
-//        "special-news" to "বিশেষ সংবাদ",
         "fun" to "একটু থামুন",
         "onnoalo" to "অন্য আলো",
         "kishoralo-home-featured" to "কিশোর আলো",
@@ -60,6 +58,7 @@ open class ProthomAlo {
         "home-durporobash" to "দূর পরবাস",
         "goodnews" to "সুখবর",
     )
+    open val menuMap = paloBnMap
 
     open val dayLogo = R.drawable.palo_bangla_logo
     open val nightLogo = R.drawable.palo_bangla_night

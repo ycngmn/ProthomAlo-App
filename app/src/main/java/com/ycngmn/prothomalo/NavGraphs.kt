@@ -1,30 +1,21 @@
-package com.ycngmn.prothomalo.utils
+package com.ycngmn.prothomalo
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.scraper.ProthomAlo
-import com.ycngmn.prothomalo.scraper.subs.PaloFactory
-import com.ycngmn.prothomalo.scraper.subs.PaloKeys
-import com.ycngmn.prothomalo.ui.screens.ProfileScreen
+import com.ycngmn.prothomalo.scraper.PaloGlobal
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkScreen
@@ -32,73 +23,12 @@ import com.ycngmn.prothomalo.ui.screens.home.HomePage
 import com.ycngmn.prothomalo.ui.screens.menu.MenuScreen
 import com.ycngmn.prothomalo.ui.screens.search.SearchResultScreen
 import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
+import com.ycngmn.prothomalo.ui.screens.settings.SettingScreen
+import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
+import com.ycngmn.prothomalo.ui.screens.settings.SettingsVMFactory
 import com.ycngmn.prothomalo.ui.theme.ProthomAloTheme
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-
-class ThemeViewModel(private val dataStoreManager: DataStoreManager) : ViewModel() {
-
-    private val _paloKey = MutableStateFlow(PaloKeys.PaloMain)
-    val paloKey: StateFlow<PaloKeys> = _paloKey
-
-    private val _theme = MutableStateFlow(0)
-    val theme: StateFlow<Int> = _theme
-
-    private val _isSeeMoreEnabled = mutableStateOf(true)
-    val isSeeMoreEnabled: State<Boolean> = _isSeeMoreEnabled
-
-    init {
-        runBlocking { // wait to avoid premature theme load.
-            _theme.value = dataStoreManager.themeState.first()
-            _isSeeMoreEnabled.value =  dataStoreManager.seeMoreState.first()
-            _paloKey.value = dataStoreManager.paloKey.first()
-        }
-
-    }
-
-    fun setPaloKey(key: PaloKeys) {
-        viewModelScope.launch {
-            dataStoreManager.savePaloKey(key)
-        }
-    }
-
-    fun toggleTheme(state: Int) {
-        _theme.value = state
-        viewModelScope.launch {
-            dataStoreManager.saveThemeState(state)
-        }
-    }
-
-    fun toggleSeeMore(state: Boolean) {
-        _isSeeMoreEnabled.value = state
-        viewModelScope.launch {
-            dataStoreManager.saveSeeMoreState(state)
-        }
-    }
-
-}
-
-object PaloGlobal {
-    var paloKey = PaloKeys.PaloMain
-    var isDarkTheme = false
-    fun getPalo() : ProthomAlo {
-        return PaloFactory.get(paloKey)
-    }
-}
-
-class ThemeViewModelFactory(private val dataStoreManager: DataStoreManager) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ThemeViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return ThemeViewModel(dataStoreManager) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-
+import com.ycngmn.prothomalo.utils.DataStoreManager
+import com.ycngmn.prothomalo.utils.SetStatusBarColor
 
 @Composable
 fun MainNavGraph() {
@@ -110,9 +40,9 @@ fun MainNavGraph() {
     val context = LocalContext.current
     val dataStoreManager = remember { DataStoreManager(context) }
 
-    val themeViewModel: ThemeViewModel = viewModel(factory = ThemeViewModelFactory(dataStoreManager))
-    val theme by themeViewModel.theme.collectAsState()
-    val paloKey by themeViewModel.paloKey.collectAsState()
+    val settingsVM: SettingsVM = viewModel(factory = SettingsVMFactory(dataStoreManager))
+    val theme by settingsVM.theme.collectAsState()
+    val paloKey by settingsVM.paloKey.collectAsState()
     PaloGlobal.paloKey = paloKey
     PaloGlobal.isDarkTheme = theme == 2 || (theme == 0 && isSystemInDarkTheme())
 
@@ -139,7 +69,7 @@ fun MainNavGraph() {
                     navController,
                     urlsVM = viewModel,
                     startIndex = index,
-                    themeViewModel
+                    settingsVM
                 )
             }
 
@@ -163,7 +93,7 @@ fun MainNavGraph() {
                 route = "Settings",
                 enterTransition = { EnterTransition.None },
                 popEnterTransition = { EnterTransition.None },
-            ) { ProfileScreen(themeViewModel, navController) }
+            ) { SettingScreen(settingsVM, navController) }
 
             composable(
                 route = "Bookmark",

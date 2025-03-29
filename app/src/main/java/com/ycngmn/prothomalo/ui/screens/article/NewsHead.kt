@@ -142,7 +142,7 @@ fun NewsHead(
         }
 
         HorizontalDivider(modifier = Modifier
-            .padding(16.dp, 5.dp, 10.dp)
+            .padding(16.dp, 5.dp, 10.dp, 5.dp)
             .width(35.dp),
             thickness = 3.dp,
         )

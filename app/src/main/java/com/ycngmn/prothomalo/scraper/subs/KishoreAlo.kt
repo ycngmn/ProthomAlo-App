@@ -22,7 +22,19 @@ class KishoreAlo : ProthomAlo() {
         "entertainment-kishoralo" to "বিনোদন",
         "letter-kishoralo" to "চিঠিপত্র",
         "other-kishoralo" to "আরও",
+    )
 
+    override val menuMap:  Map<Pair<String, String>, List<Pair<String, String>>> = mapOf(
+        Pair("গল্প", "golpo-kishoralo") to listOf(),
+        Pair("কবিতা", "kobita-kishoralo") to listOf(),
+        Pair("কমিকস", "comics-kishoralo") to listOf(),
+        Pair("সাক্ষাৎকার", "interview-kishoralo") to listOf(),
+        Pair("ফিচার", "feature-kishoralo") to listOf(),
+        Pair("খেলা", "sports-kishoralo") to listOf(),
+        Pair("বিনোদন", "entertainment-kishoralo") to listOf(),
+        Pair("জীবনযাপন", "lifestyle-kishoralo") to listOf(),
+        Pair("চিঠিপত্র", "letter-kishoralo") to listOf(),
+        Pair("প্রশ্ন-উত্তর", "qa-kishoralo") to listOf()
 
     )
 }

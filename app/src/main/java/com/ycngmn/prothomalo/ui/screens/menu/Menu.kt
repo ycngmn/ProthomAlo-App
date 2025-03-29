@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ycngmn.prothomalo.R
+import com.ycngmn.prothomalo.scraper.PaloGlobal
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.ui.screens.search.FilterBar
 import com.ycngmn.prothomalo.ui.screens.search.PaloSearchBar
@@ -26,6 +27,7 @@ import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
 @Composable
 fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewModel) {
 
+    val sectionMap = PaloGlobal.getPalo().menuMap
     val scrollState = rememberScrollState()
     var expandedStates by rememberSaveable { mutableStateOf(List(sectionMap.size) { false }) }
     var isSearchFilterVisible by rememberSaveable { mutableStateOf(false) }
@@ -64,7 +66,8 @@ fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewMode
                 ExpandableItem(
                     navController,
                     title = key.first,
-                    expanded = expandedStates[index],
+                    isExpandable = value.isNotEmpty(),
+                    expanded = if (value.isNotEmpty()) expandedStates[index] else false,
                     onClick = {
                         navController.navigate("topic/${key.second}@${key.first}")
                     },

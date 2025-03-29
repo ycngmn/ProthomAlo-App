@@ -48,7 +48,12 @@ fun TopicScreen(navController: NavHostController, topicX: String, newsViewModel:
 
 
     Scaffold (
-        topBar = { TopicTopBar(topicText) { navController.popBackStack("home", inclusive = false) } },
+        topBar = { TopicTopBar(topicText) {
+            while (navController.navigateUp()) {
+                if (navController.currentDestination?.route != "news/{index}")
+                    break }
+        }
+                 },
         bottomBar = { BottomBar(navController) }
     ) {
         Column(

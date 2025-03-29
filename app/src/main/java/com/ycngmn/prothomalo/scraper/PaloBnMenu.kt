@@ -1,6 +1,6 @@
-package com.ycngmn.prothomalo.ui.screens.menu
+package com.ycngmn.prothomalo.scraper
 
-val sectionMap = mapOf(
+val paloBnMap = mapOf(
     Pair("বাংলাদেশ", "bangladesh") to listOf(
         Pair("রাজধানী", "capitalcity-bangladesh"),
         Pair("জেলা", "district-bangladesh"),

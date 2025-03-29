@@ -42,12 +42,12 @@ import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.scraper.NewsContainer
+import com.ycngmn.prothomalo.scraper.PaloGlobal
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
+import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
-import com.ycngmn.prothomalo.utils.PaloGlobal
-import com.ycngmn.prothomalo.utils.ThemeViewModel
 import com.ycngmn.prothomalo.utils.YouTubeVideo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,7 +57,7 @@ fun NewsLecture(
     navController: NavController,
     urlsVM: NewsViewModel,
     startIndex: Int = 0,
-    themeViewModel: ThemeViewModel) {
+    settingsVM: SettingsVM) {
 
     BackHandler { // these if statements execute stuffs
         if (!navController.popBackStack(route = "topic/{topicKey}", inclusive = false)) {
@@ -148,7 +148,7 @@ fun NewsLecture(
                                 modifier = Modifier
                                     .defaultMinSize(minHeight = 250.dp)
                                     .fillMaxWidth()
-                                    .padding(top = 20.dp),
+                                    .padding(top = 15.dp, bottom = 10.dp),
                                 loading = { LoadingAnimation() },
                                 onError = {
                                     // Android bug as understood at : https://github.com/coil-kt/coil/issues/1295
@@ -159,7 +159,7 @@ fun NewsLecture(
                     else if (it.second.toString() != "null" && it.second.toString().isNotEmpty()) {
                         Text(
                             text = it.second.toString(),
-                            Modifier.padding(16.dp, 16.dp, 16.dp, 10.dp),
+                            Modifier.padding(16.dp, 2.dp, 16.dp, 10.dp),
                             fontFamily = ShurjoFamily,
                             fontWeight = FontWeight.Normal,
                             fontSize = 15.sp,
@@ -170,7 +170,7 @@ fun NewsLecture(
 
                 }
 
-                if (news!!.readAlso.isNotEmpty() && themeViewModel.isSeeMoreEnabled.value) {
+                if (news!!.readAlso.isNotEmpty() && settingsVM.isSeeMoreEnabled.value) {
                     Card(
                         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
                         modifier = Modifier.padding(16.dp).background(color = MaterialTheme.colorScheme.background),

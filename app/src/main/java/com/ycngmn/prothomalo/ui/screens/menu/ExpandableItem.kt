@@ -33,6 +33,7 @@ import com.ycngmn.prothomalo.scraper.ShurjoFamily
 fun ExpandableItem(
     navController: NavHostController,
     title: String,
+    isExpandable: Boolean,
     expanded: Boolean,
     sections: List<Pair<String, String>>,
     onClick: () -> Unit,
@@ -64,18 +65,21 @@ fun ExpandableItem(
             )
 
             Spacer(modifier = Modifier.weight(1f))
+            if (isExpandable) {
 
-            VerticalDivider(
-                modifier = Modifier.height(15.dp),
-                thickness = 1.dp,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
-            )
-            Icon(
-                if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                contentDescription = "Expand $title",
-                modifier = Modifier.size(50.dp).padding(start = 10.dp)
-                    .clickable { onExpand() }
-            )
+                VerticalDivider(
+                    modifier = Modifier.height(15.dp),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
+                )
+
+                Icon(
+                    if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Expand $title",
+                    modifier = Modifier.size(50.dp).padding(start = 10.dp)
+                        .clickable { onExpand() }
+                )
+            }
 
         }
 

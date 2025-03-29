@@ -38,8 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ycngmn.prothomalo.scraper.PaloGlobal
 import com.ycngmn.prothomalo.scraper.ShurjoFamily
-import com.ycngmn.prothomalo.ui.screens.menu.sectionMap
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 
 enum class FieldType {
@@ -51,6 +51,7 @@ fun FilterBar(searchViewModel: SearchViewModel) {
 
     val selectedDate = searchViewModel.selectedDate
     val selectedAuthor = searchViewModel.selectedAuthor
+    val sectionMap = PaloGlobal.getPalo().menuMap
 
     Card(
         modifier = Modifier

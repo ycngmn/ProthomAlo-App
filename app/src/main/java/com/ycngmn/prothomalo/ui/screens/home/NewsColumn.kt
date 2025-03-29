@@ -20,12 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.scraper.ArticlesViewModel
+import com.ycngmn.prothomalo.scraper.PaloGlobal
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V2
 import com.ycngmn.prothomalo.ui.screens.ErrorPage
 import com.ycngmn.prothomalo.utils.ArticleEngine
-import com.ycngmn.prothomalo.utils.PaloGlobal
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
 
 @OptIn(ExperimentalMaterial3Api::class)
