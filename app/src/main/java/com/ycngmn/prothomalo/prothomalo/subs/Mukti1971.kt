@@ -1,7 +1,7 @@
-package com.ycngmn.prothomalo.scraper.subs
+package com.ycngmn.prothomalo.prothomalo.subs
 
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.scraper.ProthomAlo
+import com.ycngmn.prothomalo.prothomalo.ProthomAlo
 
 class Mukti1971 : ProthomAlo() {
 
@@ -109,15 +109,17 @@ class Mukti1971 : ProthomAlo() {
         Pair("বইপত্র", "books-1971-muktijuddho-50") to listOf(
             Pair("একাত্তরের চিঠি", "ekattorer-chithi-muktijuddho-50")),
         Pair("জন উদ্যোগ", "private-initiative-muktijuddho-50") to listOf(),
-        Pair("শরণার্থী", "refugees-muktijuddho-50") to listOf(
-            Pair("কলকাতা", "kolkata-refugees-muktijuddho-50"),
-            Pair("ত্রিপুরা", "tripura-refugees-muktijuddho-50")
-        ),
+        Pair("শরণার্থী", "refugees-muktijuddho-50") to listOf(),
         Pair("গণহত্যা", "genocide-muktijuddho-50") to listOf(),
         Pair("যুদ্ধাপরাধ", "war-crimes-muktijuddho-50") to listOf(
             Pair("অপরাধ", "crime-war-crimes-muktijuddho-50"),
             Pair("বিচার", "judgement-war-crimes-muktijuddho-50")
         )
+    )
+
+    override val menuMediaSection = mapOf(
+        "ছবি" to "photo-muktijuddho-50",
+        "ভিডিও" to "video-muktijuddho-50"
     )
 
 

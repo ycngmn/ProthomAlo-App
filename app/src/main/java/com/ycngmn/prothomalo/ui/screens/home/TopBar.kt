@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.ycngmn.prothomalo.scraper.PaloGlobal
+import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.utils.CustomScrollableTabRow
 import kotlinx.coroutines.launch
 

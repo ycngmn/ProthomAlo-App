@@ -41,9 +41,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.scraper.NewsContainer
-import com.ycngmn.prothomalo.scraper.PaloGlobal
-import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.prothomalo.NewsContainer
+import com.ycngmn.prothomalo.prothomalo.PaloGlobal
+import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
@@ -141,20 +141,20 @@ fun NewsLecture(
                         )
                     }
                     else if (it.first == "image" && !it.second.contains(".avif") && it.second.isNotEmpty()) {
-                            SubcomposeAsyncImage(
-                                model = it.second,
-                                contentDescription = "News Image",
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .defaultMinSize(minHeight = 250.dp)
-                                    .fillMaxWidth()
-                                    .padding(top = 15.dp, bottom = 10.dp),
-                                loading = { LoadingAnimation() },
-                                onError = {
-                                    // Android bug as understood at : https://github.com/coil-kt/coil/issues/1295
-                                    // do nothing
-                                }
-                            )
+                        SubcomposeAsyncImage(
+                            model = it.second,
+                            contentDescription = "News Image",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .defaultMinSize(minHeight = 250.dp)
+                                .fillMaxWidth()
+                                .padding(vertical = 10.dp),
+                            loading = { LoadingAnimation() },
+                            onError = {
+                                // Android bug as understood at : https://github.com/coil-kt/coil/issues/1295
+                                // do nothing
+                            }
+                        )
                     }
                     else if (it.second.toString() != "null" && it.second.toString().isNotEmpty()) {
                         Text(

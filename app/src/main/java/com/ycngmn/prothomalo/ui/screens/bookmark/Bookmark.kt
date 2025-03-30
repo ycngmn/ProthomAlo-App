@@ -14,9 +14,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.scraper.ArticleContainer
-import com.ycngmn.prothomalo.scraper.ArticlesViewModel
-import com.ycngmn.prothomalo.scraper.NewsContainer
+import com.ycngmn.prothomalo.prothomalo.ArticleContainer
+import com.ycngmn.prothomalo.prothomalo.ArticlesViewModel
+import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.ui.screens.home.NewsColumn
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +41,7 @@ fun BookmarkList(navController: NavController) {
     var bookmarks by remember { mutableStateOf<List<NewsContainer>>(emptyList()) }
     var isLoading by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(bookmarkDao) {
         isLoading = true
         val fetchedBookmarks = withContext(Dispatchers.IO) { bookmarkDao.getBookmarks() }
         bookmarks = fetchedBookmarks
@@ -50,7 +50,7 @@ fun BookmarkList(navController: NavController) {
     if (bookmarks.isEmpty())
         EmptyBookmarkScreen { navController.navigateUp() }
     else {
-        val articles = bookmarks.map { ArticleContainer(it.headline) }
+        val articles = bookmarks.map { ArticleContainer(it.headline, url = it.newsUrl) }
         val articleVM = viewModel(key = "bookmark") { ArticlesViewModel("bookmark") }
         articleVM.setArticles(articles)
         NewsColumn(articleVM, navController, NewsViewModel())

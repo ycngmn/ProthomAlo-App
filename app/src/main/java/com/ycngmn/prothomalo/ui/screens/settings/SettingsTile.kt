@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 
 @Composable
 fun SettingTile(iconRes: Int, title: String, subtitle: String, modifier: Modifier = Modifier ) {

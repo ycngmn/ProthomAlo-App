@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.scraper.PaloGlobal
+import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.ui.screens.search.FilterBar
 import com.ycngmn.prothomalo.ui.screens.search.PaloSearchBar
@@ -27,7 +27,8 @@ import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
 @Composable
 fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewModel) {
 
-    val sectionMap = PaloGlobal.getPalo().menuMap
+    val palo = PaloGlobal.getPalo()
+    val sectionMap = palo.menuMap
     val scrollState = rememberScrollState()
     var expandedStates by rememberSaveable { mutableStateOf(List(sectionMap.size) { false }) }
     var isSearchFilterVisible by rememberSaveable { mutableStateOf(false) }
@@ -52,14 +53,15 @@ fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewMode
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
+                val mediaMenu = palo.menuMediaSection.entries
                 SectionCards(
                     iconRes = R.drawable.photo_library_24px,
-                    text = "ছবি"
-                ) { navController.navigate("topic/home-photo@ছবি") }
+                    text = mediaMenu.first().key
+                ) { navController.navigate("topic/${mediaMenu.first().value}@ছবি") }
                 SectionCards(
                     iconRes = R.drawable.video_library_24px,
-                    text = "ভিডিও"
-                ) { navController.navigate("topic/video-all@ভিডিও") }
+                    text = mediaMenu.last().key
+                ) { navController.navigate("topic/${mediaMenu.last().value}@ভিডিও") }
             }
             sectionMap.entries.forEachIndexed { index, (key, value) ->
 

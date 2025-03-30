@@ -1,4 +1,4 @@
-package com.ycngmn.prothomalo.scraper
+package com.ycngmn.prothomalo.prothomalo
 
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -30,6 +30,7 @@ data class ArticleContainer (
 data class NewsContainer(
     val headline: String,
     val summary: String?,
+    val newsUrl: String,
     val author: String?,
     val authorLocation: String = "",
     val date: String = "",
@@ -59,6 +60,10 @@ open class ProthomAlo {
         "goodnews" to "সুখবর",
     )
     open val menuMap = paloBnMap
+    open val menuMediaSection = mapOf(
+        "ছবি" to "photo",
+        "ভিডিও" to "video"
+    )
 
     open val dayLogo = R.drawable.palo_bangla_logo
     open val nightLogo = R.drawable.palo_bangla_night
@@ -249,7 +254,7 @@ open class ProthomAlo {
         }
 
         return NewsContainer (
-            headline.trim(),summary.trim(), author, authorLocation, formatTimeAgo(date), section.trim(),
+            headline.trim(),summary.trim(), newsUrl, author, authorLocation, formatTimeAgo(date), section.trim(),
             sectionSlug, newsBody, moreArticles, mainKeyword )
     }
 

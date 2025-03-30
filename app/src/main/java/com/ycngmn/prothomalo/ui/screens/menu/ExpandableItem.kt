@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 
 @Composable
 fun ExpandableItem(

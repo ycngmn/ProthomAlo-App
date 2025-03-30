@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 
 /* Initial Credit: https://stackoverflow.com/a/75977854/11724248
 * Modified to make the indicator respond to swipes */

@@ -21,8 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.scraper.PaloGlobal.paloKey
-import com.ycngmn.prothomalo.scraper.subs.PaloKeys
+import com.ycngmn.prothomalo.prothomalo.PaloGlobal.paloKey
+import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 
 @OptIn(ExperimentalLayoutApi::class)

@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.scraper.ArticlesViewModel
-import com.ycngmn.prothomalo.scraper.PaloGlobal
+import com.ycngmn.prothomalo.prothomalo.ArticlesViewModel
+import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V2

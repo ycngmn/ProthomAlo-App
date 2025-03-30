@@ -1,6 +1,7 @@
 package com.ycngmn.prothomalo
 
 import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -15,7 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.ycngmn.prothomalo.scraper.PaloGlobal
+import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkScreen
@@ -53,6 +54,8 @@ fun MainNavGraph() {
                 "home",
                 enterTransition = { EnterTransition.None },
                 popEnterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
+                popExitTransition = { ExitTransition.None }
             ) {
                 HomePage(navController, viewModel)
             }
@@ -87,24 +90,32 @@ fun MainNavGraph() {
                 route = "Menu",
                 enterTransition = { EnterTransition.None },
                 popEnterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
+                popExitTransition = { ExitTransition.None }
             ) { MenuScreen(navController,searchViewModel) }
 
             composable(
                 route = "Settings",
                 enterTransition = { EnterTransition.None },
                 popEnterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
+                popExitTransition = { ExitTransition.None }
             ) { SettingScreen(settingsVM, navController) }
 
             composable(
                 route = "Bookmark",
                 enterTransition = { EnterTransition.None },
                 popEnterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
+                popExitTransition = { ExitTransition.None }
             ) { BookmarkScreen(navController) }
 
             composable(
                 route = "search",
                 enterTransition = { EnterTransition.None },
                 popEnterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
+                popExitTransition = { ExitTransition.None }
             ) { SearchResultScreen(navController, searchViewModel, viewModel) }
 
         }

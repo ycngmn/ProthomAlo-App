@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
-import com.ycngmn.prothomalo.scraper.ArticleContainer
-import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.prothomalo.ArticleContainer
+import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.PaloOrange
 
 

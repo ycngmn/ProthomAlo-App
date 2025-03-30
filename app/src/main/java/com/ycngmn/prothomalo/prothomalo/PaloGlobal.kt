@@ -1,7 +1,7 @@
-package com.ycngmn.prothomalo.scraper
+package com.ycngmn.prothomalo.prothomalo
 
-import com.ycngmn.prothomalo.scraper.subs.PaloFactory
-import com.ycngmn.prothomalo.scraper.subs.PaloKeys
+import com.ycngmn.prothomalo.prothomalo.subs.PaloFactory
+import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
 
 object PaloGlobal {
     var paloKey = PaloKeys.PaloMain

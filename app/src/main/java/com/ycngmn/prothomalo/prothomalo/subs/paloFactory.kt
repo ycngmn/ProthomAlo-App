@@ -1,6 +1,6 @@
-package com.ycngmn.prothomalo.scraper.subs
+package com.ycngmn.prothomalo.prothomalo.subs
 
-import com.ycngmn.prothomalo.scraper.ProthomAlo
+import com.ycngmn.prothomalo.prothomalo.ProthomAlo
 
 enum class PaloKeys {
     PaloMain, PaloEnglish,

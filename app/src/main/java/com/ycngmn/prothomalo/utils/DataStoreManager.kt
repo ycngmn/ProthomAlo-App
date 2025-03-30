@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.ycngmn.prothomalo.scraper.subs.PaloKeys
+import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

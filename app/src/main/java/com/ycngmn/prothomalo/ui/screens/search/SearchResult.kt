@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.scraper.ArticlesViewModel
-import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.prothomalo.ArticlesViewModel
+import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.ui.screens.home.NewsColumn
 import kotlin.random.Random

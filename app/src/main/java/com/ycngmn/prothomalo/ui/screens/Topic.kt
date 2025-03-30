@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.scraper.ArticlesViewModel
-import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.prothomalo.ArticlesViewModel
+import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.ui.screens.home.NewsColumn
 
@@ -43,8 +43,11 @@ fun TopicScreen(navController: NavHostController, topicX: String, newsViewModel:
         }
     }
 
-    val topicSlug = topicX.split("@").first()
+    var topicSlug = topicX.split("@").first()
     val topicText = topicX.split("@").last()
+
+    val isTopic = topicSlug.startsWith("topic_") || topicText == topicSlug
+    if (isTopic) topicSlug = topicSlug.replace("topic_", "")
 
 
     Scaffold (
@@ -63,9 +66,7 @@ fun TopicScreen(navController: NavHostController, topicX: String, newsViewModel:
                 .background(MaterialTheme.colorScheme.background)
         ) {
             val articleVM = viewModel(key = topicSlug) {
-                if (topicSlug == topicText)
-                    ArticlesViewModel(topicSlug, isTopic = true)
-                else ArticlesViewModel(topicSlug)
+                ArticlesViewModel(topicSlug, isTopic = isTopic)
             }
             NewsColumn(
                 articlesVM = articleVM,

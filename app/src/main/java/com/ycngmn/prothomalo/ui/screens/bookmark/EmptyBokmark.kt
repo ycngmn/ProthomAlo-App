@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 import com.ycngmn.prothomalo.ui.theme.PaloRed
 

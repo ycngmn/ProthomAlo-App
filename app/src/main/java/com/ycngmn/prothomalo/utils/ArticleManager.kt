@@ -2,9 +2,9 @@ package com.ycngmn.prothomalo.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ycngmn.prothomalo.scraper.ArticleContainer
-import com.ycngmn.prothomalo.scraper.ArticlesViewModel
-import com.ycngmn.prothomalo.scraper.ProthomAlo
+import com.ycngmn.prothomalo.prothomalo.ArticleContainer
+import com.ycngmn.prothomalo.prothomalo.ArticlesViewModel
+import com.ycngmn.prothomalo.prothomalo.ProthomAlo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

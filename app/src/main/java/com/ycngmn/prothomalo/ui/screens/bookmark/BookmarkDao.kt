@@ -10,8 +10,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.ycngmn.prothomalo.scraper.ArticleContainer
-import com.ycngmn.prothomalo.scraper.NewsContainer
+import com.ycngmn.prothomalo.prothomalo.ArticleContainer
+import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -76,11 +76,14 @@ interface BookmarkDao {
     @Query("Select * from bookmarks Order by newsId DESC")
     suspend fun getBookmarks(): List<NewsContainer>
 
-    @Query("Delete from bookmarks where newsId = :newsId")
-    suspend fun deleteBookmark(newsId: Int)
+    @Query("Delete from bookmarks where newsUrl = :newsUrl")
+    suspend fun deleteBookmark(newsUrl: String)
 
     @Insert
     suspend fun insertBookmark(newsContainer: NewsContainer)
+
+    @Query("Select EXISTS(Select 1 from bookmarks where newsUrl = :newsUrl)")
+    suspend fun checkBookmark(newsUrl: String): Boolean
 
 }
 

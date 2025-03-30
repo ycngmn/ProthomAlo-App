@@ -29,7 +29,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.scraper.ShurjoFamily
+import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

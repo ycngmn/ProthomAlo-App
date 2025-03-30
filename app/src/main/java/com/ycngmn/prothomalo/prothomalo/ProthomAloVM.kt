@@ -1,4 +1,4 @@
-package com.ycngmn.prothomalo.scraper
+package com.ycngmn.prothomalo.prothomalo
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf

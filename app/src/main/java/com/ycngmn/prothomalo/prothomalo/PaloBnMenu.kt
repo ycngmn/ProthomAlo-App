@@ -1,4 +1,4 @@
-package com.ycngmn.prothomalo.scraper
+package com.ycngmn.prothomalo.prothomalo
 
 val paloBnMap = mapOf(
     Pair("বাংলাদেশ", "bangladesh") to listOf(

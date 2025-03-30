@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.ycngmn.prothomalo.scraper.subs.PaloKeys
+import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
 import com.ycngmn.prothomalo.utils.DataStoreManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
