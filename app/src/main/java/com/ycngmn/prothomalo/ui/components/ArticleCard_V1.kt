@@ -45,6 +45,7 @@ import com.ycngmn.prothomalo.prothomalo.ProthomAlo
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDatabaseHelper
 import com.ycngmn.prothomalo.ui.theme.PaloRed
+import com.ycngmn.prothomalo.utils.downloadNewsImages
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -94,6 +95,7 @@ fun ArticleCard_V1(
                     } else {
                         val result = ProthomAlo().getNews(article.url)
                         bookmarkDao.insertBookmark(result)
+                        downloadNewsImages(result, context)
                         isBookmarkSuccess = true
                     }
 

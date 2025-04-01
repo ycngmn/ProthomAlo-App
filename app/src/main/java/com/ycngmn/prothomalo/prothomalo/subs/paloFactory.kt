@@ -10,16 +10,20 @@ enum class PaloKeys {
 }
 
 object PaloFactory {
-    fun get (classKey: PaloKeys) : ProthomAlo {
-        return when (classKey) {
-            PaloKeys.PaloMain -> ProthomAlo()
-            PaloKeys.PaloEnglish -> PaloEnglish()
-            PaloKeys.KishorAlo -> KishoreAlo()
-            PaloKeys.Mukti1971 -> Mukti1971()
-            PaloKeys.BigganChinta -> BigganChinta()
-            PaloKeys.Nagorik -> Nagorik()
-            PaloKeys.BondhuShava -> BondhuShava()
-            PaloKeys.PaloTrust -> PaloTrust()
+    private val instances = mutableMapOf<PaloKeys, ProthomAlo>()
+
+    fun get(classKey: PaloKeys): ProthomAlo {
+        return instances.getOrPut(classKey) {
+            when (classKey) {
+                PaloKeys.PaloMain -> ProthomAlo()
+                PaloKeys.PaloEnglish -> PaloEnglish()
+                PaloKeys.KishorAlo -> KishoreAlo()
+                PaloKeys.Mukti1971 -> Mukti1971()
+                PaloKeys.BigganChinta -> BigganChinta()
+                PaloKeys.Nagorik -> Nagorik()
+                PaloKeys.BondhuShava -> BondhuShava()
+                PaloKeys.PaloTrust -> PaloTrust()
+            }
         }
     }
 }

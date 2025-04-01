@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -46,7 +45,6 @@ import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
-import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 import com.ycngmn.prothomalo.utils.YouTubeVideo
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +55,7 @@ fun NewsLecture(
     navController: NavController,
     urlsVM: NewsViewModel,
     startIndex: Int = 0,
-    settingsVM: SettingsVM) {
+    isReadMoreEnabled : Boolean) {
 
     BackHandler { // these if statements execute stuffs
         if (!navController.popBackStack(route = "topic/{topicKey}", inclusive = false)) {
@@ -66,11 +64,11 @@ fun NewsLecture(
         }
     }
 
-    val urls = urlsVM.newsUrls
+    val urls = urlsVM.getUrls()
     val pagerState = rememberPagerState(initialPage = startIndex, pageCount = { urls.size })
     val coroutineScope = rememberCoroutineScope()
     val palo = PaloGlobal.getPalo()
-    val newsCache = remember { mutableStateMapOf<String, NewsContainer?>() }
+    val newsCache = urlsVM.newsCache
 
     HorizontalPager(state = pagerState) { pageIndex ->
 
@@ -78,11 +76,12 @@ fun NewsLecture(
         val url = urls[pageIndex]
 
         LaunchedEffect(url) {
+
             if (!newsCache.containsKey(url)) {
                 coroutineScope.launch(Dispatchers.IO) {
                     palo.getNews(url).let { result ->
                         news = result
-                        newsCache[url] = result
+                        urlsVM.updateNewsCache(url,result)
                     }
                     // Load more articles if near the end
                     if (urls.size > 10 && pageIndex > urls.size - 2) {
@@ -170,7 +169,7 @@ fun NewsLecture(
 
                 }
 
-                if (news!!.readAlso.isNotEmpty() && settingsVM.isSeeMoreEnabled.value) {
+                if (news!!.readAlso.isNotEmpty() && isReadMoreEnabled) {
                     Card(
                         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
                         modifier = Modifier.padding(16.dp).background(color = MaterialTheme.colorScheme.background),

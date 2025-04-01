@@ -11,30 +11,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.prothomalo.ArticleContainer
-import com.ycngmn.prothomalo.prothomalo.ArticlesViewModel
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
-import com.ycngmn.prothomalo.ui.screens.home.NewsColumn
+import com.ycngmn.prothomalo.utils.loadSavedImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-fun BookmarkScreen(navController: NavController) {
+fun BookmarkScreen(navController: NavController, viewModel: NewsViewModel) {
     Scaffold (bottomBar = { BottomBar(navController) }) {
         Column (modifier = Modifier.padding(it)) {
-            BookmarkList(navController)
+            BookmarkList(navController, viewModel)
         }
     }
 }
 
 @Composable
-fun BookmarkList(navController: NavController) {
+fun BookmarkList(navController: NavController, viewModel: NewsViewModel) {
 
-    val context = LocalContext.current
+    val context =  LocalContext.current
     val database = remember { BookmarkDatabaseHelper.getInstance(context) }
     val bookmarkDao = remember { database.bookmarkDao() }
 
@@ -47,12 +45,8 @@ fun BookmarkList(navController: NavController) {
         bookmarks = fetchedBookmarks
     }
 
-    if (bookmarks.isEmpty())
-        EmptyBookmarkScreen { navController.navigateUp() }
-    else {
-        val articles = bookmarks.map { ArticleContainer(it.headline, url = it.newsUrl) }
-        val articleVM = viewModel(key = "bookmark") { ArticlesViewModel("bookmark") }
-        articleVM.setArticles(articles)
-        NewsColumn(articleVM, navController, NewsViewModel())
+
+
+    BookmarkColumn(context, bookmarks, navController, viewModel) {
     }
 }

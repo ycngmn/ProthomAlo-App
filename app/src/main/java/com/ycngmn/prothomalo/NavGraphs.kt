@@ -44,6 +44,7 @@ fun MainNavGraph() {
     val settingsVM: SettingsVM = viewModel(factory = SettingsVMFactory(dataStoreManager))
     val theme by settingsVM.theme.collectAsState()
     val paloKey by settingsVM.paloKey.collectAsState()
+
     PaloGlobal.paloKey = paloKey
     PaloGlobal.isDarkTheme = theme == 2 || (theme == 0 && isSystemInDarkTheme())
 
@@ -72,7 +73,7 @@ fun MainNavGraph() {
                     navController,
                     urlsVM = viewModel,
                     startIndex = index,
-                    settingsVM
+                    settingsVM.isSeeMoreEnabled.value
                 )
             }
 
@@ -108,7 +109,7 @@ fun MainNavGraph() {
                 popEnterTransition = { EnterTransition.None },
                 exitTransition = { ExitTransition.None },
                 popExitTransition = { ExitTransition.None }
-            ) { BookmarkScreen(navController) }
+            ) { BookmarkScreen(navController, viewModel ) }
 
             composable(
                 route = "search",
