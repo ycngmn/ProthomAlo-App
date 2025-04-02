@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -19,6 +20,7 @@ import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.ui.screens.TopicScreen
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
+import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDatabaseHelper
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkScreen
 import com.ycngmn.prothomalo.ui.screens.home.HomePage
 import com.ycngmn.prothomalo.ui.screens.menu.MenuScreen
@@ -39,7 +41,11 @@ fun MainNavGraph() {
     val searchViewModel: SearchViewModel = viewModel()
 
     val context = LocalContext.current
-    val dataStoreManager = remember { DataStoreManager(context) }
+    val latestContext by rememberUpdatedState(context)
+
+    val dataStoreManager = remember { DataStoreManager(latestContext) }
+    val database = remember { BookmarkDatabaseHelper.getInstance(latestContext) }
+    val bookmarkDao = remember { database.bookmarkDao() }
 
     val settingsVM: SettingsVM = viewModel(factory = SettingsVMFactory(dataStoreManager))
     val theme by settingsVM.theme.collectAsState()
@@ -73,7 +79,8 @@ fun MainNavGraph() {
                     navController,
                     urlsVM = viewModel,
                     startIndex = index,
-                    settingsVM.isSeeMoreEnabled.value
+                    settingsVM.isSeeMoreEnabled.value,
+                    bookmarkDao
                 )
             }
 
@@ -109,7 +116,7 @@ fun MainNavGraph() {
                 popEnterTransition = { EnterTransition.None },
                 exitTransition = { ExitTransition.None },
                 popExitTransition = { ExitTransition.None }
-            ) { BookmarkScreen(navController, viewModel ) }
+            ) { BookmarkScreen(navController, viewModel, bookmarkDao ) }
 
             composable(
                 route = "search",

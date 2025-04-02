@@ -38,7 +38,7 @@ fun EmptyBookmarkScreen(onClick: () -> Unit) {
     ) {
 
         val annotatedString = buildAnnotatedString {
-            append("কোন খবর সংরক্ষণ করতে তার ওপর আলতো করে কিছুক্ষণ চেপে রাখুন। অথবা খবরের ভিতরে প্রবেশ করে")
+            append("কোন খবর সংরক্ষণ করতে খবরের ভিতরে প্রবেশ করে")
             appendInlineContent(id = "imageId")
             append("চিহ্নতে স্পর্শ করুন।")
         }
@@ -62,7 +62,7 @@ fun EmptyBookmarkScreen(onClick: () -> Unit) {
             textAlign = TextAlign.Center,
             fontFamily = ShurjoFamily,
             fontSize = 25.sp,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(Modifier.height(100.dp))

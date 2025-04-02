@@ -45,6 +45,7 @@ import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
+import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDao
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 import com.ycngmn.prothomalo.utils.YouTubeVideo
 import kotlinx.coroutines.Dispatchers
@@ -55,13 +56,18 @@ fun NewsLecture(
     navController: NavController,
     urlsVM: NewsViewModel,
     startIndex: Int = 0,
-    isReadMoreEnabled : Boolean) {
+    isReadMoreEnabled: Boolean,
+    bookmarkDao: BookmarkDao
+) {
 
-    BackHandler { // these if statements execute stuffs
-        if (!navController.popBackStack(route = "topic/{topicKey}", inclusive = false)) {
-            if (!navController.popBackStack(route = "search", inclusive = false))
-                navController.popBackStack("home", inclusive = false)
+    BackHandler { // ! these if statements execute stuffs !
+
+        while (navController.navigateUp() &&
+            !navController.popBackStack(route = "topic/{topicKey}", inclusive = false)) {
+            if (navController.currentDestination?.route != "news/{index}")
+                break
         }
+
     }
 
     val urls = urlsVM.getUrls()
@@ -72,8 +78,8 @@ fun NewsLecture(
 
     HorizontalPager(state = pagerState) { pageIndex ->
 
-        var news by remember { mutableStateOf<NewsContainer?>(null) }
         val url = urls[pageIndex]
+        var news by remember { mutableStateOf<NewsContainer?>(newsCache[url]) }
 
         LaunchedEffect(url) {
 
@@ -110,7 +116,7 @@ fun NewsLecture(
                 LoadingAnimation()
 
             else {
-                NewsHead(news!!) {
+                NewsHead(news!!, bookmarkDao) {
                     if (!navController.popBackStack(route = "topic/$it", inclusive = false))
                         navController.navigate("topic/$it")
 
@@ -182,7 +188,6 @@ fun NewsLecture(
                             text = AnnotatedString.fromHtml("<u>$topicKey</u> নিয়ে আরও পড়ুন"),
                             modifier = Modifier.padding(16.dp, 7.dp, 16.dp, 20.dp)
                                 .clickable {
-                                    //
                                     if (!navController.popBackStack(route = "topic/$topicKey@$topicKey", inclusive = false))
                                         navController.navigate("topic/$topicKey@$topicKey")
                                            },

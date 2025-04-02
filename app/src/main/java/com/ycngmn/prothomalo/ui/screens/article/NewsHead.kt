@@ -18,10 +18,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,6 +31,8 @@ import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDao
+import com.ycngmn.prothomalo.ui.screens.bookmark.onBookmarkButtonClick
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 
 
@@ -36,8 +40,12 @@ import com.ycngmn.prothomalo.ui.theme.PaloBlue
 @Composable
 fun NewsHead(
     news: NewsContainer,
+    bookmarkDao: BookmarkDao,
     onTopicClick: (String) -> Unit,
 ) {
+    val context = LocalContext.current
+    val isExist = bookmarkDao.checkBookmarkFlow(news.newsUrl).collectAsState(false)
+
     Column (Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
 
         Text(
@@ -125,10 +133,11 @@ fun NewsHead(
             Spacer(modifier = Modifier.weight(1F))
 
             Icon(
-                painter = painterResource(R.drawable.bookmark_icon),
+                painter = if (isExist.value) painterResource(R.drawable.bookmark_remove_24px)
+                else painterResource(R.drawable.bookmark_add_24px),
                 contentDescription = "Bookmark article",
                 modifier = Modifier.size(25.dp)
-                    .clickable { TODO() },
+                    .clickable { onBookmarkButtonClick(context, news, bookmarkDao) },
                 tint = MaterialTheme.colorScheme.onBackground,
             )
 

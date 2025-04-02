@@ -28,15 +28,15 @@ data class ArticleContainer (
 
 @Entity(tableName = "bookmarks")
 data class NewsContainer(
-    val headline: String,
-    val summary: String?,
-    val newsUrl: String,
-    val author: String?,
+    val headline: String = "",
+    val summary: String? = "",
+    val newsUrl: String = "",
+    val author: String? = "",
     val authorLocation: String = "",
     val date: String = "",
     val section: String = "",
-    val sectionSlug: String,
-    val body: List<Pair<String, String>>,
+    val sectionSlug: String = "",
+    val body: List<Pair<String, String>> = emptyList(),
     val readAlso: List<ArticleContainer> = emptyList(),
     val readAlsoText: String = "",
     @PrimaryKey(autoGenerate = true) val newsId: Int = 0,

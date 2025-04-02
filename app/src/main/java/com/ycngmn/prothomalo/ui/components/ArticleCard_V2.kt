@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,7 +30,7 @@ fun ArticleCard_V2(
     clickAction: () -> Unit,
 ) {
 
-    Box (modifier = Modifier.fillMaxWidth()
+    Box (modifier = Modifier.background(MaterialTheme.colorScheme.background).fillMaxWidth()
         .clickable { clickAction() }) {
         SubcomposeAsyncImage(
             model = article.thumbnail,

@@ -1,10 +1,9 @@
 package com.ycngmn.prothomalo.ui.components
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,16 +19,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -41,14 +34,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.ArticleContainer
-import com.ycngmn.prothomalo.prothomalo.ProthomAlo
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
-import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDatabaseHelper
 import com.ycngmn.prothomalo.ui.theme.PaloRed
-import com.ycngmn.prothomalo.utils.downloadNewsImages
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 fun titleBuilder(subHead: String, title: String, subColor: Color, titleColor: Color): AnnotatedString {
@@ -75,43 +62,9 @@ fun ArticleCard_V1(
     article: ArticleContainer,
     clickAction: () -> Unit,
 ) {
-    val context = LocalContext.current
-    val database = BookmarkDatabaseHelper.getInstance(context)
-    val bookmarkDao = database.bookmarkDao()
-    val coroutineScope = rememberCoroutineScope()
-    var isBookmarkSuccess by remember { mutableStateOf(false) }
-    var isBookmarkDelete by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)
-        .combinedClickable(
-            onClick = clickAction,
-            onLongClick =  {
-                coroutineScope.launch(Dispatchers.IO) {
-                    val isExist = bookmarkDao.checkBookmark(article.url)
-
-                    if (isExist) {
-                        bookmarkDao.deleteBookmark(article.url)
-                        isBookmarkDelete = true
-                    } else {
-                        val result = ProthomAlo().getNews(article.url)
-                        bookmarkDao.insertBookmark(result)
-                        downloadNewsImages(result, context)
-                        isBookmarkSuccess = true
-                    }
-
-                    withContext(Dispatchers.Main) {
-                        if (isBookmarkDelete) {
-                            Toast.makeText(context, "নিবন্ধটি সফলভাবে মুছে ফেলা হয়েছে", Toast.LENGTH_SHORT).show()
-                            isBookmarkDelete = false
-                        }
-                        if (isBookmarkSuccess) {
-                            Toast.makeText(context, "নিবন্ধটি সফলভাবে সংরক্ষণ করা হয়েছে", Toast.LENGTH_SHORT).show()
-                            isBookmarkSuccess = false
-                        }
-                    }
-                }
-            }
-        )
+        .clickable { clickAction() }
     ) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
 
@@ -129,7 +82,7 @@ fun ArticleCard_V1(
 
                 Image(
                     painter = rememberAsyncImagePainter(article.thumbnail),
-                    contentDescription = "News Image", // later todo
+                    contentDescription = "News Image",
                     modifier = Modifier
                         .fillMaxSize(),
                     contentScale = ContentScale.Crop

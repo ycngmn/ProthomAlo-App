@@ -9,7 +9,8 @@ import coil.request.SuccessResult
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import java.io.File
 
-suspend fun downloadAndSaveImage(context: Context, imageUrl: String, subDir: String, fileName: String): File? {
+suspend fun urlToBitmap(context: Context, imageUrl: String): Bitmap? {
+
     val imageLoader = ImageLoader(context)
     val request = ImageRequest.Builder(context)
         .data(imageUrl)
@@ -17,7 +18,12 @@ suspend fun downloadAndSaveImage(context: Context, imageUrl: String, subDir: Str
         .build()
 
     val result = (imageLoader.execute(request) as? SuccessResult)?.drawable
-    val bitmap = (result as? BitmapDrawable)?.bitmap ?: return null
+    return (result as? BitmapDrawable)?.bitmap
+}
+
+suspend fun downloadAndSaveImage(context: Context, imageUrl: String, subDir: String, fileName: String): File? {
+
+    val bitmap = urlToBitmap(context, imageUrl) ?: return null
 
     val directory = File(context.filesDir, subDir)
     if (!directory.exists()) directory.mkdirs()
@@ -36,11 +42,15 @@ suspend fun downloadNewsImages(newsContainer: NewsContainer, context: Context) {
     }
 }
 
-
 fun loadSavedImage(context: Context, subDir: String, fileName: String): String? {
     val directory = File(context.filesDir, subDir)
     if (!directory.exists()) return null
-
     val file = File(directory, fileName)
     return if (file.exists()) file.absolutePath else null
 }
+
+fun deleteSavedImages(context: Context, subDir: String): Boolean {
+    val directory = File(context.filesDir, subDir)
+    return directory.deleteRecursively()
+}
+

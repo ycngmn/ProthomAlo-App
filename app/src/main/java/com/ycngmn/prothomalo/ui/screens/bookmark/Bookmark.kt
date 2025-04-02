@@ -4,49 +4,40 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.prothomalo.ArticleContainer
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
-import com.ycngmn.prothomalo.utils.loadSavedImage
+import com.ycngmn.prothomalo.utils.deleteSavedImages
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 
 @Composable
-fun BookmarkScreen(navController: NavController, viewModel: NewsViewModel) {
+fun BookmarkScreen(navController: NavController, newsVM: NewsViewModel, bookmarkDao: BookmarkDao) {
     Scaffold (bottomBar = { BottomBar(navController) }) {
         Column (modifier = Modifier.padding(it)) {
-            BookmarkList(navController, viewModel)
+            BookmarkList(navController, newsVM, bookmarkDao)
         }
     }
 }
 
 @Composable
-fun BookmarkList(navController: NavController, viewModel: NewsViewModel) {
+fun BookmarkList(navController: NavController, newsVM: NewsViewModel, bookmarkDao: BookmarkDao) {
 
-    val context =  LocalContext.current
-    val database = remember { BookmarkDatabaseHelper.getInstance(context) }
-    val bookmarkDao = remember { database.bookmarkDao() }
+    val bookmarks by bookmarkDao.getBookmarksFlow()
+        .collectAsState(initial = listOf(NewsContainer()))
 
-    var bookmarks by remember { mutableStateOf<List<NewsContainer>>(emptyList()) }
-    var isLoading by remember { mutableStateOf(false) }
-
-    LaunchedEffect(bookmarkDao) {
-        isLoading = true
-        val fetchedBookmarks = withContext(Dispatchers.IO) { bookmarkDao.getBookmarks() }
-        bookmarks = fetchedBookmarks
-    }
-
-
-
-    BookmarkColumn(context, bookmarks, navController, viewModel) {
+    val context = LocalContext.current
+    BookmarkColumn(bookmarks, navController, newsVM) {
+        val coroutineScope = CoroutineScope(Dispatchers.Main)
+        coroutineScope.launch(Dispatchers.IO) {
+            bookmarkDao.deleteBookmark(it)
+            deleteSavedImages(context, it.substringAfterLast("/"))
+        }
     }
 }
