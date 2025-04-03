@@ -69,7 +69,10 @@ fun ArticleCard_V1(
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
 
             Text(
-                text = titleBuilder(article.subHead, article.title, PaloRed, MaterialTheme.colorScheme.onBackground),
+                text = titleBuilder(
+                    article.subHead,
+                    article.title, PaloRed,
+                    MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.padding(start = 20.dp, top = 20.dp).weight(0.8f),
                 fontFamily = ShurjoFamily,
                 fontSize = 17.sp,

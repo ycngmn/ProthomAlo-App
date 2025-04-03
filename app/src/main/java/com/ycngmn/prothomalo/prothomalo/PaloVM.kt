@@ -4,21 +4,18 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
 
-class ArticlesViewModel (key : String,
-                         isTopic: Boolean = false,
-                         searchViewModel: SearchViewModel = SearchViewModel(),
-                         isSearch: Boolean = false ) : ViewModel() {
+class PaloVM (
+    key : String,
+    isTopic: Boolean = false) : ViewModel() {
 
-    var searchVM: SearchViewModel
+
     var isTopic: Boolean
-    var isSearch : Boolean
-    var nbArticles = mutableIntStateOf(-1)
 
     var limit = 50
     private var section = ""
-    var isLimitReached = false
+    var isLimitReached = mutableStateOf(false)
+    var isSearchResEmpty = mutableStateOf(false)
 
 
     private var _offset = mutableIntStateOf(0)
@@ -30,8 +27,6 @@ class ArticlesViewModel (key : String,
     init {
         this.section = key
         this.isTopic = isTopic
-        this.searchVM = searchViewModel
-        this.isSearch = isSearch
     }
 
     fun getSection() : String {
@@ -43,7 +38,6 @@ class ArticlesViewModel (key : String,
     }
 
     fun setArticles(articles : List<ArticleContainer>) {
-        nbArticles.intValue = articles.size
         _articles.value = articles
     }
 }

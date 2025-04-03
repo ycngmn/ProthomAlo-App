@@ -46,6 +46,7 @@ import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDao
+import com.ycngmn.prothomalo.ui.screens.error.ErrorConnection
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 import com.ycngmn.prothomalo.utils.YouTubeVideo
 import kotlinx.coroutines.Dispatchers
@@ -76,6 +77,12 @@ fun NewsLecture(
     val palo = PaloGlobal.getPalo()
     val newsCache = urlsVM.newsCache
 
+    var isShowError by remember { mutableStateOf(false) }
+    if (isShowError) {
+        ErrorConnection { isShowError = false }
+        return
+    }
+
     HorizontalPager(state = pagerState) { pageIndex ->
 
         val url = urls[pageIndex]
@@ -85,10 +92,16 @@ fun NewsLecture(
 
             if (!newsCache.containsKey(url)) {
                 coroutineScope.launch(Dispatchers.IO) {
-                    palo.getNews(url).let { result ->
-                        news = result
-                        urlsVM.updateNewsCache(url,result)
+
+                    try {
+                        palo.getNews(url).let { result ->
+                            news = result
+                            urlsVM.updateNewsCache(url,result)
+                        }
+                    } catch (_: Exception) {
+                        isShowError = true
                     }
+
                     // Load more articles if near the end
                     if (urls.size > 10 && pageIndex > urls.size - 2) {
                         val newUrls = runCatching {

@@ -19,32 +19,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.prothomalo.ArticlesViewModel
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
+import com.ycngmn.prothomalo.prothomalo.PaloVM
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V2
-import com.ycngmn.prothomalo.ui.screens.ErrorPage
-import com.ycngmn.prothomalo.utils.ArticleEngine
+import com.ycngmn.prothomalo.ui.screens.article.ArticleEngine
+import com.ycngmn.prothomalo.ui.screens.error.ErrorConnection
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsColumn(
-    articlesVM: ArticlesViewModel,
+    articlesVM: PaloVM,
     navController: NavController,
     newsViewModel: NewsViewModel,
-    source: String = "home"
 ) {
 
-    val articleEngine = ArticleEngine(articlesVM, PaloGlobal.getPalo())
+    val articleEngine = remember { ArticleEngine(articlesVM, PaloGlobal.getPalo()) }
 
-    if (articlesVM.nbArticles.intValue == 0) {
-        ErrorPage(navController)
+    if (articleEngine.isHttpError.value) {
+        ErrorConnection {
+            articleEngine.isHttpError.value = false
+            articleEngine.loadArticles()
+        }
         return
     }
-    
-    else if (articlesVM.articles.value.isEmpty()) {
+    if (articlesVM.articles.value.isEmpty()) {
         LoadingAnimation()
         articleEngine.loadArticles()
         return
@@ -60,7 +61,7 @@ fun NewsColumn(
     }
 
     LaunchedEffect(isLoadMore) {
-        if (isLoadMore && !articlesVM.isLimitReached) {
+        if (isLoadMore && !articlesVM.isLimitReached.value) {
             articleEngine.loadMoreArticles()
         }
     }
@@ -83,17 +84,17 @@ fun NewsColumn(
                     ArticleCard_V2(article) {
                         newsViewModel.setSection(articlesVM.getSection())
                         newsViewModel.updateUrls(articles.map { it.url })
-                        navController.navigate("news/$index@$source")
+                        navController.navigate("news/$index")
                     }
                 else
                     ArticleCard_V1(article) {
                         newsViewModel.setSection(articlesVM.getSection())
                         newsViewModel.updateUrls(articles.map { it.url })
-                        navController.navigate("news/$index@$source")
+                        navController.navigate("news/$index")
                     }
             }
 
-            if (!articlesVM.isLimitReached) {
+            if (!articlesVM.isLimitReached.value) {
                 item {
                     LinearProgressIndicator(
                         modifier = Modifier

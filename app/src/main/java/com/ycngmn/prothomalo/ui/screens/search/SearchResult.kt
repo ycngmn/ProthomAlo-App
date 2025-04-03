@@ -29,11 +29,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.prothomalo.ArticlesViewModel
+import com.ycngmn.prothomalo.prothomalo.PaloGlobal
+import com.ycngmn.prothomalo.prothomalo.PaloVM
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.screens.article.ArticleEngine
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.ui.screens.home.NewsColumn
-import kotlin.random.Random
 
 @Composable
 fun SearchResultScreen(
@@ -59,9 +60,15 @@ fun SearchResultScreen(
                 .padding(it)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            val articleVM = viewModel(key = searchViewModel.searchText) {
-               ArticlesViewModel(Random.nextInt().toString(), searchViewModel = searchViewModel, isSearch = true)
-            }
+            val articleVM = viewModel(key = searchViewModel.searchText) { PaloVM(searchViewModel.searchText) }
+            val artEngine = ArticleEngine(articleVM, PaloGlobal.getPalo())
+
+            artEngine.setSearchArticles(
+                query = searchViewModel.searchText,
+                author = searchViewModel.selectedAuthor,
+                sections = searchViewModel.selectedSections,
+                types = searchViewModel.selectedTypes
+            )
 
             NewsColumn(
                 articlesVM = articleVM,

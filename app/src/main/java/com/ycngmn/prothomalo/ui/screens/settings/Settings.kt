@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R
@@ -41,7 +42,6 @@ fun SettingScreen(settingsVM: SettingsVM, navController: NavController) {
     }
 }
 
-
 @Composable
 fun Settings(settingsVM: SettingsVM, navController: NavController) {
 
@@ -54,30 +54,28 @@ fun Settings(settingsVM: SettingsVM, navController: NavController) {
         ThemeAlertDialog(settingsVM) { isShowThemeDialog = false }
     }
 
-    val themeOptions = listOf("স্বয়ংক্রিয়", "দিবা", "নিশা")
-    val themeSubtitle = themeOptions.joinToString(", ")
-
     val scrollState = rememberScrollState()
     Column (modifier = Modifier.verticalScroll(scrollState)){
         SettingTile(
-            R.drawable.bulb_theme_24px, "প্রদর্শন শৈলী",
-            themeSubtitle,
+            R.drawable.bulb_theme_24px,
+            stringResource(R.string.theme),
+            stringResource(R.string.theme_hint),
             Modifier.fillMaxWidth()
                 .clickable { isShowThemeDialog = true }
         )
 
         SettingTile(
             R.drawable.list_alt_24px,
-            "বিভাগ সজ্জা",
-            "প্রচ্ছদ পাতায় বিভাগের পুনর্বিন্যাস",
+            stringResource(R.string.section_rearrange),
+            stringResource(R.string.section_rearrange_hint),
             Modifier.fillMaxWidth()
         )
 
         Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
             SettingTile(
                 R.drawable.custom_typography_24px,
-                "অক্ষরের আকার",
-                "ছোট, মাঝারি, বড়",
+                stringResource(R.string.font_size),
+                stringResource(R.string.font_size_hint),
             )
             Slider(
                 modifier = Modifier.padding(end = 16.dp),
@@ -92,8 +90,8 @@ fun Settings(settingsVM: SettingsVM, navController: NavController) {
         Row (verticalAlignment = Alignment.CenterVertically) {
             SettingTile(
                 R.drawable.more_horiz_24px,
-                "আরও পড়ুন",
-                "খবরের শেষে 'আরও পড়ুন' অংশ"
+                stringResource(R.string.read_more),
+                stringResource(R.string.read_more_hint)
             )
 
             Spacer(Modifier.width(16.dp))

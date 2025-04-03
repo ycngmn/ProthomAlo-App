@@ -45,13 +45,13 @@ fun BookmarkColumn(
                     ArticleCard_V2(article) {
                         newsViewModel.updateUrls(articles.map { it.url })
                         bookmarks.forEach { newsViewModel.updateNewsCache(it.newsUrl, it) }
-                        navController.navigate("news/$index@bookmark")
+                        navController.navigate("news/$index")
                     }
                 else
                     ArticleCard_V1(article) {
                         newsViewModel.updateUrls(articles.map { it.url })
                         bookmarks.forEach { newsViewModel.updateNewsCache(it.newsUrl, it) }
-                        navController.navigate("news/$index@bookmark")
+                        navController.navigate("news/$index")
                     }
             }
         }

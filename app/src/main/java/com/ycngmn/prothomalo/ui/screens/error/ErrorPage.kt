@@ -1,7 +1,8 @@
-package com.ycngmn.prothomalo.ui.screens
+package com.ycngmn.prothomalo.ui.screens.error
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,33 +22,38 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 
 
 @Composable
-fun ErrorPage (navController: NavController) {
-    Column (Modifier.fillMaxSize(),
+fun ErrorPage (
+    imageId: Int,
+    errorText: String,
+    errorDescription: String,
+    buttonText: String,
+    onButtonClick: () -> Unit,
+) {
+    Column (Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center) {
         Image(
-            painter = painterResource(R.drawable.palo_404),
-            contentDescription = "404 Error",
+            painter = painterResource(imageId),
+            contentDescription = null,
             modifier = Modifier.padding(10.dp).fillMaxWidth()
         )
         Text (
-            text = "কিছু পাওয়া যায়নি",
+            text = errorText,
             fontFamily = ShurjoFamily,
             fontSize = 35.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(Modifier.height(20.dp))
 
         Text(
-            text = "আপনি যা খুঁজছেন, তা পাওয়া যায়নি। বিষয়টি হয়তো প্রথম আলোর অন্তর্ভুক্ত নয়, অথবা অনুসন্ধানে কোনো ভুল হয়েছে। দয়া করে তথ্যটি নিশ্চিত করে আবার চেষ্টা করুন।",
+            text = errorDescription,
             textAlign = TextAlign.Center,
             fontFamily = ShurjoFamily,
             fontSize = 18.sp,
@@ -56,14 +62,15 @@ fun ErrorPage (navController: NavController) {
 
         )
 
-        Spacer(Modifier.height(25.dp))
+        if (errorDescription.isNotEmpty()) Spacer(Modifier.height(25.dp))
+        else Spacer(Modifier.height(10.dp))
 
         Button(
             border = BorderStroke(color = PaloBlue, width = 2.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background),
-            onClick = { navController.navigateUp() },
+            onClick = { onButtonClick() },
         ) { 
-            Text("পিছনে ফিরে যান",textAlign = TextAlign.Center,
+            Text(buttonText,textAlign = TextAlign.Center,
                 fontFamily = ShurjoFamily,
                 fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.onBackground)

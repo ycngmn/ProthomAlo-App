@@ -73,12 +73,11 @@ fun MainNavGraph() {
 
 
             ) { backStackEntry ->
-                val str = backStackEntry.arguments?.getString("index")
-                val index = str?.split("@")?.first()?.toIntOrNull() ?: 0
+                val index = backStackEntry.arguments?.getString("index")?.toIntOrNull()
                 NewsLecture(
                     navController,
                     urlsVM = viewModel,
-                    startIndex = index,
+                    startIndex = index ?: 0,
                     settingsVM.isSeeMoreEnabled.value,
                     bookmarkDao
                 )

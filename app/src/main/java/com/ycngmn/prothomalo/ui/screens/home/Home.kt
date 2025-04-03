@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.prothomalo.ArticlesViewModel
+import com.ycngmn.prothomalo.prothomalo.PaloVM
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 
 @Composable
@@ -42,7 +42,7 @@ fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
                 .background(MaterialTheme.colorScheme.background)
         ) {
             HorizontalPager(state = pagerState) { page ->
-                val articleVM = viewModel(key = keys[page]) { ArticlesViewModel(keys[page]) }
+                val articleVM = viewModel(key = keys[page]) { PaloVM(keys[page]) }
                 NewsColumn(articleVM, navController, newsViewModel)
             }
         }

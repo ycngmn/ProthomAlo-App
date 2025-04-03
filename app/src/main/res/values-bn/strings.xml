@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_tab">প্রচ্ছদ</string>
+    <string name="settings_tab">বিন্যাস</string>
+    <string name="bookmark_tab">সংরক্ষণ</string>
+    <string name="menu_tab">তালিকা</string>
+
+    <string name="read_more_title"><u>%1$s</u> নিয়ে আরও পড়ুন</string>
+
+    <string name="theme">Theme</string>
+    <string name="theme_hint">স্বয়ংক্রিয়, দিবা, নিশা</string>
+    <string name="font_size">অক্ষরের আকার</string>
+    <string name="font_size_hint">ছোট, মাঝারি, বড়</string>
+    <string name="read_more">আরও পড়ুন</string>
+    <string name="read_more_hint">খবরের শেষে \'আরও পড়ুন\' অংশ</string>
+    <string name="section_rearrange">বিভাগ সজ্জা</string>
+    <string name="section_rearrange_hint">প্রচ্ছদ পাতায় বিভাগের পুনর্বিন্যাস</string>
+</resources>

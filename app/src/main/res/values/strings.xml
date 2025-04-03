@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">ProthomAlo</string>
+    <string name="app_name" translatable="false">ProthomAlo</string>
+    <string name="home_tab">Home</string>
+    <string name="settings_tab">Settings</string>
+    <string name="bookmark_tab">Bookmark</string>
+    <string name="menu_tab">Menu</string>
+
+    <string name="read_more_title">Read more about <u>%1$s</u></string>
+
+    <string name="theme">Theme</string>
+    <string name="theme_hint">Automatic, Day, Night</string>
+    <string name="font_size">Font Size</string>
+    <string name="font_size_hint">Small, Medium, Large</string>
+    <string name="read_more">Read More</string>
+    <string name="read_more_hint">Read more section at the bottom of an article</string>
+    <string name="section_rearrange">Rearrange Section</string>
+    <string name="section_rearrange_hint">Rearrange sections on the homepage</string>
+
+
 </resources>

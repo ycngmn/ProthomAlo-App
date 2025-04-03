@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.prothomalo.ArticlesViewModel
+import com.ycngmn.prothomalo.prothomalo.PaloVM
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.ui.screens.home.NewsColumn
@@ -66,13 +66,12 @@ fun TopicScreen(navController: NavHostController, topicX: String, newsViewModel:
                 .background(MaterialTheme.colorScheme.background)
         ) {
             val articleVM = viewModel(key = topicSlug) {
-                ArticlesViewModel(topicSlug, isTopic = isTopic)
+                PaloVM(topicSlug, isTopic = isTopic)
             }
             NewsColumn(
                 articlesVM = articleVM,
                 navController = navController,
-                newsViewModel = newsViewModel,
-                source = "topic"
+                newsViewModel = newsViewModel
             )
         }
     }
