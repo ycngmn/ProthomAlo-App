@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.ycngmn.prothomalo.NewsViewModel
-import com.ycngmn.prothomalo.prothomalo.PaloVM
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
+import com.ycngmn.prothomalo.prothomalo.PaloVM
+import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
 
 @Composable
 fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {

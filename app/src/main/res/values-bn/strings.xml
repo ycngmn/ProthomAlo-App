@@ -7,12 +7,37 @@
 
     <string name="read_more_title"><u>%1$s</u> নিয়ে আরও পড়ুন</string>
 
-    <string name="theme">Theme</string>
+    <string name="theme">প্রদর্শন শৈলী</string>
+    <string name="theme_auto">স্বয়ংক্রিয়</string>
+    <string name="theme_day">দিবা</string>
+    <string name="theme_night">নিশা</string>
     <string name="theme_hint">স্বয়ংক্রিয়, দিবা, নিশা</string>
+    <string name="confirm_theme">নিশ্চিত করুন</string>
     <string name="font_size">অক্ষরের আকার</string>
     <string name="font_size_hint">ছোট, মাঝারি, বড়</string>
     <string name="read_more">আরও পড়ুন</string>
-    <string name="read_more_hint">খবরের শেষে \'আরও পড়ুন\' অংশ</string>
+    <string name="read_more_hint">খবরের নিচে প্রস্তাবিত অংশ</string>
     <string name="section_rearrange">বিভাগ সজ্জা</string>
     <string name="section_rearrange_hint">প্রচ্ছদ পাতায় বিভাগের পুনর্বিন্যাস</string>
+
+    <string name="search_title">অনুসন্ধান ফলাফল</string>
+    <string name="label_date">তারিখ</string>
+    <string name="label_author">লেখক</string>
+    <string name="label_category">বিভাগ</string>
+    <string name="label_type">ধরন</string>
+    <string name="filter_hint">আরও নির্দিষ্ট করে খুঁজুন</string>
+    <string name="search_prompt">যা খুঁজতে চান</string>
+    <string name="type_text">পাঠ্য</string>
+    <string name="type_photo">ছবি</string>
+    <string name="type_video">ভিডিও</string>
+    <string name="type_live_blog">সরাসরি</string>
+    <string name="type_interview">সাক্ষাৎকার</string>
+
+    <string name="error_connection_title">সংযোগ ব্যর্থ হয়েছে</string>
+    <string name="error_connection_sub" />
+    <string name="error_connection_button">আবার চেষ্টা করুন</string>
+    <string name="error_404_title">কিছু পাওয়া যায়নি</string>
+    <string name="error_404_sub">আপনি যা খুঁজছেন, তা পাওয়া যায়নি। বিষয়টি হয়তো প্রথম আলোর অন্তর্ভুক্ত নয়,
+        অথবা অনুসন্ধানে কোনো ভুল হয়েছে। দয়া করে তথ্যটি নিশ্চিত করে আবার চেষ্টা করুন।</string>
+    <string name="error_404_button">পিছনে ফিরে যান</string>
 </resources>

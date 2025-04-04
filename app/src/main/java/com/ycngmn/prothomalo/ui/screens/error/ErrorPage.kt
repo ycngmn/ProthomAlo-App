@@ -42,6 +42,9 @@ fun ErrorPage (
             contentDescription = null,
             modifier = Modifier.padding(10.dp).fillMaxWidth()
         )
+
+        Spacer(Modifier.height(5.dp))
+
         Text (
             text = errorText,
             fontFamily = ShurjoFamily,

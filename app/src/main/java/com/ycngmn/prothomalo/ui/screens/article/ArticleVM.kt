@@ -23,49 +23,40 @@ class ArticleEngine(
 
         return withContext(Dispatchers.IO) {
 
-         if (!viewModel.isTopic) {
-                try {
+            try {
+
+                if (viewModel.isSearch) {
+                    val searchRes = articleClass.search(
+                        query = viewModel.searchVM?.searchText ?: "",
+                        author = viewModel.searchVM?.selectedAuthor ?: "",
+                        sections = viewModel.searchVM?.selectedSections ?: emptyList(),
+                        types = viewModel.searchVM?.selectedTypes ?: emptyList(),
+                        offset = viewModel.offset.value,
+                        limit = viewModel.limit,
+                    )
+                    viewModel.isSearchResEmpty.value = searchRes.isEmpty()
+                    searchRes
+                } else if (viewModel.isTopic) {
+                    // to detect see more, not the best of the methods but works
+                    articleClass.getSeeMore(
+                        viewModel.getSection(), urlToSkip = "&@àml",
+                        offset = viewModel.offset.value, limit = viewModel.limit
+                    )
+                } else {
                     articleClass.getArticle(
                         viewModel.getSection(), viewModel.offset.value, viewModel.limit
                     )
-                } catch (_ : HttpStatusException) {
-                    viewModel.isLimitReached.value = true
-                    viewModel.setArticles(viewModel.articles.value.dropLast(1))
-                    emptyList()
-                } catch (_ : ConnectException) {
-                    isHttpError.value = true
-                    emptyList()
-                } catch (_ : Exception) {
-                    isHttpError.value = true
-                    emptyList()
                 }
-            }
-            else {
-                // to detect see more, not the best of the methods but works
-                articleClass.getSeeMore(
-                    viewModel.getSection(), urlToSkip = "&@àml",
-                    offset = viewModel.offset.value, limit = viewModel.limit
-                )
-            }
-        }
-    }
-
-    fun setSearchArticles(
-        query: String, author: String,
-        sections: List<String>, types: List<String>,
-    ) {
-         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                viewModel.setArticles(
-                    articleClass.search(
-                        query = query,
-                        author = author,
-                        sections = sections,
-                        types = types,
-                        offset = viewModel.offset.value,
-                        limit = viewModel.limit
-                    )
-                )
+            } catch (_ : HttpStatusException) {
+                viewModel.isLimitReached.value = true
+                viewModel.setArticles(viewModel.articles.value.dropLast(1))
+                emptyList()
+            } catch (_ : ConnectException) {
+                isHttpError.value = true
+                emptyList()
+            } catch (_ : Exception) {
+                isHttpError.value = true
+                emptyList()
             }
         }
     }

@@ -26,9 +26,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,11 +41,13 @@ fun ThemeAlertDialog(settingsVM: SettingsVM, onDismissRequest: () -> Unit) {
 
     val openDialog = remember { mutableStateOf(true) }
 
-    LaunchedEffect(Unit) {
-        openDialog.value = true
-    }
+    LaunchedEffect(Unit) { openDialog.value = true }
 
-    val options = listOf("স্বয়ংক্রিয়", "দিবা", "নিশা")
+    val options = listOf(
+        stringResource(R.string.theme_auto),
+        stringResource(R.string.theme_day),
+        stringResource(R.string.theme_night)
+    )
     var selectedOption by remember { mutableStateOf(options[theme]) } // Default selection
 
     if (openDialog.value) {
@@ -60,7 +64,7 @@ fun ThemeAlertDialog(settingsVM: SettingsVM, onDismissRequest: () -> Unit) {
             ) {
                 Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp).selectableGroup()) {
                     Text(
-                        text = "প্রদর্শন শৈলী",
+                        text = stringResource(R.string.theme),
                         modifier = Modifier.padding(bottom = 16.dp),
                         fontSize = 22.sp,
                         fontFamily = ShurjoFamily,
@@ -96,10 +100,12 @@ fun ThemeAlertDialog(settingsVM: SettingsVM, onDismissRequest: () -> Unit) {
                         },
                         modifier = Modifier.align(Alignment.End).padding(start = 150.dp)
                     ) {
-                        Text("নিশ্চিত করুন",
+                        Text(
+                            stringResource(R.string.confirm_theme),
                             fontSize = 16.sp,
                             fontFamily = ShurjoFamily,
-                            fontWeight = FontWeight.Bold)
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }

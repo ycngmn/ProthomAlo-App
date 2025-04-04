@@ -37,8 +37,7 @@ fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewMode
         bottomBar = { BottomBar(navController) }
     ) {
         Column (
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
                 .padding(it).padding(16.dp, 16.dp, 16.dp, 0.dp)
                 .verticalScroll(scrollState),
         ) {
@@ -57,11 +56,15 @@ fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewMode
                 SectionCards(
                     iconRes = R.drawable.photo_library_24px,
                     text = mediaMenu.first().key
-                ) { navController.navigate("topic/${mediaMenu.first().value}@ছবি") }
+                ) { navController.navigate(
+                    "topic/${mediaMenu.first().value}@${mediaMenu.first().key}"
+                ) }
                 SectionCards(
                     iconRes = R.drawable.video_library_24px,
                     text = mediaMenu.last().key
-                ) { navController.navigate("topic/${mediaMenu.last().value}@ভিডিও") }
+                ) { navController.navigate(
+                    "topic/${mediaMenu.last().value}@${mediaMenu.last().key}"
+                ) }
             }
             sectionMap.entries.forEachIndexed { index, (key, value) ->
 
@@ -80,12 +83,8 @@ fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewMode
                 }
             }
         }
-        if (isSearchFilterVisible) {
-            Column {
-                FilterBar(searchViewModel)
-            }
-
-        }
+        if (isSearchFilterVisible)
+            Column { FilterBar(searchViewModel) }
 
     }
 

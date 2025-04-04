@@ -1,5 +1,6 @@
 package com.ycngmn.prothomalo
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
@@ -11,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -18,8 +20,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
-import com.ycngmn.prothomalo.ui.screens.TopicScreen
+import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
+import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDatabaseHelper
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkScreen
 import com.ycngmn.prothomalo.ui.screens.home.HomePage
@@ -29,6 +32,7 @@ import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
 import com.ycngmn.prothomalo.ui.screens.settings.SettingScreen
 import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
 import com.ycngmn.prothomalo.ui.screens.settings.SettingsVMFactory
+import com.ycngmn.prothomalo.ui.screens.topic.TopicScreen
 import com.ycngmn.prothomalo.ui.theme.ProthomAloTheme
 import com.ycngmn.prothomalo.utils.DataStoreManager
 import com.ycngmn.prothomalo.utils.SetStatusBarColor
@@ -50,6 +54,11 @@ fun MainNavGraph() {
     val settingsVM: SettingsVM = viewModel(factory = SettingsVMFactory(dataStoreManager))
     val theme by settingsVM.theme.collectAsState()
     val paloKey by settingsVM.paloKey.collectAsState()
+
+    val locale = if (paloKey == PaloKeys.PaloEnglish) LocaleListCompat.getEmptyLocaleList()
+    else LocaleListCompat.forLanguageTags("bn")
+
+    AppCompatDelegate.setApplicationLocales(locale)
 
     PaloGlobal.paloKey = paloKey
     PaloGlobal.isDarkTheme = theme == 2 || (theme == 0 && isSystemInDarkTheme())

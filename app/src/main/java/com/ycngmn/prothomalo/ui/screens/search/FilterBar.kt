@@ -34,10 +34,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
@@ -64,9 +66,8 @@ fun FilterBar(searchViewModel: SearchViewModel) {
 
         Column (modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
-
             Text(
-                text = "আরও নির্দিষ্ট করে খুঁজুন",
+                text = stringResource(R.string.filter_hint),
                 fontFamily = ShurjoFamily,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 18.sp,
@@ -74,17 +75,43 @@ fun FilterBar(searchViewModel: SearchViewModel) {
                 textAlign = TextAlign.Center
             )
 
-            CustomField(selectedDate, "তারিখ", Icons.Default.DateRange, FieldType.DatePicker, onDateSelected = { searchViewModel.selectedDate = it })
-            CustomField(selectedAuthor, "লেখক", Icons.Default.Person, FieldType.Text, onValueChange = { searchViewModel.selectedAuthor = it })
+            CustomField(
+                selectedDate,
+                stringResource(R.string.label_date),
+                Icons.Default.DateRange,
+                FieldType.DatePicker,
+                onDateSelected = { searchViewModel.selectedDate = it }
+            )
+            CustomField(
+                selectedAuthor,
+                stringResource(R.string.label_author),
+                Icons.Default.Person,
+                FieldType.Text,
+                onValueChange = { searchViewModel.selectedAuthor = it }
+            )
+
             val sectionOptions = sectionMap.keys.map { it.first }.dropLast(1)
-            CustomField("", "বিভাগ", Icons.Default.ArrowDropDown, FieldType.MultiChoice,
+            CustomField(
+                "",
+                stringResource(R.string.label_category),
+                Icons.Default.ArrowDropDown,
+                FieldType.MultiChoice,
                 options = sectionOptions,
                 selectedItems = searchViewModel.selectedSections,
                 onSelectionChange = { searchViewModel.selectedSections = it.toList() })
-            val typeOptions = mapOf("পাঠ্য" to "text","ছবি" to "photo",
-                "ভিডিও" to "video","সরাসরি" to "live-blog", "সাক্ষাৎকার" to "interview")
+            val typeOptions =  mapOf(
+                stringResource(id = R.string.type_text) to "text",
+                stringResource(id = R.string.type_photo) to "photo",
+                stringResource(id = R.string.type_video) to "video",
+                stringResource(id = R.string.type_live_blog) to "live-blog",
+                stringResource(id = R.string.type_interview) to "interview"
+            )
             var selectedTypes by remember { mutableStateOf(emptyList<String>()) }
-            CustomField("", "ধরন", Icons.Default.ArrowDropDown, FieldType.MultiChoice,
+            CustomField(
+                "",
+                stringResource(R.string.label_type),
+                Icons.Default.ArrowDropDown,
+                FieldType.MultiChoice,
                 options = typeOptions.keys.toList(),
                 selectedItems = selectedTypes,
                 onSelectionChange = {

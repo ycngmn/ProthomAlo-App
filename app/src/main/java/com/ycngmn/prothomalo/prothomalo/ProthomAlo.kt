@@ -61,7 +61,7 @@ open class ProthomAlo {
     )
     open val menuMap = paloBnMap
     open val menuMediaSection = mapOf(
-        "ছবি" to "photo",
+        "ছবি" to "home-photo",
         "ভিডিও" to "video"
     )
 
@@ -80,19 +80,16 @@ open class ProthomAlo {
         .replace('8', '৮')
         .replace('9', '৯')
 
-    private fun formatTimeAgo(milliseconds: Long): String {
-        val now = System.currentTimeMillis()
-        val diff = now - milliseconds
+    open fun formatTimeAgo(milliseconds: Long): String {
+
+        val diff = System.currentTimeMillis() - milliseconds
 
         return when {
             diff < 3600000 -> "${(diff / 60000).toBengaliNumber()} মিনিট আগে"
             diff < 86400000 -> "${(diff / 3600000).toBengaliNumber()} ঘণ্টা আগে"
             diff < 259200000 -> "${(diff / 86400000).toBengaliNumber()} দিন আগে"
-            else -> {
-                val date = Date(milliseconds)
-                val formatter = SimpleDateFormat("dd-MM-yyyy hh:mm", Locale("bn", "BD"))
-                formatter.format(date)
-            }
+            else -> SimpleDateFormat("dd-MM-yyyy hh:mm", Locale("bn","BD"))
+                .format(Date(milliseconds))
         }
     }
 

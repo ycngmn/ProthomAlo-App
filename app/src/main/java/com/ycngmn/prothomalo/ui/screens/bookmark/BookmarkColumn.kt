@@ -4,11 +4,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.prothomalo.ArticleContainer
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V2
+import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
 import com.ycngmn.prothomalo.utils.SwipeToDeleteContainer
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
 

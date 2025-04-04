@@ -18,13 +18,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.ycngmn.prothomalo.NewsViewModel
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.PaloVM
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V2
 import com.ycngmn.prothomalo.ui.screens.article.ArticleEngine
+import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
+import com.ycngmn.prothomalo.ui.screens.error.Error404
 import com.ycngmn.prothomalo.ui.screens.error.ErrorConnection
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
 
@@ -45,6 +46,13 @@ fun NewsColumn(
         }
         return
     }
+
+    if (articlesVM.isSearchResEmpty.value) {
+        Error404(navController)
+        return
+    }
+
+
     if (articlesVM.articles.value.isEmpty()) {
         LoadingAnimation()
         articleEngine.loadArticles()

@@ -45,19 +45,9 @@ fun SwipeToDeleteContainer(
     val icon: ImageVector = Icons.Outlined.Delete
     val alignment: Alignment = Alignment.CenterEnd
     var isRemoved by remember { mutableStateOf(false) }
-    val threshold by remember { mutableStateOf(135.dp) }
+    val threshold by remember { mutableStateOf(150.dp) }
     var offset by remember { mutableFloatStateOf(0f) }
-    val swipeState = rememberSwipeToDismissBoxState(
-        confirmValueChange = {
-            if (it == SwipeToDismissBoxValue.EndToStart) {
-                isRemoved = true
-            }
-            true
-        },
-        positionalThreshold = with(density) {
-            { threshold.toPx()}
-        }
-    )
+
     val offsetMatch by remember(offset) {
         derivedStateOf {
             mutableStateOf(
@@ -67,6 +57,19 @@ fun SwipeToDeleteContainer(
             ).value
         }
     }
+
+    val swipeState = rememberSwipeToDismissBoxState(
+        confirmValueChange = {
+            if (it == SwipeToDismissBoxValue.EndToStart && offsetMatch) {
+                isRemoved = true
+                true
+            }
+            else false
+        },
+        positionalThreshold = with(density) {
+            { threshold.toPx()}
+        }
+    )
 
     val color by animateColorAsState(
         targetValue = if (swipeState.dismissDirection == SwipeToDismissBoxValue.EndToStart && offsetMatch) {

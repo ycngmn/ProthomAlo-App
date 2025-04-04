@@ -4,16 +4,18 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
 
 class PaloVM (
-    key : String,
-    isTopic: Boolean = false) : ViewModel() {
+    private var section: String,
+    var isTopic: Boolean = false,
+    var searchVM: SearchViewModel? = null,
+    val isSearch: Boolean = false
+) : ViewModel() {
 
-
-    var isTopic: Boolean
 
     var limit = 50
-    private var section = ""
+
     var isLimitReached = mutableStateOf(false)
     var isSearchResEmpty = mutableStateOf(false)
 
@@ -23,11 +25,6 @@ class PaloVM (
 
     private val _articles = mutableStateOf<List<ArticleContainer>>(emptyList())
     val articles: State<List<ArticleContainer>> = _articles
-
-    init {
-        this.section = key
-        this.isTopic = isTopic
-    }
 
     fun getSection() : String {
         return section
