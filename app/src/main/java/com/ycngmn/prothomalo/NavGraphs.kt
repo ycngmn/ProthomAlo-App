@@ -1,18 +1,17 @@
 package com.ycngmn.prothomalo
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -20,7 +19,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
-import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDatabaseHelper
@@ -36,6 +34,7 @@ import com.ycngmn.prothomalo.ui.screens.topic.TopicScreen
 import com.ycngmn.prothomalo.ui.theme.ProthomAloTheme
 import com.ycngmn.prothomalo.utils.DataStoreManager
 import com.ycngmn.prothomalo.utils.SetStatusBarColor
+import com.ycngmn.prothomalo.utils.cleanUpPdfs
 
 @Composable
 fun MainNavGraph() {
@@ -47,6 +46,8 @@ fun MainNavGraph() {
     val context = LocalContext.current
     val latestContext by rememberUpdatedState(context)
 
+    cleanUpPdfs(latestContext)
+
     val dataStoreManager = remember { DataStoreManager(latestContext) }
     val database = remember { BookmarkDatabaseHelper.getInstance(latestContext) }
     val bookmarkDao = remember { database.bookmarkDao() }
@@ -54,11 +55,6 @@ fun MainNavGraph() {
     val settingsVM: SettingsVM = viewModel(factory = SettingsVMFactory(dataStoreManager))
     val theme by settingsVM.theme.collectAsState()
     val paloKey by settingsVM.paloKey.collectAsState()
-
-    val locale = if (paloKey == PaloKeys.PaloEnglish) LocaleListCompat.getEmptyLocaleList()
-    else LocaleListCompat.forLanguageTags("bn")
-
-    AppCompatDelegate.setApplicationLocales(locale)
 
     PaloGlobal.paloKey = paloKey
     PaloGlobal.isDarkTheme = theme == 2 || (theme == 0 && isSystemInDarkTheme())
@@ -83,13 +79,15 @@ fun MainNavGraph() {
 
             ) { backStackEntry ->
                 val index = backStackEntry.arguments?.getString("index")?.toIntOrNull()
-                NewsLecture(
-                    navController,
-                    urlsVM = viewModel,
-                    startIndex = index ?: 0,
-                    settingsVM.isSeeMoreEnabled.value,
-                    bookmarkDao
-                )
+                SelectionContainer {
+                    NewsLecture(
+                        navController,
+                        urlsVM = viewModel,
+                        startIndex = index ?: 0,
+                        settingsVM.isSeeMoreEnabled.value,
+                        bookmarkDao
+                    )
+                }
             }
 
             composable(

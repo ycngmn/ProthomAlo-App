@@ -2,9 +2,6 @@ package com.ycngmn.prothomalo.prothomalo.subs
 
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.ProthomAlo
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class PaloEnglish : ProthomAlo() {
 
@@ -27,21 +24,6 @@ class PaloEnglish : ProthomAlo() {
         "Photo" to "photo",
         "Video" to "video"
     )
-
-    override fun formatTimeAgo(milliseconds: Long): String {
-
-        val diff = System.currentTimeMillis() - milliseconds
-
-        val (value, unit) = when {
-            diff < 3600000 -> diff / 60000 to "minute"
-            diff < 86400000 -> diff / 3600000 to "hour"
-            diff < 259200000 -> diff / 86400000 to "day"
-            else -> return SimpleDateFormat("dd-MM-yyyy hh:mm", Locale.ENGLISH)
-                .format(Date(milliseconds))
-        }
-
-        return "$value ${unit}${if (value > 1) "s" else ""} ago"
-    }
 
     override val menuMap: Map<Pair<String, String>, List<Pair<String, String>>> =
         mapOf(

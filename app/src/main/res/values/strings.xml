@@ -1,46 +1,4 @@
 <resources>
     <string name="app_name" translatable="false">ProthomAlo</string>
-    <string name="home_tab">Home</string>
-    <string name="settings_tab">Settings</string>
-    <string name="bookmark_tab">Bookmark</string>
-    <string name="menu_tab">Menu</string>
-
-    <string name="read_more_title">Read more about <u>%1$s</u></string>
-
-    <string name="theme">Theme</string>
-    <string name="theme_auto">Automatic</string>
-    <string name="theme_day">Day</string>
-    <string name="theme_night">Night</string>
-    <string name="theme_hint">Automatic, Day, Night</string>
-    <string name="confirm_theme">Apply</string>
-    <string name="font_size">Font Size</string>
-    <string name="font_size_hint">Small, Medium, Large</string>
-    <string name="read_more">Read More</string>
-    <string name="read_more_hint">Section at article bottom</string>
-    <string name="section_rearrange">Rearrange Section</string>
-    <string name="section_rearrange_hint">Rearrange homepage sections</string>
-
-    <string name="search_title">Search Results</string>
-    <string name="label_date">Date</string>
-    <string name="label_author">Author</string>
-    <string name="label_category">Category</string>
-    <string name="label_type">Type</string>
-    <string name="filter_hint">Search more specifically</string>
-    <string name="search_prompt">What do you want to search?</string>
-    <string name="type_text">Text</string>
-    <string name="type_photo">Photo</string>
-    <string name="type_video">Video</string>
-    <string name="type_live_blog">Live Blog</string>
-    <string name="type_interview">Interview</string>
-
-    <string name="error_connection_title">Connection Error</string>
-    <string name="error_connection_sub">Please check your internet connection and try again.</string>
-    <string name="error_connection_button">Try Again</string>
-    <string name="error_404_title">No Results Found</string>
-    <string name="error_404_sub">The object you are looking for could not be found.
-        This topic is probably not related to Prothom Alo or you are searching incorrectly.
-        Please be sure about your search topic.</string>
-    <string name="error_404_button">Go Back</string>
-
 
 </resources>

@@ -20,14 +20,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
+import com.ycngmn.prothomalo.Strings
 
 
 @Composable
@@ -67,7 +66,7 @@ fun PaloSearchBar(
             singleLine = true,
             placeholder = {
                 Text(
-                    stringResource(id = R.string.search_prompt),
+                    Strings.get("search_prompt"),
                     fontFamily = ShurjoFamily,
                     color = Color.Gray,
                     fontSize = 16.sp,

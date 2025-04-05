@@ -1,6 +1,7 @@
 package com.ycngmn.prothomalo.ui.screens.search
 
 
+import com.ycngmn.prothomalo.Strings
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -10,10 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.PaloVM
 import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
@@ -36,7 +35,7 @@ fun SearchResultScreen(
 
     Scaffold (
         topBar = {
-            TopicTopBar(stringResource(R.string.search_title))
+            TopicTopBar(Strings.get("search_title"))
             { navController.navigateUp() } },
         bottomBar = { BottomBar(navController) }
     ) {

@@ -9,6 +9,7 @@ import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V2
 import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
+import com.ycngmn.prothomalo.utils.FormatTime
 import com.ycngmn.prothomalo.utils.SwipeToDeleteContainer
 import com.ycngmn.prothomalo.utils.rememberForeverLazyListState
 
@@ -30,7 +31,10 @@ fun BookmarkColumn(
 
     val articles = bookmarks.map {
         val thumbnail = it.body.firstOrNull { it.first == "image" }?.second ?: ""
-        ArticleContainer(it.headline, thumbnail, url = it.newsUrl, date = it.date, subHead = "null")
+        ArticleContainer(
+            it.headline, thumbnail,
+            url = it.newsUrl, date = FormatTime.toAgoString(it.date),
+            subHead = "null")
     }
 
     val listState = rememberForeverLazyListState(key = "bookmark")

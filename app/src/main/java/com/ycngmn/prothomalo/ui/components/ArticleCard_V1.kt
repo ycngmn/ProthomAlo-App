@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -31,7 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.ArticleContainer
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
@@ -62,6 +64,7 @@ fun ArticleCard_V1(
     article: ArticleContainer,
     clickAction: () -> Unit,
 ) {
+    val context = LocalContext.current
 
     Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)
         .clickable { clickAction() }
@@ -83,13 +86,16 @@ fun ArticleCard_V1(
                 .height(100.dp)
                 .padding(start = 10.dp, top = 20.dp, end = 20.dp)) {
 
-                Image(
-                    painter = rememberAsyncImagePainter(article.thumbnail),
-                    contentDescription = "News Image",
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentScale = ContentScale.Crop
+                SubcomposeAsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(article.thumbnail)
+                        .crossfade(true).build(),
+                    contentDescription = "News Image", // later todo
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    error = { Image(painterResource(R.drawable.img), null) }
                 )
+
                 val iconRes = when {
                     article.url.contains("/video/") -> R.drawable.video_library_24px
                     article.url.contains("/photo/") -> R.drawable.photo_library_24px

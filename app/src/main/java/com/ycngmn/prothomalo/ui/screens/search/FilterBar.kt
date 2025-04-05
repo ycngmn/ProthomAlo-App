@@ -34,15 +34,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
+import com.ycngmn.prothomalo.Strings
 
 enum class FieldType {
     Text, DatePicker, MultiChoice
@@ -67,7 +66,7 @@ fun FilterBar(searchViewModel: SearchViewModel) {
         Column (modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
             Text(
-                text = stringResource(R.string.filter_hint),
+                text = Strings.get("filters_hint"),
                 fontFamily = ShurjoFamily,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 18.sp,
@@ -77,14 +76,14 @@ fun FilterBar(searchViewModel: SearchViewModel) {
 
             CustomField(
                 selectedDate,
-                stringResource(R.string.label_date),
+                Strings.get("label_date"),
                 Icons.Default.DateRange,
                 FieldType.DatePicker,
                 onDateSelected = { searchViewModel.selectedDate = it }
             )
             CustomField(
                 selectedAuthor,
-                stringResource(R.string.label_author),
+                Strings.get("label_author"),
                 Icons.Default.Person,
                 FieldType.Text,
                 onValueChange = { searchViewModel.selectedAuthor = it }
@@ -93,23 +92,23 @@ fun FilterBar(searchViewModel: SearchViewModel) {
             val sectionOptions = sectionMap.keys.map { it.first }.dropLast(1)
             CustomField(
                 "",
-                stringResource(R.string.label_category),
+                Strings.get("label_category"),
                 Icons.Default.ArrowDropDown,
                 FieldType.MultiChoice,
                 options = sectionOptions,
                 selectedItems = searchViewModel.selectedSections,
                 onSelectionChange = { searchViewModel.selectedSections = it.toList() })
             val typeOptions =  mapOf(
-                stringResource(id = R.string.type_text) to "text",
-                stringResource(id = R.string.type_photo) to "photo",
-                stringResource(id = R.string.type_video) to "video",
-                stringResource(id = R.string.type_live_blog) to "live-blog",
-                stringResource(id = R.string.type_interview) to "interview"
+                Strings.get("type_text") to "text",
+                Strings.get("type_photo") to "photo",
+                Strings.get("type_video") to "video",
+                Strings.get("type_live_blog") to "live-blog",
+                Strings.get("type_interview") to "interview"
             )
             var selectedTypes by remember { mutableStateOf(emptyList<String>()) }
             CustomField(
                 "",
-                stringResource(R.string.label_type),
+                Strings.get("label_type"),
                 Icons.Default.ArrowDropDown,
                 FieldType.MultiChoice,
                 options = typeOptions.keys.toList(),

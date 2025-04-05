@@ -1,5 +1,6 @@
 package com.ycngmn.prothomalo.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,10 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
+import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.ArticleContainer
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.PaloOrange
@@ -30,13 +35,19 @@ fun ArticleCard_V2(
     clickAction: () -> Unit,
 ) {
 
+    val context = LocalContext.current
+
     Box (modifier = Modifier.background(MaterialTheme.colorScheme.background).fillMaxWidth()
         .clickable { clickAction() }) {
+
         SubcomposeAsyncImage(
-            model = article.thumbnail,
+            model = ImageRequest.Builder(context)
+                .data(article.thumbnail)
+                .crossfade(true).build(),
             contentDescription = "News Image", // later todo
-            modifier = Modifier.defaultMinSize(minHeight = 250.dp),
-            contentScale = ContentScale.Crop
+            modifier = Modifier.defaultMinSize(minHeight = 250.dp).fillMaxWidth(),
+            contentScale = ContentScale.Crop,
+            error = { Image(painterResource(R.drawable.img), null) }
         )
 
         Box(

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
@@ -23,11 +22,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
+import com.ycngmn.prothomalo.Strings
 
 
 @Composable
@@ -58,24 +57,24 @@ fun Settings(settingsVM: SettingsVM, navController: NavController) {
     Column (modifier = Modifier.verticalScroll(scrollState)){
         SettingTile(
             R.drawable.bulb_theme_24px,
-            stringResource(R.string.theme),
-            stringResource(R.string.theme_hint),
+            Strings.get("theme"),
+            Strings.get("theme_hint"),
             Modifier.fillMaxWidth()
                 .clickable { isShowThemeDialog = true }
         )
 
         SettingTile(
             R.drawable.list_alt_24px,
-            stringResource(R.string.section_rearrange),
-            stringResource(R.string.section_rearrange_hint),
+            Strings.get("section_rearrange"),
+            Strings.get("section_rearrange_hint"),
             Modifier.fillMaxWidth()
         )
 
         Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
             SettingTile(
                 R.drawable.custom_typography_24px,
-                stringResource(R.string.font_size),
-                stringResource(R.string.font_size_hint),
+                Strings.get("font_size"),
+                Strings.get("font_size_hint"),
             )
             Slider(
                 modifier = Modifier.padding(end = 16.dp),
@@ -90,14 +89,14 @@ fun Settings(settingsVM: SettingsVM, navController: NavController) {
         Row (verticalAlignment = Alignment.CenterVertically) {
             SettingTile(
                 R.drawable.more_horiz_24px,
-                stringResource(R.string.read_more),
-                stringResource(R.string.read_more_hint)
+                Strings.get("read_more"),
+                Strings.get("read_more_hint")
             )
 
-            Spacer(Modifier.width(16.dp))
+            Spacer(Modifier.weight(1F))
 
             Switch(
-                modifier = Modifier,
+                modifier = Modifier.padding(end = 16.dp),
                 checked = checked,
                 onCheckedChange = {
                     checked = it

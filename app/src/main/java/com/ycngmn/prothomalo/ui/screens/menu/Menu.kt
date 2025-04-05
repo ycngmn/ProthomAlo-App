@@ -30,7 +30,7 @@ fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewMode
     val palo = PaloGlobal.getPalo()
     val sectionMap = palo.menuMap
     val scrollState = rememberScrollState()
-    var expandedStates by rememberSaveable { mutableStateOf(List(sectionMap.size) { false }) }
+    var expandedStates by rememberSaveable { mutableStateOf(List(sectionMap.entries.size+1) { false }) }
     var isSearchFilterVisible by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
@@ -43,9 +43,7 @@ fun MenuScreen(navController: NavHostController, searchViewModel: SearchViewMode
         ) {
             PaloSearchBar(isSearchFilterVisible, searchViewModel,
                 onBackPress = { isSearchFilterVisible = !isSearchFilterVisible },
-                onSearch = {
-                    navController.navigate("search")
-                })
+                onSearch = { navController.navigate("search") })
 
             Row(
                 modifier = Modifier.fillMaxWidth()

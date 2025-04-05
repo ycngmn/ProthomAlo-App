@@ -1,5 +1,6 @@
 package com.ycngmn.prothomalo.ui.screens.home
 
+import com.ycngmn.prothomalo.Strings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,10 +36,10 @@ data class BottomNavItem(
 fun BottomBar(navController: NavController) {
 
     val sections = listOf(
-        BottomNavItem("home", R.drawable.pa_icon, stringResource(R.string.home_tab)),
-        BottomNavItem("Settings", R.drawable.discover_icon, stringResource(R.string.settings_tab)),
-        BottomNavItem("Bookmark", R.drawable.bookmark_icon, stringResource(R.string.bookmark_tab)),
-        BottomNavItem("Menu", R.drawable.menu_icon, stringResource(R.string.menu_tab))
+        BottomNavItem("home", R.drawable.pa_icon,Strings.get("home_tab")),
+        BottomNavItem("Settings", R.drawable.discover_icon, Strings.get("settings_tab")),
+        BottomNavItem("Bookmark", R.drawable.bookmark_icon, Strings.get("bookmark_tab")),
+        BottomNavItem("Menu", R.drawable.menu_icon, Strings.get("menu_tab"))
     )
 
     sections.map { it.route }

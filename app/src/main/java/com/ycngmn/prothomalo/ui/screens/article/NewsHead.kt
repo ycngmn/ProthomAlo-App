@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +35,7 @@ import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDao
 import com.ycngmn.prothomalo.ui.screens.bookmark.onBookmarkButtonClick
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
+import com.ycngmn.prothomalo.utils.FormatTime
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -48,22 +50,24 @@ fun NewsHead(
 
     Column (Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
 
-        Text(
-            text = news.section,
-            Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp).drawBehind {
-                val height = size.height
-                drawLine(
-                    color = PaloBlue,
-                    start = Offset(0f, height+10),
-                    end = Offset(size.width, height+10),
-                    strokeWidth = 4f
-                )
-            }.clickable { onTopicClick(news.sectionSlug + "@" + news.section) },
-            fontFamily = ShurjoFamily,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 20.sp,
-            color = PaloBlue,
-        )
+        DisableSelection {
+            Text(
+                text = news.section,
+                Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp).drawBehind {
+                    val height = size.height
+                    drawLine(
+                        color = PaloBlue,
+                        start = Offset(0f, height + 10),
+                        end = Offset(size.width, height + 10),
+                        strokeWidth = 4f
+                    )
+                }.clickable { onTopicClick(news.sectionSlug + "@" + news.section) },
+                fontFamily = ShurjoFamily,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 20.sp,
+                color = PaloBlue,
+            )
+        }
 
         Text(
             text = news.headline,
@@ -106,7 +110,7 @@ fun NewsHead(
             Spacer(Modifier.weight(1F))
 
             Text(
-                text = news.date,
+                text = FormatTime.toAgoString(news.date),
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 17.sp,
@@ -141,13 +145,7 @@ fun NewsHead(
                 tint = MaterialTheme.colorScheme.onBackground,
             )
 
-            Icon(
-                painter = painterResource(R.drawable.share_windows_40px),
-                contentDescription = "Share article",
-                modifier = Modifier.size(25.dp)
-                    .clickable { TODO() },
-                tint = MaterialTheme.colorScheme.onBackground,
-            )
+            ShareSheet(news)
         }
 
         HorizontalDivider(modifier = Modifier

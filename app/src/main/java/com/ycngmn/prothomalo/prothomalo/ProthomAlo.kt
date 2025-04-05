@@ -7,11 +7,9 @@ import androidx.core.net.toUri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ycngmn.prothomalo.R
+import com.ycngmn.prothomalo.utils.FormatTime
 import org.json.JSONObject
 import org.jsoup.Jsoup
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 val ShurjoFamily = FontFamily(
     Font(R.font.shurjo_regular, FontWeight.Normal),
@@ -33,7 +31,7 @@ data class NewsContainer(
     val newsUrl: String = "",
     val author: String? = "",
     val authorLocation: String = "",
-    val date: String = "",
+    val date: Long = 0,
     val section: String = "",
     val sectionSlug: String = "",
     val body: List<Pair<String, String>> = emptyList(),
@@ -67,31 +65,6 @@ open class ProthomAlo {
 
     open val dayLogo = R.drawable.palo_bangla_logo
     open val nightLogo = R.drawable.palo_bangla_night
-
-    private fun Long.toBengaliNumber(): String = this.toString()
-        .replace('0', '০')
-        .replace('1', '১')
-        .replace('2', '২')
-        .replace('3', '৩')
-        .replace('4', '৪')
-        .replace('5', '৫')
-        .replace('6', '৬')
-        .replace('7', '৭')
-        .replace('8', '৮')
-        .replace('9', '৯')
-
-    open fun formatTimeAgo(milliseconds: Long): String {
-
-        val diff = System.currentTimeMillis() - milliseconds
-
-        return when {
-            diff < 3600000 -> "${(diff / 60000).toBengaliNumber()} মিনিট আগে"
-            diff < 86400000 -> "${(diff / 3600000).toBengaliNumber()} ঘণ্টা আগে"
-            diff < 259200000 -> "${(diff / 86400000).toBengaliNumber()} দিন আগে"
-            else -> SimpleDateFormat("dd-MM-yyyy hh:mm", Locale("bn","BD"))
-                .format(Date(milliseconds))
-        }
-    }
 
 
     fun getArticle(section : String, offset : Int = 0, limit : Int = 15) : List<ArticleContainer> {
@@ -158,7 +131,7 @@ open class ProthomAlo {
         val subHeadline = story.optString("subheadline","")
             .replace("\n", "").trim()
 
-        return ArticleContainer(headline.trim(), image, newsUrl, formatTimeAgo(date), subHeadline.trim())
+        return ArticleContainer(headline.trim(), image, newsUrl, FormatTime.toAgoString(date), subHeadline.trim())
 
     }
 
@@ -251,7 +224,8 @@ open class ProthomAlo {
         }
 
         return NewsContainer (
-            headline.trim(),summary.trim(), newsUrl, author, authorLocation, formatTimeAgo(date), section.trim(),
+            headline.trim(),summary.trim(), newsUrl, author, authorLocation,
+            date, section.trim(),
             sectionSlug, newsBody, moreArticles, mainKeyword )
     }
 

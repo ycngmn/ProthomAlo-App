@@ -14,7 +14,6 @@ class NewsViewModel : ViewModel() {
     fun updateNewsCache(url: String, news: NewsContainer?) {
         newsCache = newsCache.toMutableMap().apply { this[url] = news }
     }
-
     fun updateUrls(newUrls: List<String>) {
         newsUrls = newUrls
     }
