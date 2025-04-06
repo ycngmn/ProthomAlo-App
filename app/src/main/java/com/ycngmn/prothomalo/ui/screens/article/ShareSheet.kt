@@ -30,9 +30,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.ui.assets.Strings
-import com.ycngmn.prothomalo.prothomalo.NewsContainer
+import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
 import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.utils.createPdf
 import com.ycngmn.prothomalo.utils.sharePdf
 import kotlinx.coroutines.Dispatchers

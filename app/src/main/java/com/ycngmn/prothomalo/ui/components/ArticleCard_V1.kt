@@ -29,10 +29,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.prothomalo.ArticleContainer
+import com.ycngmn.prothomalo.prothomalo.containers.ArticleContainer
+import com.ycngmn.prothomalo.ui.assets.AppFont
 import com.ycngmn.prothomalo.ui.components.helpers.titleBuilder
 import com.ycngmn.prothomalo.ui.theme.PaloRed
-import com.ycngmn.prothomalo.ui.assets.AppFont
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -67,7 +67,7 @@ fun ArticleCard_V1(
                     contentDescription = "News Image", // later todo
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
-                    error = { Image(painterResource(R.drawable.img), null) }
+                    error = { Image(painterResource(R.drawable.placeholder), null) }
                 )
 
                 val iconRes = when {

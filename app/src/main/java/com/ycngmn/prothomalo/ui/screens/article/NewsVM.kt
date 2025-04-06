@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.ycngmn.prothomalo.prothomalo.NewsContainer
+import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
 
 class NewsViewModel : ViewModel() {
     private var section = ""

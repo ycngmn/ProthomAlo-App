@@ -42,7 +42,7 @@ fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
                 .background(MaterialTheme.colorScheme.background)
         ) {
             HorizontalPager(state = pagerState) { page ->
-                val articleVM = viewModel(key = keys[page]) { PaloVM(keys[page]) }
+                val articleVM = viewModel(key = prothomAlo.webUrl + keys[page]) { PaloVM(keys[page]) }
                 NewsColumn(articleVM, navController, newsViewModel)
             }
         }

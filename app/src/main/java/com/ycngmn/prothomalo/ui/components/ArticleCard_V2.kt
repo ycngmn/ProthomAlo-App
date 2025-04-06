@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.prothomalo.ArticleContainer
+import com.ycngmn.prothomalo.prothomalo.containers.ArticleContainer
 import com.ycngmn.prothomalo.ui.components.helpers.titleBuilder
 import com.ycngmn.prothomalo.ui.theme.PaloOrange
 import com.ycngmn.prothomalo.ui.assets.AppFont
@@ -46,7 +46,7 @@ fun ArticleCard_V2(
             contentDescription = "News Image", // later todo
             modifier = Modifier.defaultMinSize(minHeight = 250.dp).fillMaxWidth(),
             contentScale = ContentScale.Crop,
-            error = { Image(painterResource(R.drawable.img), null) }
+            error = { Image(painterResource(R.drawable.placeholder), null) }
         )
 
         Box(

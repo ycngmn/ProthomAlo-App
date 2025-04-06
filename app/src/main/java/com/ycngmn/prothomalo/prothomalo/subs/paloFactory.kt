@@ -2,13 +2,6 @@ package com.ycngmn.prothomalo.prothomalo.subs
 
 import com.ycngmn.prothomalo.prothomalo.ProthomAlo
 
-enum class PaloKeys {
-    PaloMain, PaloEnglish,
-    KishorAlo, Mukti1971,
-    BigganChinta, Nagorik,
-    BondhuShava, PaloTrust
-}
-
 object PaloFactory {
     private val instances = mutableMapOf<PaloKeys, ProthomAlo>()
 

@@ -6,12 +6,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.R
 
+val ShurjoFamily = FontFamily(
+    Font(R.font.shurjo_regular, FontWeight.Normal),
+    Font(R.font.shurjo_bold, FontWeight.Bold)
+)
 
 enum class AppFontSize {
     SMALL, MEDIUM, LARGE

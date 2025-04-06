@@ -1,5 +1,6 @@
 package com.ycngmn.prothomalo
 
+import android.net.Uri
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
@@ -20,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
+import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
 import com.ycngmn.prothomalo.ui.assets.AppFont
 import com.ycngmn.prothomalo.ui.assets.ArticleFont
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
@@ -38,9 +40,10 @@ import com.ycngmn.prothomalo.ui.theme.ProthomAloTheme
 import com.ycngmn.prothomalo.utils.DataStoreManager
 import com.ycngmn.prothomalo.utils.SetStatusBarColor
 import com.ycngmn.prothomalo.utils.cleanUpPdfs
+import com.ycngmn.prothomalo.utils.getPaloKeyFromHost
 
 @Composable
-fun MainNavGraph() {
+fun MainNavGraph(data: Uri?) {
 
     val navController = rememberNavController()
     val viewModel: NewsViewModel = viewModel()
@@ -59,6 +62,22 @@ fun MainNavGraph() {
     val theme by settingsVM.theme.collectAsState()
     val paloKey by settingsVM.paloKey.collectAsState()
 
+    LaunchedEffect(data) {
+        if (data != null) {
+            if (data.path.isNullOrEmpty() || data.path.equals("/")) {
+                val key = getPaloKeyFromHost(data.host) ?: PaloKeys.PaloMain
+                if (key != PaloGlobal.paloKey) {
+                    settingsVM.setPaloKey(key)
+                    PaloGlobal.paloKey = key
+                }
+                navController.navigate("home") }
+            else {
+                viewModel.updateUrls(listOf(data.toString()))
+                navController.navigate("news/0")
+            }
+        }
+    }
+
     LaunchedEffect(settingsVM.appFontSize.value) { AppFont.setAppFontSize(settingsVM.appFontSize.value) }
     LaunchedEffect(Unit) { ArticleFont.setArticleSize(settingsVM.articleTextSize.value) }
 
@@ -68,6 +87,7 @@ fun MainNavGraph() {
 
     ProthomAloTheme(darkTheme = theme == 2 || (theme == 0 && isSystemInDarkTheme()) ) {
         SetStatusBarColor()
+
         NavHost(navController = navController, startDestination = "home") {
             composable(
                 "home",
@@ -76,12 +96,11 @@ fun MainNavGraph() {
                 exitTransition = { ExitTransition.None },
                 popExitTransition = { ExitTransition.None }
             ) { HomePage(navController, viewModel) }
+
             composable("news/{index}",
                 enterTransition = { EnterTransition.None },
                 exitTransition = { fadeOut(animationSpec = tween(durationMillis = 300)) },
                 popExitTransition = { fadeOut(animationSpec = tween(durationMillis = 300)) }
-
-
             ) { backStackEntry ->
                 val index = backStackEntry.arguments?.getString("index")?.toIntOrNull()
                 SelectionContainer {

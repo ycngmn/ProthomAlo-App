@@ -1,45 +1,13 @@
 package com.ycngmn.prothomalo.prothomalo
 
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
+
 import androidx.core.net.toUri
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.ycngmn.prothomalo.R
+import com.ycngmn.prothomalo.prothomalo.containers.ArticleContainer
+import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
 import com.ycngmn.prothomalo.utils.FormatTime
 import org.json.JSONObject
 import org.jsoup.Jsoup
-
-val ShurjoFamily = FontFamily(
-    Font(R.font.shurjo_regular, FontWeight.Normal),
-    Font(R.font.shurjo_bold, FontWeight.Bold)
-)
-
-data class ArticleContainer (
-    val title: String = "",
-    val thumbnail: String = "",
-    val url: String = "",
-    val date: String = "",
-    val subHead: String = ""
-)
-
-@Entity(tableName = "bookmarks")
-data class NewsContainer(
-    val headline: String = "",
-    val summary: String? = "",
-    val newsUrl: String = "",
-    val author: String? = "",
-    val authorLocation: String = "",
-    val date: Long = 0,
-    val section: String = "",
-    val sectionSlug: String = "",
-    val body: List<Pair<String, String>> = emptyList(),
-    val readAlso: List<ArticleContainer> = emptyList(),
-    val readAlsoText: String = "",
-    @PrimaryKey(autoGenerate = true) val newsId: Int = 0,
-)
-
 
 open class ProthomAlo {
 

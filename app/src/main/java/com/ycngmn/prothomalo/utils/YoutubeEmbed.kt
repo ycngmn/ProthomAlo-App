@@ -21,12 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 
-// Settings :
-/*
-    * autoplay
-    * mute on autoplay?
-    *
-  * */
+
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun YouTubeVideo(embedUrl: String, source: String = "home") {
@@ -52,7 +47,7 @@ fun YouTubeVideo(embedUrl: String, source: String = "home") {
                     settings.javaScriptEnabled = true
                     settings.mediaPlaybackRequiresUserGesture = false // Allow autoplay
                     setBackgroundColor(Color.TRANSPARENT)
-                    setLayerType(android.view.View.LAYER_TYPE_HARDWARE, null) // Ensures smooth rendering
+                    setLayerType(android.view.View.LAYER_TYPE_HARDWARE, null)
                     webChromeClient = WebChromeClient()
                     webViewClient = object : WebViewClient() {
                         override fun onPageFinished(view: WebView?, url: String?) {

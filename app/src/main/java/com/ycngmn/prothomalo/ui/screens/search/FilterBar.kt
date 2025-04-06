@@ -40,8 +40,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.ShurjoFamily
 import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 
@@ -79,7 +79,7 @@ fun FilterBar(searchViewModel: SearchViewModel) {
                 Strings.get("label_date"),
                 Icons.Default.DateRange,
                 FieldType.DatePicker,
-                onDateSelected = { searchViewModel.selectedDate = it }
+                //onDateSelected = { searchViewModel.selectedDate = it }
             )
             CustomField(
                 selectedAuthor,
@@ -132,7 +132,7 @@ fun CustomField(
     selectedItems: List<String> = emptyList(),
     onValueChange: (String) -> Unit = {},
     onSelectionChange: (List<String>) -> Unit = {},
-    onDateSelected: (String) -> Unit = {} //TODO
+    //onDateSelected: (String) -> Unit = {} //TODO
 ) {
     var isFocused by remember { mutableStateOf(false) }
     val showDatePicker by remember { mutableStateOf(false) }

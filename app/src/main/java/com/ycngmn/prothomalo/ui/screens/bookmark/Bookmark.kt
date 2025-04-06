@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.ycngmn.prothomalo.prothomalo.NewsContainer
+import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
 import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
 import com.ycngmn.prothomalo.utils.deleteSavedImages

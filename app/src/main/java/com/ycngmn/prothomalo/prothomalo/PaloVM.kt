@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.ycngmn.prothomalo.prothomalo.containers.ArticleContainer
 import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
 
 class PaloVM (

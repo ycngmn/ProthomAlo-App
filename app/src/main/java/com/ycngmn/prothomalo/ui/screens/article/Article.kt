@@ -44,16 +44,16 @@ import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.ui.assets.Strings
-import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
+import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
+import com.ycngmn.prothomalo.ui.assets.ArticleFont
+import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDao
 import com.ycngmn.prothomalo.ui.screens.error.ErrorConnection
 import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
-import com.ycngmn.prothomalo.ui.assets.ArticleFont
 import com.ycngmn.prothomalo.utils.YouTubeVideo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -174,7 +174,7 @@ fun NewsLecture(
                                 loading = { LoadingAnimation() },
                                 error = {
                                     // Android bug as understood at : https://github.com/coil-kt/coil/issues/1295
-                                    Image(painterResource(R.drawable.img), null)
+                                    Image(painterResource(R.drawable.placeholder), null)
                                 }
                             )
                         }

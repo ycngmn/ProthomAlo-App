@@ -10,8 +10,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.ycngmn.prothomalo.prothomalo.ArticleContainer
-import com.ycngmn.prothomalo.prothomalo.NewsContainer
+import com.ycngmn.prothomalo.prothomalo.containers.ArticleContainer
+import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
 import kotlinx.coroutines.flow.Flow
 import org.json.JSONArray
 import org.json.JSONObject

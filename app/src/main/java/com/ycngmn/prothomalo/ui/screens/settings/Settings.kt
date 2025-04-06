@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
@@ -121,6 +123,10 @@ fun Settings(settingsVM: SettingsVM, navController: NavController) {
         val isDarkTheme = settingsVM.theme.collectAsState().value == 2
                 || (settingsVM.theme.collectAsState().value == 0 && isSystemInDarkTheme())
         SubButtons(isDarkTheme, settingsVM, navController)
+
+        Spacer(Modifier.height(20.dp))
+        HorizontalDivider(Modifier.padding(horizontal = 40.dp))
+        GithubCredit()
     }
 
 }

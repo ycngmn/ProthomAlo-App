@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.ProthomAlo" parent="Theme.Material3.Dark.NoActionBar" />
+    <style name="Theme.ProthomAlo" parent="Theme.Material3.Light.NoActionBar" />
 </resources>

@@ -3,9 +3,9 @@ package com.ycngmn.prothomalo.ui.screens.article
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ycngmn.prothomalo.prothomalo.ArticleContainer
 import com.ycngmn.prothomalo.prothomalo.PaloVM
 import com.ycngmn.prothomalo.prothomalo.ProthomAlo
+import com.ycngmn.prothomalo.prothomalo.containers.ArticleContainer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

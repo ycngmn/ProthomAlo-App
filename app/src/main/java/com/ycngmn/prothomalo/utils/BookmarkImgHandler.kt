@@ -6,7 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import com.ycngmn.prothomalo.prothomalo.NewsContainer
+import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
 import java.io.File
 
 suspend fun urlToBitmap(context: Context, imageUrl: String): Bitmap? {
@@ -40,13 +40,6 @@ suspend fun downloadNewsImages(newsContainer: NewsContainer, context: Context) {
     newsContainer.body.forEachIndexed { index, (_, imageUrl) ->
         downloadAndSaveImage(context,imageUrl, subDir, "$index.png")
     }
-}
-
-fun loadSavedImage(context: Context, subDir: String, fileName: String): String? {
-    val directory = File(context.filesDir, subDir)
-    if (!directory.exists()) return null
-    val file = File(directory, fileName)
-    return if (file.exists()) file.absolutePath else null
 }
 
 fun deleteSavedImages(context: Context, subDir: String): Boolean {

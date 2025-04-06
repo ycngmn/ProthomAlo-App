@@ -29,12 +29,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.prothomalo.NewsContainer
+import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
+import com.ycngmn.prothomalo.ui.assets.ArticleFont
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDao
 import com.ycngmn.prothomalo.ui.screens.bookmark.onBookmarkButtonClick
 import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
-import com.ycngmn.prothomalo.ui.assets.ArticleFont
 import com.ycngmn.prothomalo.utils.FormatTime
 
 

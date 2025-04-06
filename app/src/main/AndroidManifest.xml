@@ -21,6 +21,32 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Prothom Alo & others -->
+                <data android:scheme="https" />
+                <data android:host="www.prothomalo.com" />
+                <data android:scheme="https" />
+                <data android:host="en.prothomalo.com" />
+                <data android:scheme="https" />
+                <data android:host="www.kishoralo.com" />
+                <data android:scheme="https" />
+                <data android:host="www.bigganchinta.com" />
+                <data android:scheme="https" />
+                <data android:host="1971.prothomalo.com" />
+                <data android:scheme="https" />
+                <data android:host="www.bondhushava.com" />
+                <data android:scheme="https" />
+                <data android:host="trust.prothomalo.com" />
+                <data android:scheme="https" />
+                <data android:host="nagorik.prothomalo.com" />
+            </intent-filter>
+
         </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -32,9 +58,5 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-
-
-
-
 
 </manifest>

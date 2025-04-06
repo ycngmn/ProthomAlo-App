@@ -13,7 +13,7 @@ import android.text.TextPaint
 import androidx.core.content.FileProvider
 import androidx.core.graphics.scale
 import androidx.core.graphics.withTranslation
-import com.ycngmn.prothomalo.prothomalo.NewsContainer
+import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
 import java.io.File
 import java.io.FileOutputStream
 
