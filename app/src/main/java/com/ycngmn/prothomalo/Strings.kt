@@ -9,7 +9,7 @@ object Strings {
         "settings_tab" to "Settings",
         "bookmark_tab" to "Bookmark",
         "menu_tab" to "Menu",
-        "read_more_title" to "Read more about %1\$s",
+        "read_more_title" to "Read more about <u>%s</u>",
 
         "theme" to "Theme",
         "theme_auto" to "Automatic",
@@ -40,9 +40,18 @@ object Strings {
         "type_live_blog" to "Live Blog",
         "type_interview" to "Interview",
 
-        "minute_unit" to "minute",
-        "hour_unit" to "hour",
-        "day_unit" to "day",
+        "empty_bookmark_1" to "To save a news item, go inside the news and tap on",
+        "empty_bookmark_2" to "icon.",
+        "empty_bookmark_button" to "Got it",
+        "bookmark_save_toast" to "Article saved to bookmarks",
+        "bookmark_delete_toast" to "Bookmark removed",
+
+        "share_article" to "Share article",
+        "copied_to_clipboard" to "Copied to clipboard",
+        "creating_pdf" to "Creating PDF...",
+        "pdf_failed" to "Failed to create PDF",
+        "copy_url" to "Copy URL",
+        "share_as_pdf" to "Share as PDF",
 
         "error_connection_title" to "Connection Error",
         "error_connection_sub" to "Please check your internet connection and try again.",
@@ -57,7 +66,7 @@ object Strings {
         "settings_tab" to "বিন্যাস",
         "bookmark_tab" to "সংরক্ষণ",
         "menu_tab" to "তালিকা",
-        "read_more_title" to "<u>%1\$s</u> নিয়ে আরও পড়ুন",
+        "read_more_title" to "<u>%s</u> নিয়ে আরও পড়ুন",
 
         "theme" to "প্রদর্শন শৈলী",
         "theme_auto" to "স্বয়ংক্রিয়",
@@ -88,9 +97,18 @@ object Strings {
         "type_live_blog" to "সরাসরি",
         "type_interview" to "সাক্ষাৎকার",
 
-        "minute_unit" to "মিনিট",
-        "hour_unit" to "ঘণ্টা",
-        "day_unit" to "দিন",
+        "empty_bookmark_1" to "কোন খবর সংরক্ষণ করতে খবরের ভিতরে প্রবেশ করে",
+        "empty_bookmark_2" to "চিহ্নতে স্পর্শ করুন।",
+        "empty_bookmark_button" to "বুঝেছি",
+        "bookmark_save_toast" to "নিবন্ধটি সফলভাবে সংরক্ষণ করা হয়েছে",
+        "bookmark_delete_toast" to "নিবন্ধটি মুছে ফেলা হয়েছে",
+
+        "share_article" to "লেখাটি ভাগ করুন",
+        "copied_to_clipboard" to "অনুলিপন সফল",
+        "creating_pdf" to "পিডিএফ তৈরি হচ্ছে...",
+        "pdf_failed" to "পিডিএফ তৈরি ব্যর্থ হয়েছে",
+        "copy_url" to "ঠিকানা অনুলিপি",
+        "share_as_pdf" to "পিডিএফ ভাগ",
 
         "error_connection_title" to "সংযোগ ব্যর্থ হয়েছে",
         "error_connection_sub" to "",

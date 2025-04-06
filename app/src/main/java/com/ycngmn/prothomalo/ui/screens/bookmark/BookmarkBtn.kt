@@ -2,6 +2,7 @@ package com.ycngmn.prothomalo.ui.screens.bookmark
 
 import android.content.Context
 import android.widget.Toast
+import com.ycngmn.prothomalo.Strings
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.utils.downloadNewsImages
 import kotlinx.coroutines.CoroutineScope
@@ -21,9 +22,9 @@ fun onBookmarkButtonClick(context: Context, newsContainer: NewsContainer, bookma
             withContext(Dispatchers.IO) {
                 bookmarkDao.deleteBookmark(newsContainer.newsUrl)
             }
-            Toast.makeText(context, "নিবন্ধটি সফলভাবে মুছে ফেলা হয়েছে", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, Strings.get("bookmark_delete_toast"), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "নিবন্ধটি সফলভাবে সংরক্ষণ করা হয়েছে", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, Strings.get("bookmark_save_toast"), Toast.LENGTH_SHORT).show()
             withContext(Dispatchers.IO) {
                 bookmarkDao.insertBookmark(newsContainer.copy(readAlso = emptyList()))
                 downloadNewsImages(newsContainer, context)

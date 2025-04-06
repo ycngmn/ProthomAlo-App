@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.R
@@ -93,24 +94,27 @@ fun NewsHead(
         FlowRow (modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp ).fillMaxWidth()){
 
             if (news.author != "null") {
-                val authorText = news.author!!
+                var authorText = news.author!!
 
                 if (news.authorLocation != "null" && news.authorLocation.isNotEmpty())
-                    authorText.plus(", $news.authorLocation")
+                    authorText = authorText.plus(
+                        (if (authorText.trim().endsWith(":")) "" else ",") +
+                            " ${news.authorLocation}")
 
                 Text(
                     text = authorText,
                     fontFamily = ShurjoFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 17.sp,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
 
             Spacer(Modifier.weight(1F))
 
             Text(
-                text = FormatTime.toAgoString(news.date),
+                text = FormatTime.toAgoString(news.date, news.newsUrl),
                 fontFamily = ShurjoFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 17.sp,
@@ -145,7 +149,7 @@ fun NewsHead(
                 tint = MaterialTheme.colorScheme.onBackground,
             )
 
-            ShareSheet(news)
+            DisableSelection { ShareSheet(news) }
         }
 
         HorizontalDivider(modifier = Modifier

@@ -33,7 +33,7 @@ fun BookmarkColumn(
         val thumbnail = it.body.firstOrNull { it.first == "image" }?.second ?: ""
         ArticleContainer(
             it.headline, thumbnail,
-            url = it.newsUrl, date = FormatTime.toAgoString(it.date),
+            url = it.newsUrl, date = FormatTime.toAgoString(it.date, it.newsUrl),
             subHead = "null")
     }
 

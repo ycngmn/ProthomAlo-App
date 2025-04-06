@@ -1,5 +1,6 @@
 package com.ycngmn.prothomalo.ui.screens.article
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -46,6 +47,7 @@ import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.ycngmn.prothomalo.R
+import com.ycngmn.prothomalo.Strings
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
@@ -143,6 +145,9 @@ fun NewsLecture(
                 }
                 news!!.body.forEach {
 
+                    if (it.second.isEmpty() || it.second == "null")
+                        return@forEach
+
                     when (it.first) {
                         "text" -> {
                             Text(
@@ -163,6 +168,7 @@ fun NewsLecture(
                         }
 
                         "image" -> {
+                            Log.d("fuck", it.second)
                             SubcomposeAsyncImage(
                                 model = ImageRequest.Builder(context)
                                     .data(it.second)
@@ -183,16 +189,15 @@ fun NewsLecture(
 
                         "caption" -> {
                             DisableSelection {
-                                if (it.second != "null")
-                                    Text(
-                                        text = it.second.toString(),
-                                        Modifier.padding(16.dp, 2.dp, 16.dp, 10.dp),
-                                        fontFamily = ShurjoFamily,
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 15.sp,
-                                        color = Color.Gray,
-                                        textAlign = TextAlign.Start
-                                    )
+                                Text(
+                                    text = it.second.toString(),
+                                    Modifier.padding(16.dp, 2.dp, 16.dp, 10.dp),
+                                    fontFamily = ShurjoFamily,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 15.sp,
+                                    color = Color.Gray,
+                                    textAlign = TextAlign.Start
+                                )
                             }
                         }
 
@@ -219,7 +224,7 @@ fun NewsLecture(
                             Spacer(modifier = Modifier.padding(bottom = 20.dp))
                             val topicKey = news!!.readAlsoText
                             Text(
-                                text = AnnotatedString.fromHtml("<u>$topicKey</u> নিয়ে আরও পড়ুন"),
+                                text = AnnotatedString.fromHtml(Strings.get("read_more_title", topicKey)),
                                 modifier = Modifier.padding(16.dp, 7.dp, 16.dp, 20.dp)
                                     .clickable {
                                         if (!navController.popBackStack(

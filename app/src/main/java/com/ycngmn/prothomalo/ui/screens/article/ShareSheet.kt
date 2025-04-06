@@ -31,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.R
+import com.ycngmn.prothomalo.Strings
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.utils.createPdf
@@ -59,7 +60,7 @@ fun ShareSheet(news: NewsContainer) {
     // App content
     Icon(
         painter = painterResource(R.drawable.share_windows_40px),
-        contentDescription = "Share article",
+        contentDescription = Strings.get("share_article"),
         modifier = Modifier.size(25.dp)
             .clickable { openBottomSheet = !openBottomSheet },
         tint = MaterialTheme.colorScheme.onBackground,
@@ -72,16 +73,16 @@ fun ShareSheet(news: NewsContainer) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("url", it)
         clipboard.setPrimaryClip(clip)
-        Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, Strings.get("copied_to_clipboard"), Toast.LENGTH_SHORT).show()
     }
     val sharePdf: () -> Unit = {
         scope.launch {
-            Toast.makeText(context, "Creating PDF...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, Strings.get("creating_pdf"), Toast.LENGTH_SHORT).show()
             val file = withContext(Dispatchers.IO) { createPdf(news, context) }
             if (file != null) {
                 sharePdf(context, file)
             } else
-                Toast.makeText(context, "Failed to create PDF", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, Strings.get("pdf_failed"), Toast.LENGTH_SHORT).show()
 
         }
            }
@@ -108,11 +109,11 @@ fun ShareSheet(news: NewsContainer) {
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.content_copy_24px),
-                        contentDescription = "Close",
+                        contentDescription = Strings.get("copy_url"),
                         modifier = Modifier.padding(end = 10.dp),
                         tint = MaterialTheme.colorScheme.onBackground)
                     Text(
-                        "Copy URL",
+                        Strings.get("copy_url"),
                         color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 18.sp,
                         fontFamily = ShurjoFamily
@@ -127,11 +128,11 @@ fun ShareSheet(news: NewsContainer) {
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.picture_as_pdf_24px),
-                        contentDescription = "Share as pdf",
+                        contentDescription = Strings.get("share_as_pdf"),
                         modifier = Modifier.padding(end = 10.dp),
                         tint = MaterialTheme.colorScheme.onBackground)
                     Text(
-                        "Share as pdf",
+                        Strings.get("share_as_pdf"),
                         color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 20.sp,
                         fontFamily = ShurjoFamily,

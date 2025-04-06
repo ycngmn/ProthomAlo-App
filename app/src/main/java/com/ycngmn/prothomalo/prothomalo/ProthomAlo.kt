@@ -131,7 +131,10 @@ open class ProthomAlo {
         val subHeadline = story.optString("subheadline","")
             .replace("\n", "").trim()
 
-        return ArticleContainer(headline.trim(), image, newsUrl, FormatTime.toAgoString(date), subHeadline.trim())
+        return ArticleContainer(
+            headline.trim(), image, newsUrl,
+            FormatTime.toAgoString(date, newsUrl), subHeadline.trim()
+        )
 
     }
 

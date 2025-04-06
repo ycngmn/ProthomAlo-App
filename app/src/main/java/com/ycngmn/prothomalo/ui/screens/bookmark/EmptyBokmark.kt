@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.R
+import com.ycngmn.prothomalo.Strings
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 import com.ycngmn.prothomalo.ui.theme.PaloRed
@@ -38,9 +39,9 @@ fun EmptyBookmarkScreen(onClick: () -> Unit) {
     ) {
 
         val annotatedString = buildAnnotatedString {
-            append("কোন খবর সংরক্ষণ করতে খবরের ভিতরে প্রবেশ করে")
+            append(Strings.get("empty_bookmark_1"))
             appendInlineContent(id = "imageId")
-            append("চিহ্নতে স্পর্শ করুন।")
+            append(Strings.get("empty_bookmark_2"))
         }
 
         val inlineContentMap = mapOf(
@@ -68,7 +69,7 @@ fun EmptyBookmarkScreen(onClick: () -> Unit) {
         Spacer(Modifier.height(100.dp))
 
         Text(
-            text = "বুঝেছি",
+            text = Strings.get("empty_bookmark_button"),
             textAlign = TextAlign.Center,
             fontFamily = ShurjoFamily,
             fontSize = 25.sp,

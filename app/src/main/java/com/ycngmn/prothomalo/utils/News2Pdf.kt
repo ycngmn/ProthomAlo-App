@@ -75,7 +75,7 @@ suspend fun createPdf(news: NewsContainer, context: Context): File? {
         drawMultilineText(authorText, 17f, Color.BLACK)
     }
 
-    drawMultilineText(FormatTime.toFormattedDate(news.date), 17f, Color.BLACK)
+    drawMultilineText(FormatTime.toFormattedDate(news.date, news.newsUrl), 17f, Color.BLACK)
 
     // Divider
     checkAndAddPage(10f)
