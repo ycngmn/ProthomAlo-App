@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,8 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
-import com.ycngmn.prothomalo.Strings
 
 enum class FieldType {
     Text, DatePicker, MultiChoice
@@ -66,11 +68,9 @@ fun FilterBar(searchViewModel: SearchViewModel) {
         Column (modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
             Text(
-                text = Strings.get("filters_hint"),
-                fontFamily = ShurjoFamily,
+                text = Strings.get("filter_hint"),
                 color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
+                style = AppFont.titleTS,
                 textAlign = TextAlign.Center
             )
 
@@ -132,7 +132,7 @@ fun CustomField(
     selectedItems: List<String> = emptyList(),
     onValueChange: (String) -> Unit = {},
     onSelectionChange: (List<String>) -> Unit = {},
-    onDateSelected: (String) -> Unit = {}
+    onDateSelected: (String) -> Unit = {} //TODO
 ) {
     var isFocused by remember { mutableStateOf(false) }
     val showDatePicker by remember { mutableStateOf(false) }
@@ -214,9 +214,8 @@ fun CustomField(
                         text = {
                             Text(
                                 option,
-                                fontFamily = ShurjoFamily,
                                 color = if (isSelected) PaloBlue else MaterialTheme.colorScheme.onBackground,
-                                fontSize = 16.sp,
+                                style = AppFont.dateTS2.copy(color = Color.Unspecified),
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center
                             )

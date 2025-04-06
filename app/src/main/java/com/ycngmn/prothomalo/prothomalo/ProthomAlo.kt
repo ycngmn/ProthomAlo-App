@@ -185,11 +185,15 @@ open class ProthomAlo {
 
             for (j in 0 until storyElements.length()) {
                 val storyElement = storyElements.getJSONObject(j)
+
                 if (storyElement.getString("type") == "text" &&
-                    ((storyElement.getString("subtype") == "null") || newsUrlx.contains("/video/"))) {
+                    ((storyElement.getString("subtype") in
+                            listOf("null","question", "answer", "summary")))) {
+
                     val text = storyElement.optString("text") ?: ""
                     newsBody += Pair("text",text)
-                } else if (storyElement.getString("type") == "image") {
+                }
+                else if (storyElement.getString("type") == "image") {
                     val imgUrl = "https://media.prothomalo.com/" + storyElement
                         .getString("image-s3-key")
                     var caption = storyElement.optString("title") ?: ""
@@ -198,7 +202,8 @@ open class ProthomAlo {
                         caption += " | $imageAttribution"
                     newsBody += Pair("image",imgUrl)
                     newsBody += Pair("caption",caption)
-                } else if (storyElement.getString("type") == "youtube-video") {
+                }
+                else if (storyElement.getString("type") == "youtube-video") {
                     val embedUrl = storyElement.getString("embed-url")
                     newsBody += Pair("video",embedUrl)
                 }

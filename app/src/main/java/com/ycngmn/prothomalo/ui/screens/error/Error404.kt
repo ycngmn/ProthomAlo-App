@@ -1,6 +1,6 @@
 package com.ycngmn.prothomalo.ui.screens.error
 
-import com.ycngmn.prothomalo.Strings
+import com.ycngmn.prothomalo.ui.assets.Strings
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R

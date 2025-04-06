@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.prothomalo.PaloGlobal.paloKey
+import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 
@@ -54,7 +54,7 @@ fun SubButtons(isDarkTheme: Boolean, settingsVM: SettingsVM, navController : Nav
                 onClick = {
                     if (!isCurrent) {
                         settingsVM.setPaloKey(key)
-                        paloKey = key
+                        PaloGlobal.paloKey = key
                         navController.navigate("home") {
                             launchSingleTop = true
                         }

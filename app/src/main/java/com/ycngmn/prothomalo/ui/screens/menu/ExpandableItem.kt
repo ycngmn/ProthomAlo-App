@@ -25,9 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 @Composable
 fun ExpandableItem(
@@ -55,10 +54,7 @@ fun ExpandableItem(
 
             Text(
                 text = title,
-                modifier = Modifier,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Normal,
-                fontFamily = ShurjoFamily,
+                style = AppFont.titleTS.copy(fontWeight = FontWeight.Normal),
                 color = MaterialTheme.colorScheme.onBackground,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -87,13 +83,18 @@ fun ExpandableItem(
 
             Column (modifier = Modifier.padding(start = 15.dp, top = 20.dp)) {
                 sections.forEachIndexed { index, section ->
-                    Text(section.first, modifier = Modifier.fillMaxWidth().clickable { navController.navigate("topic/${section.second}@${section.first}") })
+                    Text(
+                        section.first,
+                        style = AppFont.dateTS2,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.fillMaxWidth().clickable {
+                            navController.navigate("topic/${section.second}@${section.first}")
+                        })
                     if (index < sections.size-1)
                         HorizontalDivider(Modifier.padding(vertical = 12.dp), thickness = 0.3.dp)
                 }
             }
         }
-
         HorizontalDivider(Modifier.padding(top = 10.dp), thickness = 0.2.dp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
     }
 }

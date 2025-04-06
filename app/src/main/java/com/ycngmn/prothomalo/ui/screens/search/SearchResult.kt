@@ -1,7 +1,7 @@
 package com.ycngmn.prothomalo.ui.screens.search
 
 
-import com.ycngmn.prothomalo.Strings
+import com.ycngmn.prothomalo.ui.assets.Strings
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

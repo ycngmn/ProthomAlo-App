@@ -1,11 +1,13 @@
 package com.ycngmn.prothomalo.ui.screens.settings
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
+import com.ycngmn.prothomalo.ui.assets.AppFontSize
 import com.ycngmn.prothomalo.utils.DataStoreManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,11 +26,20 @@ class SettingsVM(private val dataStoreManager: DataStoreManager) : ViewModel() {
     private val _isSeeMoreEnabled = mutableStateOf(true)
     val isSeeMoreEnabled: State<Boolean> = _isSeeMoreEnabled
 
+    private val _appFontSize = mutableStateOf(AppFontSize.MEDIUM)
+    val appFontSize: State<AppFontSize> = _appFontSize
+
+    private val _articleTextSize = mutableIntStateOf(0)
+    val articleTextSize: State<Int> = _articleTextSize
+
     init {
-        runBlocking { // wait to avoid premature theme load.
+        runBlocking { // wait to avoid premature loadings.
             _theme.value = dataStoreManager.themeState.first()
             _isSeeMoreEnabled.value =  dataStoreManager.seeMoreState.first()
             _paloKey.value = dataStoreManager.paloKey.first()
+            _articleTextSize.intValue = dataStoreManager.articleTextSize.first()
+            _appFontSize.value = dataStoreManager.appFontSize.first()
+
         }
     }
 
@@ -50,6 +61,20 @@ class SettingsVM(private val dataStoreManager: DataStoreManager) : ViewModel() {
         _isSeeMoreEnabled.value = state
         viewModelScope.launch {
             dataStoreManager.saveSeeMoreState(state)
+        }
+    }
+
+    fun setAppFontSize(key: AppFontSize) {
+        _appFontSize.value = key
+        viewModelScope.launch {
+            dataStoreManager.saveAppFontSize(key)
+        }
+    }
+
+    fun setArticleTextSize(state: Int) {
+        _articleTextSize.intValue = state
+        viewModelScope.launch {
+            dataStoreManager.saveArticleTextSize(state)
         }
     }
 

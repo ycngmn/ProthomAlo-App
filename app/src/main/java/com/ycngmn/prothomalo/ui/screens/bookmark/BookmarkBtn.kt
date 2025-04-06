@@ -2,7 +2,7 @@ package com.ycngmn.prothomalo.ui.screens.bookmark
 
 import android.content.Context
 import android.widget.Toast
-import com.ycngmn.prothomalo.Strings
+import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.utils.downloadNewsImages
 import kotlinx.coroutines.CoroutineScope

@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -19,6 +20,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
+import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.ArticleFont
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDatabaseHelper
@@ -56,6 +59,10 @@ fun MainNavGraph() {
     val theme by settingsVM.theme.collectAsState()
     val paloKey by settingsVM.paloKey.collectAsState()
 
+    LaunchedEffect(settingsVM.appFontSize.value) { AppFont.setAppFontSize(settingsVM.appFontSize.value) }
+    LaunchedEffect(Unit) { ArticleFont.setArticleSize(settingsVM.articleTextSize.value) }
+
+
     PaloGlobal.paloKey = paloKey
     PaloGlobal.isDarkTheme = theme == 2 || (theme == 0 && isSystemInDarkTheme())
 
@@ -68,9 +75,7 @@ fun MainNavGraph() {
                 popEnterTransition = { EnterTransition.None },
                 exitTransition = { ExitTransition.None },
                 popExitTransition = { ExitTransition.None }
-            ) {
-                HomePage(navController, viewModel)
-            }
+            ) { HomePage(navController, viewModel) }
             composable("news/{index}",
                 enterTransition = { EnterTransition.None },
                 exitTransition = { fadeOut(animationSpec = tween(durationMillis = 300)) },
@@ -84,7 +89,7 @@ fun MainNavGraph() {
                         navController,
                         urlsVM = viewModel,
                         startIndex = index ?: 0,
-                        settingsVM.isSeeMoreEnabled.value,
+                        settingsVM,
                         bookmarkDao
                     )
                 }

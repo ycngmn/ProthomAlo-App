@@ -10,12 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 @Composable
 fun SettingTile(iconRes: Int, title: String, subtitle: String, modifier: Modifier = Modifier ) {
@@ -32,15 +30,11 @@ fun SettingTile(iconRes: Int, title: String, subtitle: String, modifier: Modifie
         Column {
             Text(
                 text = title,
-                fontSize = 20.sp,
-                fontFamily = ShurjoFamily,
-                fontWeight = FontWeight.Normal
+                style = AppFont.bottomSheetTS,
             )
             Text(
                 text = subtitle,
-                fontSize = 15.sp,
-                fontFamily = ShurjoFamily,
-                color = Color.Gray
+                style = AppFont.dateTS.copy(fontSize = 15.sp),
             )
         }
     }

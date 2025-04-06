@@ -10,7 +10,6 @@ import android.text.Html
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
-import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.core.graphics.scale
 import androidx.core.graphics.withTranslation
@@ -129,10 +128,7 @@ suspend fun createPdf(news: NewsContainer, context: Context): File? {
     val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "${news.headline}.pdf")
     try {
         document.writeTo(FileOutputStream(file))
-    } catch (e: Exception) {
-        Log.e("PDF Creation", "Failed to write PDF", e)
-        return null
-    }
+    } catch (_: Exception) { return null }
     document.close()
     return file
 }

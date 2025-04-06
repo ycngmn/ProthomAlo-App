@@ -1,4 +1,4 @@
-package com.ycngmn.prothomalo
+package com.ycngmn.prothomalo.ui.assets
 
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys

@@ -18,12 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 
 @Composable
@@ -47,9 +44,7 @@ fun ErrorPage (
 
         Text (
             text = errorText,
-            fontFamily = ShurjoFamily,
-            fontSize = 35.sp,
-            fontWeight = FontWeight.Bold,
+            style = AppFont.errorTitleTS,
             color = MaterialTheme.colorScheme.onBackground
         )
 
@@ -57,9 +52,7 @@ fun ErrorPage (
 
         Text(
             text = errorDescription,
-            textAlign = TextAlign.Center,
-            fontFamily = ShurjoFamily,
-            fontSize = 18.sp,
+            style = AppFont.errorSubTitleTS,
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(horizontal = 15.dp)
 
@@ -73,9 +66,8 @@ fun ErrorPage (
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background),
             onClick = { onButtonClick() },
         ) { 
-            Text(buttonText,textAlign = TextAlign.Center,
-                fontFamily = ShurjoFamily,
-                fontSize = 18.sp,
+            Text(buttonText,
+                style = AppFont.errorSubTitleTS,
                 color = MaterialTheme.colorScheme.onBackground)
         }
     }

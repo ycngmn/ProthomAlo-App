@@ -1,6 +1,5 @@
 package com.ycngmn.prothomalo.ui.screens.home
 
-import com.ycngmn.prothomalo.Strings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,12 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.assets.Strings
+import com.ycngmn.prothomalo.ui.assets.AppFont
 import com.ycngmn.prothomalo.utils.selectColorByIndex
 
 data class BottomNavItem(
@@ -60,10 +58,7 @@ fun BottomBar(navController: NavController) {
                                 contentDescription = item.label,
                                 modifier = Modifier.size(27.dp),
                             )
-                            Text(
-                                item.label, fontSize = 11.sp,
-                                fontFamily = ShurjoFamily, fontWeight = FontWeight.Bold
-                            )
+                            Text(text = item.label, style = AppFont.navBottomTS)
                         }
                     },
                     selected = currentRoute == item.route,

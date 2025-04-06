@@ -25,38 +25,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.ArticleContainer
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.components.helpers.titleBuilder
 import com.ycngmn.prothomalo.ui.theme.PaloRed
-
-
-fun titleBuilder(subHead: String, title: String, subColor: Color, titleColor: Color): AnnotatedString {
-    return buildAnnotatedString {
-        if (subHead != "null") {
-            withStyle(
-                style = SpanStyle(color = subColor)
-            ) { append(subHead) }
-
-            withStyle(SpanStyle(color = Color.Gray, fontSize = 14.sp)) {
-                append(" ● ")
-            }
-        }
-        withStyle(
-            SpanStyle(color = titleColor)
-        ) { append(title) }
-
-    }
-}
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -77,9 +53,7 @@ fun ArticleCard_V1(
                     article.title, PaloRed,
                     MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.padding(start = 20.dp, top = 20.dp).weight(0.8f),
-                fontFamily = ShurjoFamily,
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold
+                style = AppFont.titleTS
             )
 
             Box (modifier = Modifier.width(150.dp)
@@ -119,10 +93,7 @@ fun ArticleCard_V1(
             Text(
                 text = article.date,
                 modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
-                fontWeight = FontWeight.Normal,
-                fontSize = 13.sp,
-                color = Color.Gray,
-                fontFamily = ShurjoFamily,
+                style = AppFont.dateTS
             )
 
         HorizontalDivider(

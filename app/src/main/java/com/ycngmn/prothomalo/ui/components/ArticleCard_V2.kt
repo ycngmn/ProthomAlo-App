@@ -18,15 +18,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.ArticleContainer
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.components.helpers.titleBuilder
 import com.ycngmn.prothomalo.ui.theme.PaloOrange
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 
 @Composable
@@ -68,16 +67,12 @@ fun ArticleCard_V2(
                     modifier = Modifier,
                     text = titleBuilder(article.subHead, article.title,
                         PaloOrange, Color.White ),
-                    fontFamily = ShurjoFamily,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
+                    style = AppFont.titleTS2
                 )
 
                 Text(
                     text = article.date,
-                    fontFamily = ShurjoFamily,
-                    fontSize = 16.sp,
-                    color = Color.Gray
+                    style = AppFont.dateTS2
                 )
             }
         }

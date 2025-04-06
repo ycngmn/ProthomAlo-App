@@ -29,11 +29,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.Strings
+import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.assets.AppFont
 import com.ycngmn.prothomalo.utils.createPdf
 import com.ycngmn.prothomalo.utils.sharePdf
 import kotlinx.coroutines.Dispatchers
@@ -115,8 +114,7 @@ fun ShareSheet(news: NewsContainer) {
                     Text(
                         Strings.get("copy_url"),
                         color = MaterialTheme.colorScheme.onBackground,
-                        fontSize = 18.sp,
-                        fontFamily = ShurjoFamily
+                        style = AppFont.bottomSheetTS
                     )
                 }
 
@@ -134,8 +132,7 @@ fun ShareSheet(news: NewsContainer) {
                     Text(
                         Strings.get("share_as_pdf"),
                         color = MaterialTheme.colorScheme.onBackground,
-                        fontSize = 20.sp,
-                        fontFamily = ShurjoFamily,
+                        style = AppFont.bottomSheetTS
                     )
                 }
             }

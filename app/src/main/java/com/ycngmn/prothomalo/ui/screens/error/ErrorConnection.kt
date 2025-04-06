@@ -2,7 +2,7 @@ package com.ycngmn.prothomalo.ui.screens.error
 
 import androidx.compose.runtime.Composable
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.Strings
+import com.ycngmn.prothomalo.ui.assets.Strings
 
 @Composable
 fun ErrorConnection(onClick: () -> Unit) {

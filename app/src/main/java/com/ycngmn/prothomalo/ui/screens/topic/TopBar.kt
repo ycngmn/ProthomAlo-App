@@ -20,8 +20,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 @Composable
 fun TopicTopBar(barTitle: String, onBackPressed : () -> Unit) {
@@ -49,9 +48,8 @@ fun TopicTopBar(barTitle: String, onBackPressed : () -> Unit) {
                             strokeWidth = 4f
                         ) },
                 text = barTitle,
-                fontSize = 20.sp,
+                style = AppFont.bottomSheetTS,
                 fontWeight = FontWeight.Bold,
-                fontFamily = ShurjoFamily,
                 color = MaterialTheme.colorScheme.onBackground,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

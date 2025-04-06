@@ -18,9 +18,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.theme.RealPaloRead
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 @Composable
 fun SectionCards(iconRes: Int, text: String, onClick: () -> Unit) {
@@ -44,9 +43,7 @@ fun SectionCards(iconRes: Int, text: String, onClick: () -> Unit) {
             )
             Text(
                 text = text,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Normal,
-                fontFamily = ShurjoFamily,
+                style = AppFont.titleTS.copy(fontWeight = FontWeight.Normal),
                 color = MaterialTheme.colorScheme.onBackground,
             )
         }

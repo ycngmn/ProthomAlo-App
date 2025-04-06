@@ -1,5 +1,6 @@
 package com.ycngmn.prothomalo.ui.screens.settings
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -22,11 +23,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R
+import com.ycngmn.prothomalo.ui.assets.AppFontSize
+import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.ui.screens.home.BottomBar
-import com.ycngmn.prothomalo.Strings
 
 
 @Composable
@@ -45,9 +48,10 @@ fun SettingScreen(settingsVM: SettingsVM, navController: NavController) {
 fun Settings(settingsVM: SettingsVM, navController: NavController) {
 
     var isShowThemeDialog by remember { mutableStateOf(false) }
-    var sliderValue by remember { mutableFloatStateOf(1f) }
+    var sliderValue by remember { mutableFloatStateOf(settingsVM.appFontSize.value.ordinal.toFloat()) }
 
     var checked by remember { mutableStateOf(settingsVM.isSeeMoreEnabled.value) }
+    val context = LocalContext.current
 
     if (isShowThemeDialog) {
         ThemeAlertDialog(settingsVM) { isShowThemeDialog = false }
@@ -68,6 +72,7 @@ fun Settings(settingsVM: SettingsVM, navController: NavController) {
             Strings.get("section_rearrange"),
             Strings.get("section_rearrange_hint"),
             Modifier.fillMaxWidth()
+                .clickable { Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show() }
         )
 
         Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
@@ -81,7 +86,16 @@ fun Settings(settingsVM: SettingsVM, navController: NavController) {
                 value = sliderValue,
                 valueRange = 0f..2f,
                 steps = 1,
-                onValueChange = { sliderValue = it }
+                onValueChange = {
+                    settingsVM.setAppFontSize(
+                        when (it.toInt()) {
+                            0 -> AppFontSize.SMALL
+                            1 -> AppFontSize.MEDIUM
+                            else -> AppFontSize.LARGE
+                        }
+                    )
+                    sliderValue = it
+                }
             )
 
         }

@@ -19,15 +19,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.Strings
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 import com.ycngmn.prothomalo.ui.theme.PaloRed
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 @Composable
 fun EmptyBookmarkScreen(onClick: () -> Unit) {
@@ -60,19 +59,15 @@ fun EmptyBookmarkScreen(onClick: () -> Unit) {
         Text(
             annotatedString,
             inlineContent = inlineContentMap,
-            textAlign = TextAlign.Center,
-            fontFamily = ShurjoFamily,
-            fontSize = 25.sp,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
+            style = AppFont.emptyBookmarkTS
         )
 
         Spacer(Modifier.height(100.dp))
 
         Text(
             text = Strings.get("empty_bookmark_button"),
-            textAlign = TextAlign.Center,
-            fontFamily = ShurjoFamily,
-            fontSize = 25.sp,
+            style = AppFont.emptyBookmarkTS,
             textDecoration = TextDecoration.Underline,
             color = PaloBlue,
             modifier = Modifier.clickable { onClick() }

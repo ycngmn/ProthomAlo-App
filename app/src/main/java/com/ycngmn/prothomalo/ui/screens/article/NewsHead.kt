@@ -26,16 +26,15 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDao
 import com.ycngmn.prothomalo.ui.screens.bookmark.onBookmarkButtonClick
+import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
+import com.ycngmn.prothomalo.ui.assets.ArticleFont
 import com.ycngmn.prothomalo.utils.FormatTime
 
 
@@ -44,6 +43,7 @@ import com.ycngmn.prothomalo.utils.FormatTime
 fun NewsHead(
     news: NewsContainer,
     bookmarkDao: BookmarkDao,
+    settingsVM: SettingsVM,
     onTopicClick: (String) -> Unit,
 ) {
     val context = LocalContext.current
@@ -63,9 +63,7 @@ fun NewsHead(
                         strokeWidth = 4f
                     )
                 }.clickable { onTopicClick(news.sectionSlug + "@" + news.section) },
-                fontFamily = ShurjoFamily,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 20.sp,
+                style = ArticleFont.articleSectionTS,
                 color = PaloBlue,
             )
         }
@@ -73,10 +71,7 @@ fun NewsHead(
         Text(
             text = news.headline,
             Modifier.padding(16.dp, 7.dp, 25.dp, 10.dp),
-            fontFamily = ShurjoFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 25.sp,
-            lineHeight = 33.sp,
+            style = ArticleFont.articleTitleTS,
             color = MaterialTheme.colorScheme.onBackground
         )
 
@@ -84,10 +79,9 @@ fun NewsHead(
             Text(
                 text = news.summary!!,
                 Modifier.padding(horizontal = 16.dp),
-                fontFamily = ShurjoFamily,
-                fontWeight = FontWeight.Normal,
+                style = ArticleFont.articleBodyTS,
                 color = Color.Gray,
-                fontSize = 18.sp
+
             )
 
 
@@ -103,9 +97,7 @@ fun NewsHead(
 
                 Text(
                     text = authorText,
-                    fontFamily = ShurjoFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 17.sp,
+                    style = ArticleFont.articleSubTS,
                     color = MaterialTheme.colorScheme.onBackground,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -115,9 +107,7 @@ fun NewsHead(
 
             Text(
                 text = FormatTime.toAgoString(news.date, news.newsUrl),
-                fontFamily = ShurjoFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 17.sp,
+                style = ArticleFont.articleSubTS,
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
@@ -126,16 +116,25 @@ fun NewsHead(
 
             Icon(
                 painter = painterResource(R.drawable.text_increase_40px),
-                contentDescription = "Bookmark article",
+                contentDescription = "Increase text size",
                 modifier = Modifier.size(25.dp)
-                    .clickable { TODO() },
-                tint = MaterialTheme.colorScheme.onBackground,
+                    .clickable {
+                        ArticleFont.increment()
+                        settingsVM.setArticleTextSize(ArticleFont.getCurrArticleSize())
+                               },
+                tint = if (ArticleFont.getCurrArticleSize() == 5)
+                    Color.Gray else MaterialTheme.colorScheme.onBackground
             )
             Icon(
                 painter = painterResource(R.drawable.text_decrease_40px),
-                contentDescription = "Bookmark article",
-                modifier = Modifier.size(25.dp),
-                tint = MaterialTheme.colorScheme.onBackground,
+                contentDescription = "Decrease text size",
+                modifier = Modifier.size(25.dp)
+                    .clickable {
+                        ArticleFont.decrement()
+                        settingsVM.setArticleTextSize(ArticleFont.getCurrArticleSize())
+                               },
+                tint = if (ArticleFont.getCurrArticleSize() == -5)
+                    Color.Gray else MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.weight(1F))
@@ -157,6 +156,5 @@ fun NewsHead(
             .width(35.dp),
             thickness = 3.dp,
         )
-
     }
 }

@@ -1,6 +1,5 @@
 package com.ycngmn.prothomalo.ui.screens.settings
 
-import com.ycngmn.prothomalo.Strings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,10 +26,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.assets.Strings
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,9 +65,7 @@ fun ThemeAlertDialog(settingsVM: SettingsVM, onDismissRequest: () -> Unit) {
                     Text(
                         text = Strings.get("theme"),
                         modifier = Modifier.padding(bottom = 16.dp),
-                        fontSize = 22.sp,
-                        fontFamily = ShurjoFamily,
-                        fontWeight = FontWeight.Bold
+                        style = AppFont.titleTS2
                     )
 
                     options.forEach { option ->
@@ -84,8 +82,7 @@ fun ThemeAlertDialog(settingsVM: SettingsVM, onDismissRequest: () -> Unit) {
 
                             Text(
                                 text = option,
-                                fontSize = 18.sp,
-                                fontFamily = ShurjoFamily,
+                                style = AppFont.titleTS.copy(fontWeight = FontWeight.Normal),
                             )
                         }
                     }
@@ -101,9 +98,7 @@ fun ThemeAlertDialog(settingsVM: SettingsVM, onDismissRequest: () -> Unit) {
                     ) {
                         Text(
                             Strings.get("confirm_theme"),
-                            fontSize = 16.sp,
-                            fontFamily = ShurjoFamily,
-                            fontWeight = FontWeight.Bold
+                            style = AppFont.dateTS2.copy(fontWeight = FontWeight.Bold, color = Color.Unspecified),
                         )
                     }
                 }

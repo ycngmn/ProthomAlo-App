@@ -1,4 +1,4 @@
-package com.ycngmn.prothomalo.utils
+package com.ycngmn.prothomalo.ui.screens.home
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -18,12 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
-import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 /* Initial Credit: https://stackoverflow.com/a/75977854/11724248
 * Modified to make the indicator respond to swipes */
@@ -70,9 +68,7 @@ fun CustomScrollableTabRow(
                     Text(
                         text = tab,
                         color = MaterialTheme.colorScheme.onBackground,
-                        fontFamily = ShurjoFamily,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
+                        style = AppFont.tabRowTS,
                         onTextLayout = { result ->
                             tabWidths[index] = with(density) { result.size.width.toDp() }
                         }

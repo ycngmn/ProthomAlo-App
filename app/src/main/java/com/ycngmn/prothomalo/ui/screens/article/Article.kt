@@ -1,6 +1,5 @@
 package com.ycngmn.prothomalo.ui.screens.article
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,23 +38,22 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.fromHtml
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.ycngmn.prothomalo.R
-import com.ycngmn.prothomalo.Strings
+import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.prothomalo.NewsContainer
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDao
 import com.ycngmn.prothomalo.ui.screens.error.ErrorConnection
+import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
+import com.ycngmn.prothomalo.ui.assets.ArticleFont
 import com.ycngmn.prothomalo.utils.YouTubeVideo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -66,7 +64,7 @@ fun NewsLecture(
     navController: NavController,
     urlsVM: NewsViewModel,
     startIndex: Int = 0,
-    isReadMoreEnabled: Boolean,
+    settingsVM: SettingsVM,
     bookmarkDao: BookmarkDao
 ) {
 
@@ -108,9 +106,7 @@ fun NewsLecture(
                             news = result
                             urlsVM.updateNewsCache(url,result)
                         }
-                    } catch (_: Exception) {
-                        isShowError = true
-                    }
+                    } catch (_: Exception) { isShowError = true }
 
                     // Load more articles if near the end
                     if (urls.size > 10 && pageIndex > urls.size - 2) {
@@ -138,7 +134,7 @@ fun NewsLecture(
             if (news == null)
                 LoadingAnimation()
             else {
-                NewsHead(news!!, bookmarkDao) {
+                NewsHead(news!!, bookmarkDao, settingsVM) {
                     if (!navController.popBackStack(route = "topic/$it", inclusive = false))
                         navController.navigate("topic/$it")
 
@@ -159,16 +155,12 @@ fun NewsLecture(
                                     )
                                 ),
                                 modifier = Modifier.padding(horizontal = 16.dp),
-                                fontFamily = ShurjoFamily,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 18.sp,
-                                textAlign = TextAlign.Start,
-                                color = MaterialTheme.colorScheme.onBackground
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = ArticleFont.articleBodyTS
                             )
                         }
 
                         "image" -> {
-                            Log.d("fuck", it.second)
                             SubcomposeAsyncImage(
                                 model = ImageRequest.Builder(context)
                                     .data(it.second)
@@ -192,11 +184,8 @@ fun NewsLecture(
                                 Text(
                                     text = it.second.toString(),
                                     Modifier.padding(16.dp, 2.dp, 16.dp, 10.dp),
-                                    fontFamily = ShurjoFamily,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 15.sp,
-                                    color = Color.Gray,
-                                    textAlign = TextAlign.Start
+                                    style = ArticleFont.articleCaptionTS,
+                                    color = Color.Gray
                                 )
                             }
                         }
@@ -213,7 +202,7 @@ fun NewsLecture(
 
                 DisableSelection {
 
-                    if (news!!.readAlso.isNotEmpty() && isReadMoreEnabled) {
+                    if (news!!.readAlso.isNotEmpty() && settingsVM.isSeeMoreEnabled.value) {
                         Card(
                             elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
                             modifier = Modifier.padding(16.dp)
@@ -234,9 +223,7 @@ fun NewsLecture(
                                         )
                                             navController.navigate("topic/$topicKey@$topicKey")
                                     },
-                                fontFamily = ShurjoFamily,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 20.sp,
+                                style = ArticleFont.articleSectionTS,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 color = MaterialTheme.colorScheme.onBackground

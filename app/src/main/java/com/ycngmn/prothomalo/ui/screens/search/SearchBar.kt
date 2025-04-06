@@ -20,13 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.prothomalo.ShurjoFamily
+import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
-import com.ycngmn.prothomalo.Strings
+import com.ycngmn.prothomalo.ui.assets.AppFont
 
 
 @Composable
@@ -49,13 +47,7 @@ fun PaloSearchBar(
         .border(1.dp, color = Color.Gray, shape = RoundedCornerShape(8.dp))) {
         TextField(
             value = query,
-            textStyle = TextStyle(
-                fontFamily = ShurjoFamily,
-                color = Color.Gray,
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold
-
-            ),
+            textStyle = AppFont.searchHintTS,
             onValueChange = {
                 searchViewModel.searchText = it
                 if (!isSearchFilterVisible)
@@ -67,10 +59,8 @@ fun PaloSearchBar(
             placeholder = {
                 Text(
                     Strings.get("search_prompt"),
-                    fontFamily = ShurjoFamily,
-                    color = Color.Gray,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold)
+                    style = AppFont.dateTS2.copy(fontWeight = FontWeight.Bold)
+                )
             },
             colors = TextFieldDefaults.colors(
                 unfocusedIndicatorColor = Color.Transparent,
