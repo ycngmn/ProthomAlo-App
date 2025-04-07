@@ -22,11 +22,11 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 
 @Composable
 fun ExpandableItem(
@@ -54,7 +54,8 @@ fun ExpandableItem(
 
             Text(
                 text = title,
-                style = AppFont.titleTS.copy(fontWeight = FontWeight.Normal),
+                fontSize = FontSizes.expandableMenuItem,
+                style = TextStyles.expandableMenuItem,
                 color = MaterialTheme.colorScheme.onBackground,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -85,7 +86,8 @@ fun ExpandableItem(
                 sections.forEachIndexed { index, section ->
                     Text(
                         section.first,
-                        style = AppFont.dateTS2,
+                        fontSize = FontSizes.expandedMenuItem,
+                        style = TextStyles.expandedMenuItem,
                         color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.fillMaxWidth().clickable {
                             navController.navigate("topic/${section.second}@${section.first}")

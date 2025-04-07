@@ -12,8 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 
 @Composable
 fun SettingTile(iconRes: Int, title: String, subtitle: String, modifier: Modifier = Modifier ) {
@@ -30,11 +30,13 @@ fun SettingTile(iconRes: Int, title: String, subtitle: String, modifier: Modifie
         Column {
             Text(
                 text = title,
-                style = AppFont.bottomSheetTS,
+                fontSize = FontSizes.settingTileTitle,
+                style = TextStyles.settingTileTitle,
             )
             Text(
                 text = subtitle,
-                style = AppFont.dateTS.copy(fontSize = 15.sp),
+                fontSize = FontSizes.settingsTileSub,
+                style = TextStyles.settingsTileSub
             )
         }
     }

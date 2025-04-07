@@ -26,11 +26,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ycngmn.prothomalo.ui.assets.FontSizes
 import com.ycngmn.prothomalo.ui.assets.Strings
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,7 +64,8 @@ fun ThemeAlertDialog(settingsVM: SettingsVM, onDismissRequest: () -> Unit) {
                     Text(
                         text = Strings.get("theme"),
                         modifier = Modifier.padding(bottom = 16.dp),
-                        style = AppFont.titleTS2
+                        fontSize = FontSizes.themeAlertTitle,
+                        style = TextStyles.themeAlertTitle
                     )
 
                     options.forEach { option ->
@@ -82,7 +82,8 @@ fun ThemeAlertDialog(settingsVM: SettingsVM, onDismissRequest: () -> Unit) {
 
                             Text(
                                 text = option,
-                                style = AppFont.titleTS.copy(fontWeight = FontWeight.Normal),
+                                style = TextStyles.themeDialogOption,
+                                fontSize = FontSizes.themeDialogOption,
                             )
                         }
                     }
@@ -98,7 +99,8 @@ fun ThemeAlertDialog(settingsVM: SettingsVM, onDismissRequest: () -> Unit) {
                     ) {
                         Text(
                             Strings.get("confirm_theme"),
-                            style = AppFont.dateTS2.copy(fontWeight = FontWeight.Bold, color = Color.Unspecified),
+                            fontSize = FontSizes.themeConfirmBtn,
+                            style = TextStyles.themeConfirmBtn,
                         )
                     }
                 }

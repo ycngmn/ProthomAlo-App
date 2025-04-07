@@ -14,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,16 +32,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
 import com.ycngmn.prothomalo.ui.assets.ShurjoFamily
 import com.ycngmn.prothomalo.ui.assets.Strings
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 
 enum class FieldType {
@@ -70,17 +69,18 @@ fun FilterBar(searchViewModel: SearchViewModel) {
             Text(
                 text = Strings.get("filter_hint"),
                 color = MaterialTheme.colorScheme.onBackground,
-                style = AppFont.titleTS,
+                fontSize = FontSizes.filterHint,
+                style = TextStyles.filterHint,
                 textAlign = TextAlign.Center
             )
-
+            /* //Todo
             CustomField(
                 selectedDate,
                 Strings.get("label_date"),
                 Icons.Default.DateRange,
                 FieldType.DatePicker,
                 //onDateSelected = { searchViewModel.selectedDate = it }
-            )
+            )*/
             CustomField(
                 selectedAuthor,
                 Strings.get("label_author"),
@@ -215,7 +215,8 @@ fun CustomField(
                             Text(
                                 option,
                                 color = if (isSelected) PaloBlue else MaterialTheme.colorScheme.onBackground,
-                                style = AppFont.dateTS2.copy(color = Color.Unspecified),
+                                fontSize = FontSizes.filterDropDownItem,
+                                style = TextStyles.filterDropDownItem,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center
                             )

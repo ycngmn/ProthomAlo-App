@@ -25,7 +25,8 @@ import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.containers.ArticleContainer
 import com.ycngmn.prothomalo.ui.components.helpers.titleBuilder
 import com.ycngmn.prothomalo.ui.theme.PaloOrange
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 
 
 @Composable
@@ -67,12 +68,14 @@ fun ArticleCard_V2(
                     modifier = Modifier,
                     text = titleBuilder(article.subHead, article.title,
                         PaloOrange, Color.White ),
-                    style = AppFont.titleTS2
+                    fontSize = FontSizes.articleCardV2Title,
+                    style = TextStyles.articleCardV2Title
                 )
 
                 Text(
                     text = article.date,
-                    style = AppFont.dateTS2
+                    fontSize = FontSizes.articleCardV2Date,
+                    style = TextStyles.articleCardV2Date
                 )
             }
         }

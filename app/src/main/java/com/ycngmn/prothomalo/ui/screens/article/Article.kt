@@ -49,6 +49,7 @@ import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
 import com.ycngmn.prothomalo.ui.animation.LoadingAnimation
 import com.ycngmn.prothomalo.ui.assets.ArticleFont
 import com.ycngmn.prothomalo.ui.assets.Strings
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 import com.ycngmn.prothomalo.ui.components.ArticleCard_V1
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDao
 import com.ycngmn.prothomalo.ui.screens.error.ErrorConnection
@@ -156,7 +157,8 @@ fun NewsLecture(
                                 ),
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 color = MaterialTheme.colorScheme.onBackground,
-                                style = ArticleFont.articleBodyTS
+                                fontSize = ArticleFont.articleBody,
+                                style = TextStyles.defaultTS(),
                             )
                         }
 
@@ -184,7 +186,8 @@ fun NewsLecture(
                                 Text(
                                     text = it.second.toString(),
                                     Modifier.padding(16.dp, 2.dp, 16.dp, 10.dp),
-                                    style = ArticleFont.articleCaptionTS,
+                                    fontSize = ArticleFont.articleCaption,
+                                    style = TextStyles.defaultTS(),
                                     color = Color.Gray
                                 )
                             }
@@ -223,7 +226,9 @@ fun NewsLecture(
                                         )
                                             navController.navigate("topic/$topicKey@$topicKey")
                                     },
-                                style = ArticleFont.articleSectionTS,
+                                fontSize = ArticleFont.articleSection,
+                                style = TextStyles.defaultTS(),
+                                fontWeight = FontWeight.Bold,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 color = MaterialTheme.colorScheme.onBackground

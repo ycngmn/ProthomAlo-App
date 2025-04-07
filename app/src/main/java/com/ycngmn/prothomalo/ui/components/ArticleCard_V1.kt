@@ -30,7 +30,8 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.containers.ArticleContainer
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 import com.ycngmn.prothomalo.ui.components.helpers.titleBuilder
 import com.ycngmn.prothomalo.ui.theme.PaloRed
 
@@ -53,7 +54,8 @@ fun ArticleCard_V1(
                     article.title, PaloRed,
                     MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.padding(start = 20.dp, top = 20.dp).weight(0.8f),
-                style = AppFont.titleTS
+                fontSize = FontSizes.articleCardTitle,
+                style = TextStyles.articleCardTitle
             )
 
             Box (modifier = Modifier.width(150.dp)
@@ -93,7 +95,8 @@ fun ArticleCard_V1(
             Text(
                 text = article.date,
                 modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
-                style = AppFont.dateTS
+                fontSize = FontSizes.articleCardDate,
+                style = TextStyles.articleCardDate
             )
 
         HorizontalDivider(

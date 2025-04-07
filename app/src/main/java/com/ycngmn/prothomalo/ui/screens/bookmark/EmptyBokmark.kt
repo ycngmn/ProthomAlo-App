@@ -26,7 +26,8 @@ import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
 import com.ycngmn.prothomalo.ui.theme.PaloRed
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 
 @Composable
 fun EmptyBookmarkScreen(onClick: () -> Unit) {
@@ -60,14 +61,16 @@ fun EmptyBookmarkScreen(onClick: () -> Unit) {
             annotatedString,
             inlineContent = inlineContentMap,
             color = MaterialTheme.colorScheme.onBackground,
-            style = AppFont.emptyBookmarkTS
+            fontSize = FontSizes.emptyBookmark,
+            style = TextStyles.emptyBookmark,
         )
 
         Spacer(Modifier.height(100.dp))
 
         Text(
             text = Strings.get("empty_bookmark_button"),
-            style = AppFont.emptyBookmarkTS,
+            fontSize = FontSizes.emptyBookmark,
+            style = TextStyles.emptyBookmark,
             textDecoration = TextDecoration.Underline,
             color = PaloBlue,
             modifier = Modifier.clickable { onClick() }

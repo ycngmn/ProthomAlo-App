@@ -22,7 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
 import com.ycngmn.prothomalo.ui.assets.ArticleFont
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
@@ -78,7 +78,7 @@ fun MainNavGraph(data: Uri?) {
         }
     }
 
-    LaunchedEffect(settingsVM.appFontSize.value) { AppFont.setAppFontSize(settingsVM.appFontSize.value) }
+    LaunchedEffect(settingsVM.appFontSize.value) { FontSizes.setAppFontSize(settingsVM.appFontSize.value) }
     LaunchedEffect(Unit) { ArticleFont.setArticleSize(settingsVM.articleTextSize.value) }
 
 

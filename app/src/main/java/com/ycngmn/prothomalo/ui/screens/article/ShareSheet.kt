@@ -31,8 +31,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
 import com.ycngmn.prothomalo.ui.assets.Strings
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 import com.ycngmn.prothomalo.utils.createPdf
 import com.ycngmn.prothomalo.utils.sharePdf
 import kotlinx.coroutines.Dispatchers
@@ -114,7 +115,8 @@ fun ShareSheet(news: NewsContainer) {
                     Text(
                         Strings.get("copy_url"),
                         color = MaterialTheme.colorScheme.onBackground,
-                        style = AppFont.bottomSheetTS
+                        fontSize = FontSizes.bottomSheetBtn,
+                        style = TextStyles.bottomSheetBtn
                     )
                 }
 
@@ -132,7 +134,8 @@ fun ShareSheet(news: NewsContainer) {
                     Text(
                         Strings.get("share_as_pdf"),
                         color = MaterialTheme.colorScheme.onBackground,
-                        style = AppFont.bottomSheetTS
+                        fontSize = FontSizes.bottomSheetBtn,
+                        style = TextStyles.bottomSheetBtn
                     )
                 }
             }

@@ -20,7 +20,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 
 @Composable
 fun TopicTopBar(barTitle: String, onBackPressed : () -> Unit) {
@@ -48,7 +49,8 @@ fun TopicTopBar(barTitle: String, onBackPressed : () -> Unit) {
                             strokeWidth = 4f
                         ) },
                 text = barTitle,
-                style = AppFont.bottomSheetTS,
+                fontSize = FontSizes.topicTopBar,
+                style = TextStyles.topicTopBar,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground,
                 maxLines = 1,

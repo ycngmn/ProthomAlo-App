@@ -20,7 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ycngmn.prothomalo.ui.theme.PaloBlue
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 
 
 @Composable
@@ -44,7 +45,8 @@ fun ErrorPage (
 
         Text (
             text = errorText,
-            style = AppFont.errorTitleTS,
+            fontSize = FontSizes.errorTitle,
+            style = TextStyles.errorTitle,
             color = MaterialTheme.colorScheme.onBackground
         )
 
@@ -52,7 +54,8 @@ fun ErrorPage (
 
         Text(
             text = errorDescription,
-            style = AppFont.errorSubTitleTS,
+            fontSize = FontSizes.errorSub,
+            style = TextStyles.errorSub,
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(horizontal = 15.dp)
 
@@ -67,7 +70,8 @@ fun ErrorPage (
             onClick = { onButtonClick() },
         ) { 
             Text(buttonText,
-                style = AppFont.errorSubTitleTS,
+                fontSize = FontSizes.errorSub,
+                style = TextStyles.errorSub,
                 color = MaterialTheme.colorScheme.onBackground)
         }
     }

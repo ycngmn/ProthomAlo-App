@@ -5,7 +5,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
 
 fun titleBuilder(subHead: String, title: String, subColor: Color, titleColor: Color): AnnotatedString {
     return buildAnnotatedString {
@@ -14,7 +14,7 @@ fun titleBuilder(subHead: String, title: String, subColor: Color, titleColor: Co
                 style = SpanStyle(color = subColor)
             ) { append(subHead) }
 
-            withStyle(AppFont.subHeadSS) {
+            withStyle(SpanStyle(color = Color.Gray, fontSize = FontSizes.articleCardDot)) {
                 append(" ● ")
             }
         }

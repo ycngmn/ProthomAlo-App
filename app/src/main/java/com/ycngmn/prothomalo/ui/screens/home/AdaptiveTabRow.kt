@@ -21,7 +21,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 
 /* Initial Credit: https://stackoverflow.com/a/75977854/11724248
 * Modified to make the indicator respond to swipes */
@@ -68,7 +69,8 @@ fun CustomScrollableTabRow(
                     Text(
                         text = tab,
                         color = MaterialTheme.colorScheme.onBackground,
-                        style = AppFont.tabRowTS,
+                        fontSize = FontSizes.tabRowTitle,
+                        style = TextStyles.tabRowTitle,
                         onTextLayout = { result ->
                             tabWidths[index] = with(density) { result.size.width.toDp() }
                         }

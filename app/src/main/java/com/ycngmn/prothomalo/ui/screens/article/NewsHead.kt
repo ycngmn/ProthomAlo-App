@@ -26,11 +26,14 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.prothomalo.containers.NewsContainer
 import com.ycngmn.prothomalo.ui.assets.ArticleFont
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDao
 import com.ycngmn.prothomalo.ui.screens.bookmark.onBookmarkButtonClick
 import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
@@ -63,7 +66,9 @@ fun NewsHead(
                         strokeWidth = 4f
                     )
                 }.clickable { onTopicClick(news.sectionSlug + "@" + news.section) },
-                style = ArticleFont.articleSectionTS,
+                fontSize = ArticleFont.articleSection,
+                style = TextStyles.defaultTS(),
+                fontWeight = FontWeight.Bold,
                 color = PaloBlue,
             )
         }
@@ -71,7 +76,10 @@ fun NewsHead(
         Text(
             text = news.headline,
             Modifier.padding(16.dp, 7.dp, 25.dp, 10.dp),
-            style = ArticleFont.articleTitleTS,
+            fontSize = ArticleFont.articleTitle,
+            fontWeight = FontWeight.Companion.Bold,
+            style = TextStyles.defaultTS(),
+            lineHeight = 33.sp,
             color = MaterialTheme.colorScheme.onBackground
         )
 
@@ -79,7 +87,8 @@ fun NewsHead(
             Text(
                 text = news.summary!!,
                 Modifier.padding(horizontal = 16.dp),
-                style = ArticleFont.articleBodyTS,
+                fontSize = ArticleFont.articleBody,
+                style = TextStyles.defaultTS(),
                 color = Color.Gray,
 
             )
@@ -97,7 +106,8 @@ fun NewsHead(
 
                 Text(
                     text = authorText,
-                    style = ArticleFont.articleSubTS,
+                    fontSize = ArticleFont.articleSub,
+                    style = TextStyles.defaultTS(),
                     color = MaterialTheme.colorScheme.onBackground,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -107,7 +117,8 @@ fun NewsHead(
 
             Text(
                 text = FormatTime.toAgoString(news.date, news.newsUrl),
-                style = ArticleFont.articleSubTS,
+                fontSize = ArticleFont.articleSub,
+                style = TextStyles.defaultTS(),
                 color = MaterialTheme.colorScheme.onBackground
             )
         }

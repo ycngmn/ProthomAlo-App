@@ -21,7 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ycngmn.prothomalo.R
 import com.ycngmn.prothomalo.ui.assets.Strings
-import com.ycngmn.prothomalo.ui.assets.AppFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 import com.ycngmn.prothomalo.utils.selectColorByIndex
 
 data class BottomNavItem(
@@ -58,7 +59,11 @@ fun BottomBar(navController: NavController) {
                                 contentDescription = item.label,
                                 modifier = Modifier.size(27.dp),
                             )
-                            Text(text = item.label, style = AppFont.navBottomTS)
+                            Text(
+                                text = item.label,
+                                fontSize = FontSizes.bottomNavBar,
+                                style = TextStyles.bottomNavBar
+                                )
                         }
                     },
                     selected = currentRoute == item.route,

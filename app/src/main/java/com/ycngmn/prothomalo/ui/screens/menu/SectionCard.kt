@@ -16,10 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ycngmn.prothomalo.ui.assets.FontSizes
+import com.ycngmn.prothomalo.ui.assets.TextStyles
 import com.ycngmn.prothomalo.ui.theme.RealPaloRead
-import com.ycngmn.prothomalo.ui.assets.AppFont
 
 @Composable
 fun SectionCards(iconRes: Int, text: String, onClick: () -> Unit) {
@@ -43,7 +43,8 @@ fun SectionCards(iconRes: Int, text: String, onClick: () -> Unit) {
             )
             Text(
                 text = text,
-                style = AppFont.titleTS.copy(fontWeight = FontWeight.Normal),
+                fontSize = FontSizes.sectionCard,
+                style = TextStyles.sectionCard,
                 color = MaterialTheme.colorScheme.onBackground,
             )
         }
