@@ -19,8 +19,8 @@ This is an unofficial android client of a bangladeshi news meida: ProthomAlo. It
 
 ## • Installation
 
-[<img src='https://raw.githubusercontent.com/ycngmn/ProthomAlo-App/master/images/get-it-on-github.png' alt='Get it on GitHub' height = "90">](https://github.com/ycngmn/ProthomAlo-App/releases/latest)
-<!-- [<img src="https://raw.githubusercontent.com/ycngmn/ProthomAlo-App/master/images/get-it-on-fdroid.png" alt="Get it on F-Droid" height="90"/>](https://www.f-droid.org/packages/com.ycngmn.prothomalo/) -->
+[<img src='images/get-it-on-github.png' alt='Get it on GitHub' height = "90">](https://github.com/ycngmn/ProthomAlo-App/releases/latest)
+<!-- [<img src="images/get-it-on-fdroid.png" alt="Get it on F-Droid" height="90"/>](https://www.f-droid.org/packages/com.ycngmn.prothomalo/) -->
 
 ## • Screenshots
 
