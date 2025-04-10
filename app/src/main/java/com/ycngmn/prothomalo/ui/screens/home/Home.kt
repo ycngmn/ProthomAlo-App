@@ -20,16 +20,20 @@ import com.ycngmn.prothomalo.prothomalo.PaloVM
 import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
 
 @Composable
-fun HomePage(navController: NavController, newsViewModel: NewsViewModel) {
+fun HomePage(
+    navController: NavController,
+    newsViewModel: NewsViewModel,
+    homeSectionDao: HomeSectionDao
+) {
 
     val prothomAlo = PaloGlobal.getPalo()
-    val keys = remember { prothomAlo.articleSections.keys.toList() }
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = { prothomAlo.articleSections.size })
+    val keys = remember { prothomAlo.homeSections.keys.toList() }
+    val pagerState = rememberPagerState(initialPage = 0, pageCount = { prothomAlo.homeSections.size })
 
     Scaffold(
         topBar = {
             Surface(shadowElevation = 3.dp) {
-                TopBar(pagerState)
+                TopBar(pagerState, homeSectionDao)
             }
         },
         bottomBar = { BottomBar(navController) }

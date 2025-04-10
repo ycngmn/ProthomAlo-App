@@ -67,16 +67,14 @@ fun Settings(settingsVM: SettingsVM, navController: NavController) {
             Modifier.fillMaxWidth()
                 .clickable { isShowThemeDialog = true }
         )
-        /* //TODO
-        val context = LocalContext.current
+
         SettingTile(
             R.drawable.list_alt_24px,
             Strings.get("section_rearrange"),
             Strings.get("section_rearrange_hint"),
             Modifier.fillMaxWidth()
-                .clickable { Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show() }
+                .clickable { navController.navigate("rearrange") }
         )
-        */
 
         Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
             SettingTile(
@@ -100,7 +98,6 @@ fun Settings(settingsVM: SettingsVM, navController: NavController) {
                     sliderValue = it
                 }
             )
-
         }
 
         Row (verticalAlignment = Alignment.CenterVertically) {

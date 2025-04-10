@@ -10,7 +10,7 @@ class Mukti1971 : ProthomAlo() {
     override val dayLogo = R.drawable.muktijuddho_logo
     override val nightLogo = R.drawable.muktijuddho_logo
 
-    override var articleSections = mapOf(
+    override var homeSections = mapOf(
         "special-article-muktijuddho-50" to "মুক্তিযুদ্ধ",
         "diary-1971-muktijuddho-50" to "মুক্তিযুদ্ধের দিনলিপি",
         "supplements-muktijuddho-50" to "ক্রোড়পত্র",

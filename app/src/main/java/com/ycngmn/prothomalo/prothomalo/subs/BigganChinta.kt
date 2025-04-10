@@ -10,7 +10,7 @@ class BigganChinta : ProthomAlo() {
     override val dayLogo = R.drawable.biggan_chinta_logo
     override val nightLogo = R.drawable.biggan_chinta_logo
 
-    override var articleSections = mapOf(
+    override var homeSections = mapOf(
         "bigganchinta-latest" to "প্রচ্ছদ",
         "features-bigganchinta" to "ফিচার",
         "physics-bigganchinta" to "পদার্থবিজ্ঞান",

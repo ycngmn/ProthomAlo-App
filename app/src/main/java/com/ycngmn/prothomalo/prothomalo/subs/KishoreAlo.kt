@@ -10,7 +10,7 @@ class KishoreAlo : ProthomAlo() {
     override val dayLogo = R.drawable.kishore_alo_logo
     override val nightLogo = R.drawable.kishore_alo_night
 
-    override var articleSections = mapOf(
+    override var homeSections = mapOf(
         "kishoralo-home-featured" to "প্রচ্ছদ",
         "feature-kishoralo" to "ফিচার",
         "golpo-kishoralo" to "গল্প",

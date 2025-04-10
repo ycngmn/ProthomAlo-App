@@ -10,7 +10,7 @@ class PaloTrust : ProthomAlo() {
     override val dayLogo = R.drawable.prothomalo_trust_logo
     override val nightLogo = R.drawable.palo_trust_night
 
-    override var articleSections = mapOf(
+    override var homeSections = mapOf(
         "trust-featured" to "প্রচ্ছদ",
         "alor-pathshala" to "আলোর পাঠশালা",
         "aparajeyo-tara" to "অপরাজেয় তারা",

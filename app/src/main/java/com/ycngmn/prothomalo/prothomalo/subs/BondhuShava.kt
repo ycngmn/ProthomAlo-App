@@ -10,7 +10,7 @@ class BondhuShava : ProthomAlo() {
     override val dayLogo = R.drawable.bondhushava_logo
     override val nightLogo = R.drawable.bondhushava_night
 
-    override var articleSections = mapOf(
+    override var homeSections = mapOf(
         "bondhushava-featured" to "প্রচ্ছদ",
         "writings-bondhushava" to "বন্ধুদের লেখা",
         "publications-bondhushava" to "প্রকাশনা",

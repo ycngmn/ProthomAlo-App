@@ -13,7 +13,7 @@ open class ProthomAlo {
 
     open val webUrl = "https://prothomalo.com"
 
-    open var articleSections = mapOf(
+    open var homeSections = mapOf(
         "featured" to "প্রচ্ছদ",
         "latest" to "সর্বশেষ",
         "mostread" to "সবচেয়ে পঠিত",

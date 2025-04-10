@@ -10,7 +10,7 @@ class Nagorik : ProthomAlo() {
     override val dayLogo = R.drawable.nagorik_songbad_logo
     override val nightLogo = R.drawable.nagorik_songbad_logo
 
-    override var articleSections = mapOf(
+    override var homeSections = mapOf(
         "nagorik-featured" to "প্রচ্ছদ",
         "ayojon-nagorik-sangbad" to "আয়োজন",
         "durporobash-life-style" to "দূর পরবাস",

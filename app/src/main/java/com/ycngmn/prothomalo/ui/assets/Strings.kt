@@ -9,7 +9,7 @@ object Strings {
         "settings_tab" to "Settings",
         "bookmark_tab" to "Bookmark",
         "menu_tab" to "Menu",
-        "read_more_title" to "Read more about <u>%s</u>",
+        "read_more_title" to "More on <u>%s</u>",
 
         "theme" to "Theme",
         "theme_auto" to "Automatic",
@@ -23,8 +23,8 @@ object Strings {
         "read_more" to "Read More",
         "read_more_hint" to "Section at article bottom",
 
-        "section_rearrange" to "Rearrange Section",
-        "section_rearrange_hint" to "Rearrange homepage sections",
+        "section_rearrange" to "Rearrange Home",
+        "section_rearrange_hint" to "Top section tabs",
 
         "search_title" to "Search Results",
         "label_date" to "Date",
@@ -43,7 +43,7 @@ object Strings {
         "empty_bookmark_1" to "To save a news item, go inside the news and tap on",
         "empty_bookmark_2" to "icon.",
         "empty_bookmark_button" to "Got it",
-        "bookmark_save_toast" to "Article saved to bookmarks",
+        "bookmark_save_toast" to "Article bookmarked",
         "bookmark_delete_toast" to "Bookmark removed",
 
         "share_article" to "Share article",
@@ -54,7 +54,7 @@ object Strings {
         "share_as_pdf" to "Share as PDF",
 
         "error_connection_title" to "Connection Error",
-        "error_connection_sub" to "Please check your internet connection and try again.",
+        "error_connection_sub" to "Please check your internet connection.",
         "error_connection_button" to "Try Again",
         "error_404_title" to "No Results Found",
         "error_404_sub" to "The object you are looking for could not be found. This topic is probably not related to Prothom Alo or you are searching incorrectly. Please be sure about your search topic.",
@@ -100,7 +100,7 @@ object Strings {
         "empty_bookmark_1" to "কোন খবর সংরক্ষণ করতে খবরের ভিতরে প্রবেশ করে",
         "empty_bookmark_2" to "চিহ্নতে স্পর্শ করুন।",
         "empty_bookmark_button" to "বুঝেছি",
-        "bookmark_save_toast" to "নিবন্ধটি সফলভাবে সংরক্ষণ করা হয়েছে",
+        "bookmark_save_toast" to "সংরক্ষণ সফল হয়েছে",
         "bookmark_delete_toast" to "নিবন্ধটি মুছে ফেলা হয়েছে",
 
         "share_article" to "লেখাটি ভাগ করুন",

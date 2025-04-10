@@ -22,19 +22,21 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ycngmn.prothomalo.prothomalo.PaloGlobal
 import com.ycngmn.prothomalo.prothomalo.subs.PaloKeys
-import com.ycngmn.prothomalo.ui.assets.FontSizes
 import com.ycngmn.prothomalo.ui.assets.ArticleFont
+import com.ycngmn.prothomalo.ui.assets.FontSizes
 import com.ycngmn.prothomalo.ui.screens.article.NewsLecture
 import com.ycngmn.prothomalo.ui.screens.article.NewsViewModel
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkDatabaseHelper
 import com.ycngmn.prothomalo.ui.screens.bookmark.BookmarkScreen
 import com.ycngmn.prothomalo.ui.screens.home.HomePage
+import com.ycngmn.prothomalo.ui.screens.home.HomeSectionDBHelper
 import com.ycngmn.prothomalo.ui.screens.menu.MenuScreen
 import com.ycngmn.prothomalo.ui.screens.search.SearchResultScreen
 import com.ycngmn.prothomalo.ui.screens.search.SearchViewModel
 import com.ycngmn.prothomalo.ui.screens.settings.SettingScreen
 import com.ycngmn.prothomalo.ui.screens.settings.SettingsVM
 import com.ycngmn.prothomalo.ui.screens.settings.SettingsVMFactory
+import com.ycngmn.prothomalo.ui.screens.settings.rearrange.RearrangeHome
 import com.ycngmn.prothomalo.ui.screens.topic.TopicScreen
 import com.ycngmn.prothomalo.ui.theme.ProthomAloTheme
 import com.ycngmn.prothomalo.utils.DataStoreManager
@@ -55,8 +57,11 @@ fun MainNavGraph(data: Uri?) {
     cleanUpPdfs(latestContext)
 
     val dataStoreManager = remember { DataStoreManager(latestContext) }
-    val database = remember { BookmarkDatabaseHelper.getInstance(latestContext) }
-    val bookmarkDao = remember { database.bookmarkDao() }
+    val bookmarkDatabase = remember { BookmarkDatabaseHelper.getInstance(latestContext) }
+    val bookmarkDao = remember { bookmarkDatabase.bookmarkDao() }
+
+    val homeSectionDatabase = remember { HomeSectionDBHelper.getInstance(latestContext) }
+    val homeSectionDao = remember { homeSectionDatabase.homeSectionDao() }
 
     val settingsVM: SettingsVM = viewModel(factory = SettingsVMFactory(dataStoreManager))
     val theme by settingsVM.theme.collectAsState()
@@ -81,7 +86,6 @@ fun MainNavGraph(data: Uri?) {
     LaunchedEffect(settingsVM.appFontSize.value) { FontSizes.setAppFontSize(settingsVM.appFontSize.value) }
     LaunchedEffect(Unit) { ArticleFont.setArticleSize(settingsVM.articleTextSize.value) }
 
-
     PaloGlobal.paloKey = paloKey
     PaloGlobal.isDarkTheme = theme == 2 || (theme == 0 && isSystemInDarkTheme())
 
@@ -95,7 +99,7 @@ fun MainNavGraph(data: Uri?) {
                 popEnterTransition = { EnterTransition.None },
                 exitTransition = { ExitTransition.None },
                 popExitTransition = { ExitTransition.None }
-            ) { HomePage(navController, viewModel) }
+            ) { HomePage(navController, viewModel, homeSectionDao) }
 
             composable("news/{index}",
                 enterTransition = { EnterTransition.None },
@@ -155,6 +159,14 @@ fun MainNavGraph(data: Uri?) {
                 exitTransition = { ExitTransition.None },
                 popExitTransition = { ExitTransition.None }
             ) { SearchResultScreen(navController, searchViewModel, viewModel) }
+
+            composable(
+                route = "rearrange",
+                enterTransition = { EnterTransition.None },
+                popEnterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
+                popExitTransition = { ExitTransition.None }
+            ) { RearrangeHome(navController, homeSectionDao) }
 
         }
     }

@@ -3,6 +3,7 @@ package com.ycngmn.prothomalo.ui.screens.topic
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,33 +30,36 @@ fun TopicTopBar(barTitle: String, onBackPressed : () -> Unit) {
         modifier = Modifier.background(MaterialTheme.colorScheme.background),
         shadowElevation = 4.dp
     ) {
-        Box (modifier = Modifier.fillMaxWidth().padding(10.dp)) {
+        Row {
+            Box(modifier = Modifier.fillMaxWidth().padding(10.dp)) {
 
-            Icon(
-                Icons.AutoMirrored.Rounded.ArrowBack,
-                contentDescription = "Account_and_Setting_logo",
-                modifier = Modifier.size(28.dp).align(Alignment.CenterStart)
-                    .clickable { onBackPressed() }
-            )
+                Icon(
+                    Icons.AutoMirrored.Rounded.ArrowBack,
+                    contentDescription = "Account_and_Setting_logo",
+                    modifier = Modifier.size(28.dp).align(Alignment.CenterStart)
+                        .clickable { onBackPressed() }
+                )
 
-            val bg = MaterialTheme.colorScheme.onBackground
-            Text(
-                modifier = Modifier.align(Alignment.Center).padding(horizontal = 40.dp)
-                    .drawBehind {
-                        drawLine(
-                            color = bg,
-                            start = Offset(0f, size.height+6),
-                            end = Offset(size.width, size.height+6),
-                            strokeWidth = 4f
-                        ) },
-                text = barTitle,
-                fontSize = FontSizes.topicTopBar,
-                style = TextStyles.topicTopBar,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+                val onBg = MaterialTheme.colorScheme.onBackground
+                Text(
+                    modifier = Modifier.align(Alignment.Center).padding(horizontal = 40.dp)
+                        .drawBehind {
+                            drawLine(
+                                color = onBg,
+                                start = Offset(0f, size.height + 6),
+                                end = Offset(size.width, size.height + 6),
+                                strokeWidth = 4f
+                            )
+                        },
+                    text = barTitle,
+                    fontSize = FontSizes.topicTopBar,
+                    style = TextStyles.topicTopBar,
+                    fontWeight = FontWeight.Bold,
+                    color = onBg,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }
