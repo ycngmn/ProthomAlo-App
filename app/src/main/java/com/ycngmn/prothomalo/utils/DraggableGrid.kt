@@ -6,12 +6,11 @@ package com.ycngmn.prothomalo.utils
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -26,12 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ycngmn.prothomalo.ui.theme.PaloOrange
 
-@OptIn(ExperimentalFoundationApi::class)
+
 @Composable
 fun <T : Any> DraggableGrid(
     items: List<T>,
     onMove: (Int, Int) -> Unit,
-    content: @Composable (T, Boolean) -> Unit,
+    content: @Composable (T, Int, Boolean) -> Unit,
 ) {
 
     val gridState = rememberLazyGridState()
@@ -39,15 +38,15 @@ fun <T : Any> DraggableGrid(
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(1), // one item per column
-        modifier = Modifier.dragContainer(dragDropState),
+        modifier = Modifier.dragContainer(dragDropState)
+            .fillMaxSize(),
         state = gridState,
-        contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(3.dp)
 
     ) {
         itemsIndexed(items, key = { _, item -> item }) { index, item ->
             DraggableItem(dragDropState, index) { isDragging ->
-                content(item, isDragging)
+                content(item, index, isDragging)
             }
         }
     }
@@ -67,7 +66,6 @@ fun Modifier.dragContainer(dragDropState: GridDragDropState): Modifier {
     }
 }
 
-@ExperimentalFoundationApi
 @Composable
 fun LazyGridItemScope.DraggableItem(
     dragDropState: GridDragDropState,

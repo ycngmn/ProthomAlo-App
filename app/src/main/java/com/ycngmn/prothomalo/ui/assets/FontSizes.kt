@@ -46,6 +46,7 @@ object FontSizes {
     var expandableMenuItem by mutableStateOf(18.sp)
     var sectionCard by mutableStateOf(18.sp)
     var errorSub by mutableStateOf(18.sp)
+    var rearrangeSection by mutableStateOf(18.sp)
     var bottomSheetBtn by mutableStateOf(20.sp)
     var settingTileTitle by mutableStateOf(20.sp)
     var topicTopBar by mutableStateOf(20.sp)
@@ -74,6 +75,7 @@ object FontSizes {
         ::expandableMenuItem,
         ::sectionCard,
         ::errorSub,
+        ::rearrangeSection,
         ::bottomSheetBtn,
         ::settingTileTitle,
         ::topicTopBar,

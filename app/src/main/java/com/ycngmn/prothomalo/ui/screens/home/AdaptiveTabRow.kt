@@ -16,13 +16,13 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import com.ycngmn.prothomalo.ui.assets.FontSizes
 import com.ycngmn.prothomalo.ui.assets.TextStyles
+import com.ycngmn.prothomalo.ui.theme.PaloOrange
 
 /* Initial Credit: https://stackoverflow.com/a/75977854/11724248
 * Modified to make the indicator respond to swipes */
@@ -57,7 +57,7 @@ fun CustomScrollableTabRow(
                     nextTabWidth = tabWidths.getOrNull(nextPage),
                     offsetFraction = offsetFraction
                 ),
-                color = Color(0XFFFFB300)
+                color = PaloOrange
             )
         }
     ) {

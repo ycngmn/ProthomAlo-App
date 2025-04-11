@@ -58,7 +58,10 @@ object Strings {
         "error_connection_button" to "Try Again",
         "error_404_title" to "No Results Found",
         "error_404_sub" to "The object you are looking for could not be found. This topic is probably not related to Prothom Alo or you are searching incorrectly. Please be sure about your search topic.",
-        "error_404_button" to "Go Back"
+        "error_404_button" to "Go Back",
+
+        "reset_section" to "Reset"
+
     )
 
     private val bn = mapOf(
@@ -115,7 +118,9 @@ object Strings {
         "error_connection_button" to "আবার চেষ্টা করুন",
         "error_404_title" to "কিছু পাওয়া যায়নি",
         "error_404_sub" to "আপনি যা খুঁজছেন, তা পাওয়া যায়নি। বিষয়টি হয়তো প্রথম আলোর অন্তর্ভুক্ত নয়, অথবা অনুসন্ধানে কোনো ভুল হয়েছে। দয়া করে তথ্যটি নিশ্চিত করে আবার চেষ্টা করুন।",
-        "error_404_button" to "পিছনে ফিরে যান"
+        "error_404_button" to "পিছনে ফিরে যান",
+
+        "reset_section" to "ঝাড়ু"
     )
 
     fun get(key: String, vararg args: Any): String {
