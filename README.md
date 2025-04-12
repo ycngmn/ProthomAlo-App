@@ -30,7 +30,7 @@ This is an unofficial android client of a bangladeshi news meida: ProthomAlo. It
 
 ## • Current feature plans
 
-- Homepage rearrange option.
+- ~~Homepage rearrange option.~~ ✅
 - Date selector for search.
 - Sorting for Bookmark / Search page 
 - Article pinning for bookmarks.

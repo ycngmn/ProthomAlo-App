@@ -1,10 +1,13 @@
 package com.ycngmn.prothomalo.ui.screens.settings.rearrange
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,6 +32,7 @@ import com.ycngmn.prothomalo.ui.assets.Strings
 import com.ycngmn.prothomalo.ui.assets.TextStyles
 import com.ycngmn.prothomalo.ui.screens.home.HomeSectionDao
 import com.ycngmn.prothomalo.ui.screens.topic.TopicTopBar
+import com.ycngmn.prothomalo.ui.theme.PaloBlue
 import com.ycngmn.prothomalo.utils.DraggableGrid
 import java.util.AbstractMap.SimpleEntry
 
@@ -49,7 +54,10 @@ fun RearrangeHome (navController: NavController, sectionDao: HomeSectionDao) {
 
     LaunchedEffect(Unit) { sectionContainer = sectionDao.getSection(PaloGlobal.paloKey)!! }
 
-    if (sectionContainer.homeSections.isEmpty()) return
+    if (sectionContainer.homeSections.isEmpty())  {
+        Column (modifier = Modifier.background(MaterialTheme.colorScheme.background).fillMaxSize()) {  }
+        return
+    }
 
     val sections by remember { mutableStateOf(sectionContainer.homeSections.entries.toList()) }
 
@@ -74,12 +82,13 @@ fun RearrangeHome (navController: NavController, sectionDao: HomeSectionDao) {
         Column (modifier = Modifier.padding(paddingValues)
             .background(MaterialTheme.colorScheme.background)) {
 
-
             Button(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent,
+                    contentColor = MaterialTheme.colorScheme.onBackground),
+                border = BorderStroke(2.dp, PaloBlue),
                 onClick = { allSections = defaultSections }
             ) {
-
 
                 Icon(
                     painter = painterResource(id = R.drawable.mop_24px),

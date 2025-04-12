@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -146,8 +147,8 @@ fun MainNavGraph(data: Uri?) {
 
             composable(
                 route = "Bookmark",
-                enterTransition = { EnterTransition.None },
-                popEnterTransition = { EnterTransition.None },
+                enterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
+                popEnterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
                 exitTransition = { ExitTransition.None },
                 popExitTransition = { ExitTransition.None }
             ) { BookmarkScreen(navController, viewModel, bookmarkDao ) }
@@ -162,8 +163,8 @@ fun MainNavGraph(data: Uri?) {
 
             composable(
                 route = "rearrange",
-                enterTransition = { EnterTransition.None },
-                popEnterTransition = { EnterTransition.None },
+                enterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
+                popEnterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
                 exitTransition = { ExitTransition.None },
                 popExitTransition = { ExitTransition.None }
             ) { RearrangeHome(navController, homeSectionDao) }

@@ -18,12 +18,12 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.ycngmn.prothomalo.ui.theme.PaloOrange
 
 
 @Composable
@@ -80,7 +80,7 @@ fun LazyGridItemScope.DraggableItem(
             .graphicsLayer {
                 translationX = dragDropState.draggingItemOffset.x
                 translationY = dragDropState.draggingItemOffset.y
-            }.border(2.dp, PaloOrange)
+            }.border(2.dp, Color.Gray)
     } else if (index == dragDropState.previousIndexOfDraggedItem) {
         Modifier
             .zIndex(1f)
